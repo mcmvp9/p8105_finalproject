@@ -14,9 +14,13 @@ library(httr)
 
 ```
 
-### World Cup Records & Statistics 
+Let's create the dataset we will utilize for the final project. Data was pulled 
+from the web via scarping and downloaded from websites. The "data" folder 
+contains the csv files of data downloaded and intended for use. 
 
-Load data from wikipedia(record and statistics of fifa world cup) 
+### World Cup Records & Statistics 
+This data was loaded data from Wikipedia and contains record and statistics of
+the overall team records of the FIFA World Cup.
 
 ```{r}
 wiki_list =
@@ -30,35 +34,21 @@ wc_stats =
   wc_stats %>% 
   janitor::clean_names() %>%
    rename(country = team) %>% 
-  select(country, everything(), -rank)  ## Delete rank(data ranked in order of WC winners) & team
-
-wc_stats
-```
-### GDP DATA 2021
-
-GDP data download from World Bank 
-[World Bank GDP DATA](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD)
-
-```{r}
-gdp_data = 
-  read_csv(file = "data/gdp_data.csv", col_names = TRUE, skip = 3) %>% 
-  janitor::clean_names() %>% 
-  select(country_name, indicator_name, x2021) %>% ## Select variables of interest 
+  ## Delete rank(data ranked in order of WC winners) & team
+  select(country, everything(), -rank) %>% 
+  
+  ## Clean dataset, remove weird characters in names 
   mutate(
-    x2021 = format(x2021, scientific = FALSE),
-  ) %>% 
-  pivot_wider(
-    names_from = indicator_name,
-    values_from = x2021
-  ) %>% 
-  rename(country = country_name)
-
-gdp_data
+     country = str_replace(country, "//[c]", "")
+  )
+  
+  
+wc_stats
 ```
 
 ### Fifa Ranking [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
-Scraping from this website for data 
 
+This dataset was created via web scraping. 
 ```{r}
 wc_rank_html =
    read_html("https://www.2026worldcupnorthamerica.com/fifa-ranking/") 
@@ -77,22 +67,82 @@ country_text =
   
 country_text
 
+fifa_rankings = 
+tibble(
+  rank = rank_text,
+  country = country_text
+) 
 
-
-### Average age from (https://www.transfermarkt.us/statistik/weltrangliste/statistik/stat/plus/0/galerie/0?datum=2022-10-06)
-wc_age_html = 
-  read_html("https://www.transfermarkt.us/statistik/weltrangliste/statistik/stat/plus/0/galerie/0?datum=2022-10-06")
-
-age1_text =
-  wc_age_html %>% 
-  html_elements("td:nth-child(2)") %>% 
-  html_text() 
+fifa_rankings
 
 ```
 
+### Confederations Dataset
+
+This dataset was downloaded as a csv file and limited to variables of interest.
+
+```{r}
+confederations_data = 
+  read_csv(file = "data/fifa_countries_audience.csv", col_names = TRUE) %>% 
+  janitor::clean_names() %>% 
+  select(country, confederation)## Select variables of interest 
+
+```
+
+### Top goal scorers per country 
+
+This dataset was pulled from Wikipedia via web scraping. 
+```{r}
+goals_text_html =
+   read_html("https://en.wikipedia.org/wiki/List_of_top_international_men%27s_football_goal_scorers_by_country")  %>% 
+  html_table(header = TRUE)
+
+goals_country_df = 
+  goals_text_html[[1]]
 
 
+goals_country_df =
+  goals_country_df %>% 
+  janitor::clean_names() %>% 
+  select(country, player, goals)  %>% 
+  
+## There are countries with more than one goal scorer, let's fix this
+  aggregate(player ~ country, FUN = paste, collapse = ' & ') %>% 
+  arrange(country)
+    
+## Countries to worry about:
+## Anguilla, Bulgaria, Curaçao, Denmark,Eritrea, Eswatini, Faroe Islands, France,
+## Gibraltar, Iceland, Lebanon, Lesotho, Mongolia, Namibia, Palestine,Romania,
+## Scotland, U.S. Virgin Islands, United States
 
+goals_country_df
+```
 
+### Population Data 2021 Population 
 
+```{r}
+pop_df = 
+read_csv(file = "data/pop.csv", col_names = TRUE) %>% 
+  janitor::clean_names() %>% 
+  select(country, area, land_area_km)
+
+```
+
+Now let's combine all of our datasets to create our final dataset. 
+The datasets we have currently are: <br> 
+- wc_stats (contains world cup statistics & records)
+- fifa_rankings (official Fifa rankings 2022)
+- goals_country_df (top goal scorers per country)
+- pop_df(land area of countries)
+
+We will combine these datasets by the `country` variable. 
+```{r}
+### Put all dataframes into a list & merge by country
+
+dfs = list(wc_stats, fifa_rankings, goals_country_df, pop_df)
+
+worldcup_dataset = 
+  dfs
+  
+```
 
