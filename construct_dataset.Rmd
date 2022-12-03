@@ -40,11 +40,19 @@ wc_stats =
   ## Clean dataset, remove weird characters in names 
   mutate(
      country = str_replace(country, "//[c]", "")
-  )
+  ) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|a\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|b\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|c\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|d\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|e\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|f\\]","",country))) %>%
+  as_tibble()
   
   
 wc_stats
 ```
+
 
 ### Fifa Ranking [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
 
@@ -129,11 +137,14 @@ read_csv(file = "data/pop.csv", col_names = TRUE) %>%
 ```
 
 Now let's combine all of our datasets to create our final dataset. 
+
 The datasets we have currently are: <br> 
 - wc_stats (contains world cup statistics & records)
 - fifa_rankings (official Fifa rankings 2022)
 - goals_country_df (top goal scorers per country)
 - pop_df(land area of countries)
+
+
 
 We will combine these datasets by the `country` variable. 
 ```{r}
@@ -145,4 +156,6 @@ worldcup_dataset =
   dfs
   
 ```
+
+
 
