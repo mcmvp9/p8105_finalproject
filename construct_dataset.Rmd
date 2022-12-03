@@ -1,0 +1,98 @@
+---
+title: "Dataset Creation"
+author: "Melvin Coleman"
+date: "12/2/2022"
+output: github_document
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(rvest)
+library(httr)
+
+```
+
+### World Cup Records & Statistics 
+
+Load data from wikipedia(record and statistics of fifa world cup) 
+
+```{r}
+wiki_list =
+records_stats_html = read_html("https://en.wikipedia.org/wiki/FIFA_World_Cup_records_and_statistics") %>% 
+  html_table(header = TRUE)
+
+wc_stats =
+  wiki_list[[2]]
+  
+wc_stats = 
+  wc_stats %>% 
+  janitor::clean_names() %>%
+   rename(country = team) %>% 
+  select(country, everything(), -rank)  ## Delete rank(data ranked in order of WC winners) & team
+
+wc_stats
+```
+### GDP DATA 2021
+
+GDP data download from World Bank 
+[World Bank GDP DATA](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD)
+
+```{r}
+gdp_data = 
+  read_csv(file = "data/gdp_data.csv", col_names = TRUE, skip = 3) %>% 
+  janitor::clean_names() %>% 
+  select(country_name, indicator_name, x2021) %>% ## Select variables of interest 
+  mutate(
+    x2021 = format(x2021, scientific = FALSE),
+  ) %>% 
+  pivot_wider(
+    names_from = indicator_name,
+    values_from = x2021
+  ) %>% 
+  rename(country = country_name)
+
+gdp_data
+```
+
+### Fifa Ranking [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
+Scraping from this website for data 
+
+```{r}
+wc_rank_html =
+   read_html("https://www.2026worldcupnorthamerica.com/fifa-ranking/") 
+
+rank_text = 
+  wc_rank_html %>% 
+  html_elements(".grippy-host , td:nth-child(1), td:nth-child(1)") %>% 
+  html_text() 
+
+rank_text
+
+country_text =
+  wc_rank_html %>% 
+  html_elements("td:nth-child(2)") %>% 
+  html_text() 
+  
+country_text
+
+
+
+### Average age from (https://www.transfermarkt.us/statistik/weltrangliste/statistik/stat/plus/0/galerie/0?datum=2022-10-06)
+wc_age_html = 
+  read_html("https://www.transfermarkt.us/statistik/weltrangliste/statistik/stat/plus/0/galerie/0?datum=2022-10-06")
+
+age1_text =
+  wc_age_html %>% 
+  html_elements("td:nth-child(2)") %>% 
+  html_text() 
+
+```
+
+
+
+
+
+
+
