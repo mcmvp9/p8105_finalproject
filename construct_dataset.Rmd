@@ -53,7 +53,7 @@ wc_stats
 ```
 
 
-### Fifa Ranking [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
+### Fifa Rankings 2022 [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
 
 This dataset was created via web scraping. 
 ```{r}
@@ -78,10 +78,22 @@ fifa_rankings =
 tibble(
   rank = rank_text,
   country = country_text
-) 
-
-fifa_rankings
-
+) %>% 
+  
+  ## Change country names to match other datasets
+  mutate(
+    country = str_replace(country, "USA","United States"),
+    country = str_replace(country, "China PR", "China"),
+    country = str_replace(country, "IR Iran", "Iran"),
+    country = str_replace(country, "Korea Republic", "South Korea"),
+    country = str_replace(country,"Korea DPR","North Korea"),
+    country = str_replace(country, "Türkiye", "Turkey"),
+    country = str_replace(country,"Czechia", "Czech Republic"),
+    country = str_replace(country,"Côte d’Ivoire", "Ivory Coast"),
+    country = str_replace(country,  "Congo DR", "DR Congo")
+  ) %>% 
+  select(country, rank)
+  
 ```
 
 ### Confederations Dataset
@@ -92,7 +104,12 @@ This dataset was downloaded as a csv file and limited to variables of interest.
 confederations_data = 
   read_csv(file = "data/fifa_countries_audience.csv", col_names = TRUE) %>% 
   janitor::clean_names() %>% 
-  select(country, confederation)## Select variables of interest 
+  ## Select variables of interest 
+  select(country, confederation) %>% 
+  mutate(
+     country = str_replace(country,  "Congo DR", "DR Congo")
+  )
+  
 
 ```
 
@@ -114,9 +131,17 @@ goals_country_df =
   select(country, player, goals)  %>% 
   
 ## There are countries with more than one goal scorer, let's fix this
-  aggregate(player ~ country, FUN = paste, collapse = ' & ') %>% 
-  arrange(country)
-    
+  aggregate(player ~ country + goals, FUN = paste, collapse = ' & ') %>% 
+  select(country, player, goals) %>% 
+  arrange(country) %>% 
+  
+  ## Change Soviet Union to Russia & update goal scorer info
+ mutate(country = str_replace(country,"Soviet Union\\[b]", "Russia"), 
+        player = str_replace(player, "Oleg Blokhin", 
+        "Alexander Kerzhakov & Artem Dzyuba"))
+  
+  
+  
 ## Countries to worry about:
 ## Anguilla, Bulgaria, Curaçao, Denmark,Eritrea, Eswatini, Faroe Islands, France,
 ## Gibraltar, Iceland, Lebanon, Lesotho, Mongolia, Namibia, Palestine,Romania,
@@ -132,7 +157,6 @@ pop_df =
 read_csv(file = "data/pop.csv", col_names = TRUE) %>% 
   janitor::clean_names() %>% 
   select(country, area, land_area_km)
-
 ```
 
 Now let's combine all of our datasets to create our final dataset. 
@@ -144,42 +168,62 @@ The datasets we have currently are: <br>
 - pop_df(land area of countries)
 - confederations_data(what confederations each country is in)
 
-We will combine these datasets by the `country` variable and Removed land and area
+We will combine these datasets by the `country` variable, perform some wrangling 
+and output final dataset as .csv file. 
+
 ```{r}
 ### Put all dataframes into a list & merge by country
 
-dfs = list(fifa_rankings, goals_country_df, pop_df,confederations_data)
+merged_df = 
+  list(fifa_rankings, goals_country_df, pop_df,confederations_data) 
 
-df_2 =
-  dfs %>%
-  reduce(full_join, by= "country")
+
+merged_df2 =
+  merged_df %>%
+  reduce(full_join, by= "country") %>% 
+  arrange(country)
  
-final_dataset_2 = 
-  left_join(wc_stats,df_2, by= "country")%>%
-  select(-land_area_km,-area)
-
-
-```
-
-Download in order to manually edit NA for confederation 
-
-```{r}
-write.csv(final_dataset_2, "final_dataset.csv")
-```
-
-# Downloaded edited cvs
-
-```{r}
-world_cup_dataset = 
-  read_csv(file = "./data/final_dataset.csv", col_names = TRUE)
+final_merge = 
+  merge(wc_stats, merged_df2, ,by= "country")  %>% 
   
+  ## Replace missing data with correct info pulled from the web (sources listed below)
+  
+  mutate(
+    ## Add missing confederations for countries 
+    confederation = case_when(country %in% c('Wales') ~ 'UEFA', TRUE ~ as.character(confederation)),
+    confederation = case_when(country %in% c('Bosnia and Herzegovina') ~ 'UEFA', 
+                              TRUE ~ as.character(confederation)),
+     confederation = case_when(country %in% c('England') ~ 'UEFA', TRUE ~ as.character(confederation)),
+     confederation = case_when(country %in% c('Northern Ireland') ~ 'UEFA',
+                              TRUE ~as.character(confederation)),
+    confederation = case_when(country %in% c('Republic of Ireland') ~ 'UEFA',
+                              TRUE ~as.character(confederation)),
+    confederation = case_when(country %in% c('Scotland') ~ 'UEFA',
+                              TRUE ~as.character(confederation)),
+    confederation = case_when(country %in% c('Trinidad and Tobago') ~ 'CONCACAF',
+                              TRUE ~as.character(confederation)),
+    confederation = case_when(country %in% c('United Arab Emirates') ~ 'AFC',
+                              TRUE ~as.character(confederation)),
+    
+    ## Add missing area and land area 
+    area = case_when(country %in% c('country') ~ 'add value', TRUE ~ as.character(area)),
+   
+
+    ## Add missing land area
+    land_area_km = case_when(country %in% c('country') ~ 'add value',
+                             TRUE ~ as.character(land_area_km)),
+    
+  )
+
+
 ```
 
-#saved into file
+Output final dataset as `.csv` file for final project use. 
+
 ```{r}
-write.csv(world_cup_dataset, "world_cup_dataset.csv")
-
+write_csv(final_merge, "worldcup_dataset.csv")
 ```
+
   
 # Below ways that I tried to change the name of the conderation by code 
   
