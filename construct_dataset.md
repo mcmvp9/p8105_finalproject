@@ -31,25 +31,31 @@ wc_stats =
   ## Clean dataset, remove weird characters in names 
   mutate(
      country = str_replace(country, "//[c]", "")
-  )
-  
+  ) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|a\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|b\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|c\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|d\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|e\\]","",country))) %>%
+  apply(., 2, function(country) as.character(gsub("\\[|f\\]","",country))) %>%
+  as_tibble()
   
 wc_stats
 ```
 
     ## # A tibble: 80 × 10
-    ##    country      part   pld     w     d     l    gf    ga gd      pts
-    ##    <chr>       <int> <int> <int> <int> <int> <int> <int> <chr> <int>
-    ##  1 Brazil         22   112    75    18    19   232   106 +126    243
-    ##  2 Germany[c]     20   112    68    21    23   232   130 +102    225
-    ##  3 Italy          18    83    45    21    17   128    77 +51     156
-    ##  4 Argentina      18    85    46    15    24   144    96 +48     153
-    ##  5 France         16    69    36    13    20   126    80 +46     121
-    ##  6 England        16    72    31    22    19   100    66 +34     115
-    ##  7 Spain          16    66    31    16    19   108    75 +33     109
-    ##  8 Netherlands    11    54    30    13    11    94    50 +44     103
-    ##  9 Uruguay        14    59    25    13    21    89    76 +13      88
-    ## 10 Belgium        14    51    21    10    20    69    74 −5       73
+    ##    country     part  pld   w     d     l     gf    ga    gd    pts  
+    ##    <chr>       <chr> <chr> <chr> <chr> <chr> <chr> <chr> <chr> <chr>
+    ##  1 Brazil      22    "112" 75    18    19    "232" "106" +126  "243"
+    ##  2 Germany     20    "112" 68    21    23    "232" "130" +102  "225"
+    ##  3 Italy       18    " 83" 45    21    17    "128" " 77" +51   "156"
+    ##  4 Argentina   18    " 85" 46    15    24    "144" " 96" +48   "153"
+    ##  5 France      16    " 69" 36    13    20    "126" " 80" +46   "121"
+    ##  6 England     16    " 72" 31    22    19    "100" " 66" +34   "115"
+    ##  7 Spain       16    " 66" 31    16    19    "108" " 75" +33   "109"
+    ##  8 Netherlands 11    " 54" 30    13    11    " 94" " 50" +44   "103"
+    ##  9 Uruguay     14    " 59" 25    13    21    " 89" " 76" +13   " 88"
+    ## 10 Belgium     14    " 51" 21    10    20    " 69" " 74" −5    " 73"
     ## # … with 70 more rows
 
 ### Fifa Ranking [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
@@ -722,19 +728,98 @@ read_csv(file = "data/pop.csv", col_names = TRUE) %>%
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-Now let’s combine all of our datasets to create our final dataset. The
-datasets we have currently are: <br> - wc_stats (contains world cup
+Now let’s combine all of our datasets to create our final dataset.
+
+The datasets we have currently are: <br> - wc_stats (contains world cup
 statistics & records) - fifa_rankings (official Fifa rankings 2022) -
 goals_country_df (top goal scorers per country) - pop_df(land area of
-countries)
+countries) - confederations_data(what confederations each country is in)
 
-We will combine these datasets by the `country` variable.
+We will combine these datasets by the `country` variable and Removed
+land and area
 
 ``` r
 ### Put all dataframes into a list & merge by country
 
-dfs = list(wc_stats, fifa_rankings, goals_country_df, pop_df)
+dfs = list(fifa_rankings, goals_country_df, pop_df,confederations_data)
 
-worldcup_dataset = 
-  dfs
+df_2 =
+  dfs %>%
+  reduce(full_join, by= "country")
+ 
+final_dataset_2 = 
+  left_join(wc_stats,df_2, by= "country")%>%
+  select(-land_area_km,-area)
 ```
+
+Download in order to manually edit NA for confederation
+
+``` r
+write.csv(final_dataset_2, "final_dataset.csv")
+```
+
+# Downloaded edited cvs
+
+``` r
+world_cup_dataset = 
+  read_csv(file = "./data/final_dataset.csv", col_names = TRUE)
+```
+
+    ## New names:
+    ## Rows: 80 Columns: 14
+    ## ── Column specification
+    ## ──────────────────────────────────────────────────────── Delimiter: "," chr
+    ## (4): country, gd, player, confederation dbl (10): ...1, part, pld, w, d, l, gf,
+    ## ga, pts, rank
+    ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+    ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+    ## • `` -> `...1`
+
+\#saved into file
+
+``` r
+write.csv(world_cup_dataset, "world_cup_dataset.csv")
+```
+
+# Below ways that I tried to change the name of the conderation by code
+
+final_dataset\[is.na(final_dataset)\] = “Something”
+
+mutate(confederation = ifelse(confederation == “NA”, “UEFA”))
+
+-   big problem is it can make a change in the cell but it will be the
+    same for each of the NA
+
+-   we want different for each cell
+
+-   also tried doing “if_else” and it wasn’t successful
+
+-   unfortunately there are missing for alot of different variable still
+
+-   if we can get the code to work it will make it very easy to make the
+    changes
+
+Also to keep track this is missing data for both confederation and land
+area km are:<br>
+
+-   England UEFA (can’t find for england alone in km)
+
+-   East Germany 108330 UEFA
+
+-   Scotland 77910 UEFA
+
+-   Republic of Ireland UEFA 70273
+
+-   Northern Ireland UEFA 14130
+
+-   Wales UEFA 20780
+
+-   Senegal, CAF
+
+-   Spain, UEFA
+
+Just confederation missing: - Bosnia and Herzegovina, UEFA - Trinidad
+and Tobago, CONCACAF - United Arab Emirates, AFC
+
+**I found majority of land area km so we could actually use that one,
+only one missing is England **
