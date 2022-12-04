@@ -238,41 +238,6 @@ Output final dataset as `.csv` file for final project use.
 
 ```{r}
 write.csv(final_merge, "./data/12_4_dataset.csv")
-
 ```
 
-  
-# Below ways that I tried to change the name of the conderation by code 
-  
-final_dataset[is.na(final_dataset)] = "Something"
-
-mutate(confederation = ifelse(confederation == "NA", "UEFA"))
-
-- big problem is it can make a change in the cell but it will be the same for each of the NA 
-- we want different for each cell
-- also tried doing "if_else" and it wasn't successful
-
-- unfortunately there are missing for alot of different variable still 
-- if we can get the code to work it will make it very easy to make the changes
-
-Also to keep track this is missing data for both confederation and land area km are:<br>  
-
-- England UEFA (can't find for england alone in km)
-- East Germany 108330 UEFA
-- Scotland 77910 UEFA
-
-- Republic of Ireland UEFA 70273
-- Northern Ireland UEFA 14130
-- Wales UEFA 20780
-- Senegal, CAF
-- Spain, UEFA
-
-Just confederation missing: 
-- Bosnia and Herzegovina, UEFA, 51209
-- Trinidad and Tobago, CONCACAF, 5128
-- United Arab Emirates, AFC, 83600
-- wales 20780
-- england 130,279 
-
-**I found majority of land area km so we could actually use that one, only one missing is England **
 
