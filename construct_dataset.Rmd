@@ -156,7 +156,7 @@ goals_country_df
 pop_df = 
 read_csv(file = "data/pop.csv", col_names = TRUE) %>% 
   janitor::clean_names() %>% 
-  select(country, area, land_area_km)
+  select(country,land_area_km)
 ```
 
 Now let's combine all of our datasets to create our final dataset. 
@@ -184,7 +184,7 @@ merged_df2 =
   arrange(country)
  
 final_merge = 
-  merge(wc_stats, merged_df2, ,by= "country")  %>% 
+  merge(wc_stats,merged_df2,by= "country")  %>% 
   
   ## Replace missing data with correct info pulled from the web (sources listed below)
   
@@ -203,25 +203,42 @@ final_merge =
     confederation = case_when(country %in% c('Trinidad and Tobago') ~ 'CONCACAF',
                               TRUE ~as.character(confederation)),
     confederation = case_when(country %in% c('United Arab Emirates') ~ 'AFC',
-                              TRUE ~as.character(confederation)),
-    
-    ## Add missing area and land area 
-    area = case_when(country %in% c('country') ~ 'add value', TRUE ~ as.character(area)),
-   
+                              TRUE ~as.character(confederation)))
+```
 
-    ## Add missing land area
-    land_area_km = case_when(country %in% c('country') ~ 'add value',
-                             TRUE ~ as.character(land_area_km)),
-    
+```{r}
+
+## Add missing land area by km squared
+final_merge = 
+  final_merge %>%
+  mutate(
+    land_area_km = case_when(country %in% c('Scotland') ~ 77910,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('Republic of Ireland') ~ 70273,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('Northern Ireland') ~ 14130,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('Bosnia and Herzegovina') ~ 51209,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('Trinidad and Tobago') ~ 5128,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('United Arab Emirates') ~ 83600,
+                             TRUE ~ as.numeric(land_area_km)), 
+    land_area_km = case_when(country %in% c('United Arab Emirates') ~ 83600,
+                             TRUE ~ as.numeric(land_area_km)), 
+    land_area_km = case_when(country %in% c('England') ~ 130279,
+                             TRUE ~ as.numeric(land_area_km)), 
+     land_area_km = case_when(country %in% c('Wales') ~ 20780,
+                             TRUE ~ as.numeric(land_area_km))
   )
-
-
+  
 ```
 
 Output final dataset as `.csv` file for final project use. 
 
 ```{r}
-write_csv(final_merge, "worldcup_dataset.csv")
+write.csv(final_merge, "./data/12_4_dataset.csv")
+
 ```
 
   
@@ -251,9 +268,11 @@ Also to keep track this is missing data for both confederation and land area km 
 - Spain, UEFA
 
 Just confederation missing: 
-- Bosnia and Herzegovina, UEFA
-- Trinidad and Tobago, CONCACAF
-- United Arab Emirates, AFC
+- Bosnia and Herzegovina, UEFA, 51209
+- Trinidad and Tobago, CONCACAF, 5128
+- United Arab Emirates, AFC, 83600
+- wales 20780
+- england 130,279 
 
 **I found majority of land area km so we could actually use that one, only one missing is England **
 

@@ -50,7 +50,7 @@ wc_stats
     ##  2 Germany     20    "112" 68    21    23    "232" "130" +102  "225"
     ##  3 Italy       18    " 83" 45    21    17    "128" " 77" +51   "156"
     ##  4 Argentina   18    " 85" 46    15    24    "144" " 96" +48   "153"
-    ##  5 France      16    " 69" 36    13    20    "126" " 80" +46   "121"
+    ##  5 France      16    " 70" 37    13    20    "129" " 81" +48   "124"
     ##  6 England     16    " 72" 31    22    19    "100" " 66" +34   "115"
     ##  7 Spain       16    " 66" 31    16    19    "108" " 75" +33   "109"
     ##  8 Netherlands 11    " 54" 30    13    11    " 94" " 50" +44   "103"
@@ -58,7 +58,7 @@ wc_stats
     ## 10 Belgium     14    " 51" 21    10    20    " 69" " 74" −5    " 73"
     ## # … with 70 more rows
 
-### Fifa Ranking [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
+### Fifa Rankings 2022 [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
 
 This dataset was created via web scraping.
 
@@ -214,25 +214,22 @@ fifa_rankings =
 tibble(
   rank = rank_text,
   country = country_text
-) 
-
-fifa_rankings
+) %>% 
+  
+  ## Change country names to match other datasets
+  mutate(
+    country = str_replace(country, "USA","United States"),
+    country = str_replace(country, "China PR", "China"),
+    country = str_replace(country, "IR Iran", "Iran"),
+    country = str_replace(country, "Korea Republic", "South Korea"),
+    country = str_replace(country,"Korea DPR","North Korea"),
+    country = str_replace(country, "Türkiye", "Turkey"),
+    country = str_replace(country,"Czechia", "Czech Republic"),
+    country = str_replace(country,"Côte d’Ivoire", "Ivory Coast"),
+    country = str_replace(country,  "Congo DR", "DR Congo")
+  ) %>% 
+  select(country, rank)
 ```
-
-    ## # A tibble: 211 × 2
-    ##    rank  country    
-    ##    <chr> <chr>      
-    ##  1 1     Brazil     
-    ##  2 2     Belgium    
-    ##  3 3     Argentina  
-    ##  4 4     France     
-    ##  5 5     England    
-    ##  6 6     Italy      
-    ##  7 7     Spain      
-    ##  8 8     Netherlands
-    ##  9 9     Portugal   
-    ## 10 10    Denmark    
-    ## # … with 201 more rows
 
 ### Confederations Dataset
 
@@ -243,7 +240,11 @@ interest.
 confederations_data = 
   read_csv(file = "data/fifa_countries_audience.csv", col_names = TRUE) %>% 
   janitor::clean_names() %>% 
-  select(country, confederation)## Select variables of interest 
+  ## Select variables of interest 
+  select(country, confederation) %>% 
+  mutate(
+     country = str_replace(country,  "Congo DR", "DR Congo")
+  )
 ```
 
     ## Rows: 191 Columns: 5
@@ -274,9 +275,17 @@ goals_country_df =
   select(country, player, goals)  %>% 
   
 ## There are countries with more than one goal scorer, let's fix this
-  aggregate(player ~ country, FUN = paste, collapse = ' & ') %>% 
-  arrange(country)
-    
+  aggregate(player ~ country + goals, FUN = paste, collapse = ' & ') %>% 
+  select(country, player, goals) %>% 
+  arrange(country) %>% 
+  
+  ## Change Soviet Union to Russia & update goal scorer info
+ mutate(country = str_replace(country,"Soviet Union\\[b]", "Russia"), 
+        player = str_replace(player, "Oleg Blokhin", 
+        "Alexander Kerzhakov & Artem Dzyuba"))
+  
+  
+  
 ## Countries to worry about:
 ## Anguilla, Bulgaria, Curaçao, Denmark,Eritrea, Eswatini, Faroe Islands, France,
 ## Gibraltar, Iceland, Lebanon, Lesotho, Mongolia, Namibia, Palestine,Romania,
@@ -463,7 +472,7 @@ goals_country_df
     ## 175                     South Africa
     ## 176                      South Korea
     ## 177                      South Sudan
-    ## 178                  Soviet Union[b]
+    ## 178                           Russia
     ## 179                            Spain
     ## 180                        Sri Lanka
     ## 181                            Sudan
@@ -497,218 +506,218 @@ goals_country_df
     ## 209                            Yemen
     ## 210                           Zambia
     ## 211                         Zimbabwe
-    ##                                                      player
-    ## 1                                          Faysal Shayesteh
-    ## 2                                             Erjon Bogdani
-    ## 3                                             Islam Slimani
-    ## 4                                                 Ramin Ott
-    ## 5                                             Ildefons Lima
-    ## 6                                                      Akwá
-    ## 7        Richard O'Connor & Terrence Rogers & Girdon Connor
-    ## 8                                               Peter Byers
-    ## 9                                              Lionel Messi
-    ## 10                                       Henrikh Mkhitaryan
-    ## 11                                             Ronald Gómez
-    ## 12                                               Tim Cahill
-    ## 13                                             Toni Polster
-    ## 14                                          Gurban Gurbanov
-    ## 15                                          Lesly St. Fleur
-    ## 16                                        Ismail Abdullatif
-    ## 17                             Ashraf Uddin Ahmed Chunnu[c]
-    ## 18                                       Llewellyn Riley[c]
-    ## 19                                       Maksim Romaschenko
-    ## 20                                            Romelu Lukaku
-    ## 21                                            Deon McCaulay
-    ## 22                                       Stéphane Sessègnon
-    ## 23                                             Shaun Goater
-    ## 24                                        Chencho Gyeltshen
-    ## 25                                           Marcelo Moreno
-    ## 26                                               Edin Džeko
-    ## 27                                     Jerome Ramatlhakwane
-    ## 28                                                     Pelé
-    ## 29                                        Avondale Williams
-    ## 30                                           Shahrazen Said
-    ## 31                          Dimitar Berbatov & Hristo Bonev
-    ## 32                                          Moumouni Dagano
-    ## 33                                       Fiston Abdul Razak
-    ## 34                                             Hok Sochetra
-    ## 35                                             Samuel Eto'o
-    ## 36                                               Cyle Larin
-    ## 37                                             Héldon Ramos
-    ## 38                                         Lee Ramoon[e][c]
-    ## 39                                             Hilaire Momi
-    ## 40                                      Ezechiel N'Douassel
-    ## 41                                           Alexis Sánchez
-    ## 42                                              Hao Haidong
-    ## 43                                            Chen Po-liang
-    ## 44                                           Radamel Falcao
-    ## 45                                  El Fardou Ben Nabouhane
-    ## 46                                           Thievy Bifouma
-    ## 47                                           Taylor Saghabi
-    ## 48                                          Rolando Fonseca
-    ## 49                                              Davor Šuker
-    ## 50                                              Lester Moré
-    ## 51                           Rangelo Janga & Leandro Bacuna
-    ## 52                                    Michalis Konstantinou
-    ## 53                                               Jan Koller
-    ## 54                         Poul Nielsen & Jon Dahl Tomasson
-    ## 55                                   Mahdi Houssein Mahabeh
-    ## 56                                              Julian Wade
-    ## 57                                            Jonathan Faña
-    ## 58                                        Dieumerci Mbokani
-    ## 59                                           Enner Valencia
-    ## 60                                            Hossam Hassan
-    ## 61                                           Raúl Díaz Arce
-    ## 62                                             Wayne Rooney
-    ## 63                                              Emilio Nsue
-    ## 64  Berhane Aregai & Yonas Fesehaye & Yidnekachew Shimangus
-    ## 65                                              Andres Oper
-    ## 66                       Felix Badenhorst & Sabelo Ndzinisa
-    ## 67                                           Getaneh Kebede
-    ## 68                           Klæmint Olsen & Rógvi Jacobsen
-    ## 69                                              Roy Krishna
-    ## 70                                              Teemu Pukki
-    ## 71                           Olivier Giroud & Thierry Henry
-    ## 72                                Pierre-Emerick Aubameyang
-    ## 73                                             Assan Ceesay
-    ## 74                                          Shota Arveladze
-    ## 75                                           Miroslav Klose
-    ## 76                                             Asamoah Gyan
-    ## 77                        Roy Chipolina[f] & Liam Walker[g]
-    ## 78                                       Nikos Anastopoulos
-    ## 79                                            Ricky Charles
-    ## 80                                           Jason Cunliffe
-    ## 81                                              Carlos Ruiz
-    ## 82                                   Ibrahima Kandia Diallo
-    ## 83                                                 Nando Có
-    ## 84                                         Nigel Codrington
-    ## 85                                           Emmanuel Sanon
-    ## 86                                             Carlos Pavón
-    ## 87                                              Chan Siu Ki
-    ## 88                                            Ferenc Puskás
-    ## 89                   Kolbeinn Sigþórsson & Eiður Guðjohnsen
-    ## 90                                            Sunil Chhetri
-    ## 91                                              Abdul Kadir
-    ## 92                                                 Ali Daei
-    ## 93                                            Hussein Saeed
-    ## 94                                              Eran Zahavi
-    ## 95                                                Gigi Riva
-    ## 96                                            Didier Drogba
-    ## 97                                            Luton Shelton
-    ## 98                                       Kunishige Kamamoto
-    ## 99                                         Hamza Al-Dardour
-    ## 100                                          Ruslan Baltiev
-    ## 101                                            William Ouma
-    ## 102                                            Vedat Muriqi
-    ## 103                                         Bashar Abdullah
-    ## 104                                         Mirlan Murzayev
-    ## 105                                      Visay Phaphouvanin
-    ## 106                                      Māris Verpakovskis
-    ## 107                       Vardan Ghazaryan & Hassan Maatouk
-    ## 108                          Sera Motebang & Jane Thabantso
-    ## 109                                             George Weah
-    ## 110                                         Ali Al-Biski[c]
-    ## 111                                             Mario Frick
-    ## 112                                      Tomas Danilevičius
-    ## 113                                               Leon Mart
-    ## 114                                           Chan Kin Seng
-    ## 115                                            Paulin Voavy
-    ## 116                                            Kinnah Phiri
-    ## 117                                          Mokhtar Dahari
-    ## 118                                              Ali Ashfaq
-    ## 119                                            Seydou Keita
-    ## 120                                          Michael Mifsud
-    ## 121                                                  Bessam
-    ## 122                                           Daniel Imbert
-    ## 123                                        Javier Hernández
-    ## 124                                       Serghei Cleșcenco
-    ## 125             Naranbold Nyam-Osor & Lümbengarav Donorovyn
-    ## 126                                          Stevan Jovetić
-    ## 127                                             Lyle Taylor
-    ## 128                                             Ahmed Faras
-    ## 129                                               Tico-Tico
-    ## 130                                          Myo Hlaing Win
-    ## 131                         Rudolf Bester & Peter Shalulile
-    ## 132                         Nirajan Rayamajhi & Hari Khadka
-    ## 133                                        Robin van Persie
-    ## 134                                            Bertrand Kaï
-    ## 135                                              Chris Wood
-    ## 136                                            Juan Barrera
-    ## 137                                      Victorien Adebayor
-    ## 138                                          Rashidi Yekini
-    ## 139                                            Jong Il-gwan
-    ## 140                                            Goran Pandev
-    ## 141                                             David Healy
-    ## 142                                             Jørgen Juve
-    ## 143                                          Hani Al-Dhabit
-    ## 144                                           Muhammad Essa
-    ## 145                             Fahed Attal & Ashraf Nu'man
-    ## 146                                             Luis Tejada
-    ## 147                                           Reggie Davani
-    ## 148                                        Roque Santa Cruz
-    ## 149                                          Paolo Guerrero
-    ## 150                                       Phil Younghusband
-    ## 151                                      Robert Lewandowski
-    ## 152                                       Cristiano Ronaldo
-    ## 153                                            Héctor Ramos
-    ## 154                                          Mansour Muftah
-    ## 155                                            Robbie Keane
-    ## 156                             Adrian Mutu & Gheorghe Hagi
-    ## 157                                        Olivier Karekezi
-    ## 158                                             Keith Gumbs
-    ## 159                                            Earl Jean[c]
-    ## 160                                          Shandel Samuel
-    ## 161                                       Desmond Fa'aiuaso
-    ## 162                                              Andy Selva
-    ## 163                                               Luís Leal
-    ## 164                                          Majed Abdullah
-    ## 165                              Denis Law & Kenny Dalglish
-    ## 166                                              Sadio Mané
-    ## 167                                     Aleksandar Mitrović
-    ## 168                                           Philip Zialor
-    ## 169                                          Mohamed Kallon
-    ## 170                                             Fandi Ahmad
-    ## 171                                            Marek Hamšík
-    ## 172                                          Zlatko Zahovič
-    ## 173                                          Commins Menapi
-    ## 174                                Abdullahi Sheikh Mohamed
-    ## 175                                          Benni McCarthy
-    ## 176                                             Cha Bum-kun
-    ## 177                                              James Moga
-    ## 178                                            Oleg Blokhin
-    ## 179                                             David Villa
-    ## 180                                        Kasun Jayasuriya
-    ## 181                                     Nasr Eddin Abbas[c]
-    ## 182                                         Stefano Rijssel
-    ## 183                                      Zlatan Ibrahimović
-    ## 184                                          Alexander Frei
-    ## 185                                         Firas Al-Khatib
-    ## 186                                           Teaonui Tehau
-    ## 187                                    Manuchekhr Dzhalilov
-    ## 188                                            Mrisho Ngasa
-    ## 189                                      Kiatisuk Senamuang
-    ## 190                                             Rufino Gama
-    ## 191                                       Emmanuel Adebayor
-    ## 192                                            Unaloto Feao
-    ## 193                                              Stern John
-    ## 194                                             Issam Jemâa
-    ## 195                                             Hakan Şükür
-    ## 196                                       Wladimir Baýramow
-    ## 197                                            Billy Forbes
-    ## 198                               Jamie Browne & J. C. Mack
-    ## 199                                           Emmanuel Okwi
-    ## 200                                       Andriy Shevchenko
-    ## 201                                            Ali Mabkhout
-    ## 202                          Clint Dempsey & Landon Donovan
-    ## 203                                             Luis Suárez
-    ## 204                                        Maksim Shatskikh
-    ## 205                                            Richard Iwai
-    ## 206                                          Salomón Rondón
-    ## 207                                            Lê Công Vinh
-    ## 208                                             Gareth Bale
-    ## 209                                             Ali Al-Nono
-    ## 210                                         Godfrey Chitalu
-    ## 211                                            Peter Ndlovu
+    ##                                                      player goals
+    ## 1                                          Faysal Shayesteh    10
+    ## 2                                             Erjon Bogdani    18
+    ## 3                                             Islam Slimani    41
+    ## 4                                                 Ramin Ott     3
+    ## 5                                             Ildefons Lima    11
+    ## 6                                                      Akwá    39
+    ## 7        Richard O'Connor & Terrence Rogers & Girdon Connor     5
+    ## 8                                               Peter Byers    44
+    ## 9                                              Lionel Messi    94
+    ## 10                                       Henrikh Mkhitaryan    32
+    ## 11                                             Ronald Gómez     6
+    ## 12                                               Tim Cahill    50
+    ## 13                                             Toni Polster    44
+    ## 14                                          Gurban Gurbanov    14
+    ## 15                                          Lesly St. Fleur    12
+    ## 16                                        Ismail Abdullatif    47
+    ## 17                             Ashraf Uddin Ahmed Chunnu[c]    17
+    ## 18                                       Llewellyn Riley[c]    23
+    ## 19                                       Maksim Romaschenko    20
+    ## 20                                            Romelu Lukaku    68
+    ## 21                                            Deon McCaulay    28
+    ## 22                                       Stéphane Sessègnon    24
+    ## 23                                             Shaun Goater    20
+    ## 24                                        Chencho Gyeltshen    10
+    ## 25                                           Marcelo Moreno    30
+    ## 26                                               Edin Džeko    64
+    ## 27                                     Jerome Ramatlhakwane    24
+    ## 28                                                     Pelé    77
+    ## 29                                        Avondale Williams     5
+    ## 30                                           Shahrazen Said     8
+    ## 31                          Dimitar Berbatov & Hristo Bonev    48
+    ## 32                                          Moumouni Dagano    34
+    ## 33                                       Fiston Abdul Razak    19
+    ## 34                                             Hok Sochetra    20
+    ## 35                                             Samuel Eto'o    56
+    ## 36                                               Cyle Larin    25
+    ## 37                                             Héldon Ramos    15
+    ## 38                                         Lee Ramoon[e][c]    12
+    ## 39                                             Hilaire Momi    10
+    ## 40                                      Ezechiel N'Douassel    15
+    ## 41                                           Alexis Sánchez    50
+    ## 42                                              Hao Haidong    41
+    ## 43                                            Chen Po-liang    25
+    ## 44                                           Radamel Falcao    36
+    ## 45                                  El Fardou Ben Nabouhane    17
+    ## 46                                           Thievy Bifouma    15
+    ## 47                                           Taylor Saghabi     6
+    ## 48                                          Rolando Fonseca    47
+    ## 49                                              Davor Šuker    45
+    ## 50                                              Lester Moré    30
+    ## 51                           Rangelo Janga & Leandro Bacuna    14
+    ## 52                                    Michalis Konstantinou    32
+    ## 53                                               Jan Koller    55
+    ## 54                         Poul Nielsen & Jon Dahl Tomasson    52
+    ## 55                                   Mahdi Houssein Mahabeh     6
+    ## 56                                              Julian Wade    20
+    ## 57                                            Jonathan Faña    24
+    ## 58                                        Dieumerci Mbokani    22
+    ## 59                                           Enner Valencia    38
+    ## 60                                            Hossam Hassan    68
+    ## 61                                           Raúl Díaz Arce    39
+    ## 62                                             Wayne Rooney    53
+    ## 63                                              Emilio Nsue    13
+    ## 64  Berhane Aregai & Yonas Fesehaye & Yidnekachew Shimangus     5
+    ## 65                                              Andres Oper    38
+    ## 66                       Felix Badenhorst & Sabelo Ndzinisa    15
+    ## 67                                           Getaneh Kebede    33
+    ## 68                           Klæmint Olsen & Rógvi Jacobsen    10
+    ## 69                                              Roy Krishna    32
+    ## 70                                              Teemu Pukki    37
+    ## 71                                           Olivier Giroud    52
+    ## 72                                Pierre-Emerick Aubameyang    30
+    ## 73                                             Assan Ceesay    13
+    ## 74                                          Shota Arveladze    26
+    ## 75                                           Miroslav Klose    71
+    ## 76                                             Asamoah Gyan    51
+    ## 77                        Roy Chipolina[f] & Liam Walker[g]     5
+    ## 78                                       Nikos Anastopoulos    29
+    ## 79                                            Ricky Charles    37
+    ## 80                                           Jason Cunliffe    25
+    ## 81                                              Carlos Ruiz    68
+    ## 82                                   Ibrahima Kandia Diallo    33
+    ## 83                                                 Nando Có     9
+    ## 84                                         Nigel Codrington    18
+    ## 85                                           Emmanuel Sanon    37
+    ## 86                                             Carlos Pavón    57
+    ## 87                                              Chan Siu Ki    40
+    ## 88                                            Ferenc Puskás    84
+    ## 89                   Kolbeinn Sigþórsson & Eiður Guðjohnsen    26
+    ## 90                                            Sunil Chhetri    84
+    ## 91                                              Abdul Kadir    70
+    ## 92                                                 Ali Daei   109
+    ## 93                                            Hussein Saeed    78
+    ## 94                                              Eran Zahavi    33
+    ## 95                                                Gigi Riva    35
+    ## 96                                            Didier Drogba    65
+    ## 97                                            Luton Shelton    35
+    ## 98                                       Kunishige Kamamoto    75
+    ## 99                                         Hamza Al-Dardour    33
+    ## 100                                          Ruslan Baltiev    13
+    ## 101                                            William Ouma    35
+    ## 102                                            Vedat Muriqi    23
+    ## 103                                         Bashar Abdullah    75
+    ## 104                                         Mirlan Murzayev    15
+    ## 105                                      Visay Phaphouvanin    18
+    ## 106                                      Māris Verpakovskis    29
+    ## 107                       Vardan Ghazaryan & Hassan Maatouk    21
+    ## 108                          Sera Motebang & Jane Thabantso    10
+    ## 109                                             George Weah    18
+    ## 110                                         Ali Al-Biski[c]    40
+    ## 111                                             Mario Frick    16
+    ## 112                                      Tomas Danilevičius    19
+    ## 113                                               Leon Mart    16
+    ## 114                                           Chan Kin Seng    17
+    ## 115                                            Paulin Voavy    15
+    ## 116                                            Kinnah Phiri    71
+    ## 117                                          Mokhtar Dahari    89
+    ## 118                                              Ali Ashfaq    57
+    ## 119                                            Seydou Keita    25
+    ## 120                                          Michael Mifsud    42
+    ## 121                                                  Bessam    13
+    ## 122                                           Daniel Imbert    17
+    ## 123                                        Javier Hernández    52
+    ## 124                                       Serghei Cleșcenco    11
+    ## 125             Naranbold Nyam-Osor & Lümbengarav Donorovyn     8
+    ## 126                                          Stevan Jovetić    31
+    ## 127                                             Lyle Taylor    10
+    ## 128                                             Ahmed Faras    36
+    ## 129                                               Tico-Tico    30
+    ## 130                                          Myo Hlaing Win    36
+    ## 131                         Rudolf Bester & Peter Shalulile    13
+    ## 132                         Nirajan Rayamajhi & Hari Khadka    13
+    ## 133                                        Robin van Persie    50
+    ## 134                                            Bertrand Kaï    23
+    ## 135                                              Chris Wood    33
+    ## 136                                            Juan Barrera    23
+    ## 137                                      Victorien Adebayor    17
+    ## 138                                          Rashidi Yekini    37
+    ## 139                                            Jong Il-gwan    26
+    ## 140                                            Goran Pandev    38
+    ## 141                                             David Healy    36
+    ## 142                                             Jørgen Juve    33
+    ## 143                                          Hani Al-Dhabit    43
+    ## 144                                           Muhammad Essa    11
+    ## 145                             Fahed Attal & Ashraf Nu'man    14
+    ## 146                                             Luis Tejada    43
+    ## 147                                           Reggie Davani    13
+    ## 148                                        Roque Santa Cruz    32
+    ## 149                                          Paolo Guerrero    38
+    ## 150                                       Phil Younghusband    52
+    ## 151                                      Robert Lewandowski    78
+    ## 152                                       Cristiano Ronaldo   118
+    ## 153                                            Héctor Ramos    18
+    ## 154                                          Mansour Muftah    42
+    ## 155                                            Robbie Keane    68
+    ## 156                             Adrian Mutu & Gheorghe Hagi    35
+    ## 157                                        Olivier Karekezi    24
+    ## 158                                             Keith Gumbs    24
+    ## 159                                            Earl Jean[c]    20
+    ## 160                                          Shandel Samuel    32
+    ## 161                                       Desmond Fa'aiuaso     9
+    ## 162                                              Andy Selva     8
+    ## 163                                               Luís Leal     8
+    ## 164                                          Majed Abdullah    72
+    ## 165                              Denis Law & Kenny Dalglish    30
+    ## 166                                              Sadio Mané    34
+    ## 167                                     Aleksandar Mitrović    52
+    ## 168                                           Philip Zialor    14
+    ## 169                                          Mohamed Kallon     8
+    ## 170                                             Fandi Ahmad    55
+    ## 171                                            Marek Hamšík    26
+    ## 172                                          Zlatko Zahovič    35
+    ## 173                                          Commins Menapi    34
+    ## 174                                Abdullahi Sheikh Mohamed     3
+    ## 175                                          Benni McCarthy    31
+    ## 176                                             Cha Bum-kun    58
+    ## 177                                              James Moga     6
+    ## 178                      Alexander Kerzhakov & Artem Dzyuba    42
+    ## 179                                             David Villa    59
+    ## 180                                        Kasun Jayasuriya    27
+    ## 181                                     Nasr Eddin Abbas[c]    27
+    ## 182                                         Stefano Rijssel    14
+    ## 183                                      Zlatan Ibrahimović    62
+    ## 184                                          Alexander Frei    42
+    ## 185                                         Firas Al-Khatib    36
+    ## 186                                           Teaonui Tehau    24
+    ## 187                                    Manuchekhr Dzhalilov    20
+    ## 188                                            Mrisho Ngasa    25
+    ## 189                                      Kiatisuk Senamuang    71
+    ## 190                                             Rufino Gama     7
+    ## 191                                       Emmanuel Adebayor    32
+    ## 192                                            Unaloto Feao     7
+    ## 193                                              Stern John    70
+    ## 194                                             Issam Jemâa    36
+    ## 195                                             Hakan Şükür    51
+    ## 196                                       Wladimir Baýramow    16
+    ## 197                                            Billy Forbes    11
+    ## 198                               Jamie Browne & J. C. Mack     3
+    ## 199                                           Emmanuel Okwi    28
+    ## 200                                       Andriy Shevchenko    48
+    ## 201                                            Ali Mabkhout    80
+    ## 202                          Clint Dempsey & Landon Donovan    57
+    ## 203                                             Luis Suárez    68
+    ## 204                                        Maksim Shatskikh    34
+    ## 205                                            Richard Iwai    20
+    ## 206                                          Salomón Rondón    38
+    ## 207                                            Lê Công Vinh    51
+    ## 208                                             Gareth Bale    41
+    ## 209                                             Ali Al-Nono    29
+    ## 210                                         Godfrey Chitalu    79
+    ## 211                                            Peter Ndlovu    37
 
 ### Population Data 2021 Population
 
@@ -716,7 +725,7 @@ goals_country_df
 pop_df = 
 read_csv(file = "data/pop.csv", col_names = TRUE) %>% 
   janitor::clean_names() %>% 
-  select(country, area, land_area_km)
+  select(country,land_area_km)
 ```
 
     ## Rows: 205 Columns: 19
@@ -735,50 +744,74 @@ statistics & records) - fifa_rankings (official Fifa rankings 2022) -
 goals_country_df (top goal scorers per country) - pop_df(land area of
 countries) - confederations_data(what confederations each country is in)
 
-We will combine these datasets by the `country` variable and Removed
-land and area
+We will combine these datasets by the `country` variable, perform some
+wrangling and output final dataset as .csv file.
 
 ``` r
 ### Put all dataframes into a list & merge by country
 
-dfs = list(fifa_rankings, goals_country_df, pop_df,confederations_data)
+merged_df = 
+  list(fifa_rankings, goals_country_df, pop_df,confederations_data) 
 
-df_2 =
-  dfs %>%
-  reduce(full_join, by= "country")
+
+merged_df2 =
+  merged_df %>%
+  reduce(full_join, by= "country") %>% 
+  arrange(country)
  
-final_dataset_2 = 
-  left_join(wc_stats,df_2, by= "country")%>%
-  select(-land_area_km,-area)
+final_merge = 
+  merge(wc_stats,merged_df2,by= "country")  %>% 
+  
+  ## Replace missing data with correct info pulled from the web (sources listed below)
+  
+  mutate(
+    ## Add missing confederations for countries 
+    confederation = case_when(country %in% c('Wales') ~ 'UEFA', TRUE ~ as.character(confederation)),
+    confederation = case_when(country %in% c('Bosnia and Herzegovina') ~ 'UEFA', 
+                              TRUE ~ as.character(confederation)),
+     confederation = case_when(country %in% c('England') ~ 'UEFA', TRUE ~ as.character(confederation)),
+     confederation = case_when(country %in% c('Northern Ireland') ~ 'UEFA',
+                              TRUE ~as.character(confederation)),
+    confederation = case_when(country %in% c('Republic of Ireland') ~ 'UEFA',
+                              TRUE ~as.character(confederation)),
+    confederation = case_when(country %in% c('Scotland') ~ 'UEFA',
+                              TRUE ~as.character(confederation)),
+    confederation = case_when(country %in% c('Trinidad and Tobago') ~ 'CONCACAF',
+                              TRUE ~as.character(confederation)),
+    confederation = case_when(country %in% c('United Arab Emirates') ~ 'AFC',
+                              TRUE ~as.character(confederation)))
 ```
 
-Download in order to manually edit NA for confederation
-
 ``` r
-write.csv(final_dataset_2, "final_dataset.csv")
+## Add missing land area by km squared
+final_merge = 
+  final_merge %>%
+  mutate(
+    land_area_km = case_when(country %in% c('Scotland') ~ 77910,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('Republic of Ireland') ~ 70273,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('Northern Ireland') ~ 14130,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('Bosnia and Herzegovina') ~ 51209,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('Trinidad and Tobago') ~ 5128,
+                             TRUE ~ as.numeric(land_area_km)),
+    land_area_km = case_when(country %in% c('United Arab Emirates') ~ 83600,
+                             TRUE ~ as.numeric(land_area_km)), 
+    land_area_km = case_when(country %in% c('United Arab Emirates') ~ 83600,
+                             TRUE ~ as.numeric(land_area_km)), 
+    land_area_km = case_when(country %in% c('England') ~ 130279,
+                             TRUE ~ as.numeric(land_area_km)), 
+     land_area_km = case_when(country %in% c('Wales') ~ 20780,
+                             TRUE ~ as.numeric(land_area_km))
+  )
 ```
 
-# Downloaded edited cvs
+Output final dataset as `.csv` file for final project use.
 
 ``` r
-world_cup_dataset = 
-  read_csv(file = "./data/final_dataset.csv", col_names = TRUE)
-```
-
-    ## New names:
-    ## Rows: 80 Columns: 14
-    ## ── Column specification
-    ## ──────────────────────────────────────────────────────── Delimiter: "," chr
-    ## (4): country, gd, player, confederation dbl (10): ...1, part, pld, w, d, l, gf,
-    ## ga, pts, rank
-    ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-    ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## • `` -> `...1`
-
-\#saved into file
-
-``` r
-write.csv(world_cup_dataset, "world_cup_dataset.csv")
+write.csv(final_merge, "./data/12_4_dataset.csv")
 ```
 
 # Below ways that I tried to change the name of the conderation by code
@@ -818,8 +851,9 @@ area km are:<br>
 
 -   Spain, UEFA
 
-Just confederation missing: - Bosnia and Herzegovina, UEFA - Trinidad
-and Tobago, CONCACAF - United Arab Emirates, AFC
+Just confederation missing: - Bosnia and Herzegovina, UEFA, 51209 -
+Trinidad and Tobago, CONCACAF, 5128 - United Arab Emirates, AFC, 83600 -
+wales 20780 - england 130,279
 
 **I found majority of land area km so we could actually use that one,
 only one missing is England **
