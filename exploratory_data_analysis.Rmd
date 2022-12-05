@@ -1,0 +1,279 @@
+---
+title: "Exploring World Cup Statistics"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+
+</style>
+
+```{r setup, include=FALSE}
+# Load packages
+library(sf)
+library(tidyverse)
+library(tmap)
+library(tmaptools)
+library(viridis)
+library(plotly)
+
+# Set ggplot theme
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+# Set tmap mode to interactive
+tmap_mode("view")
+```
+
+```{r import df, include=FALSE, warning=FALSE, message=FALSE}
+# Read in csv datafile
+wc_df <- read_csv("data/12_4_dataset.csv") %>%
+  janitor::clean_names() 
+```
+
+```{r import shapefile, include=FALSE, warning=FALSE, message=FALSE}
+# Read in shapefile and convert values to numeric
+wc_countries <- st_read("data/geofiles/worldcup_countries.shp") %>%
+  janitor::clean_names() %>%
+  mutate(
+    gd = gsub("\\+","",gd),
+    gd = gsub("\\−","-",gd),
+    part = as.numeric(part),
+    pld = as.numeric(pld),
+    w = as.numeric(w),
+    d = as.numeric(d),
+    l = as.numeric(l),
+    gf = as.numeric(gf),
+    ga = as.numeric(ga),
+    gd = as.numeric(gd),
+    pts = as.numeric(pts),
+    rank = as.numeric(rank),
+    goals = as.numeric(goals),
+    land_area = as.numeric(land_area))
+```
+<br>
+
+The International Federation of Association Football (In French: Fédération Internationale de Football Association), commonly known as FIFA, is the international governing body of association football. FIFA is responsible for the organization and governance of football's major international tournaments, most notably the FIFA World Cup, held since 1930.
+
+## Geographic Exploration
+
+<br>
+
+### Data by Confederation
+In international soccer, the world is broken up into six regions and the countries in each region are grouped together. These groups, which are called Confederations, are responsible for overseeing the game in their section of the world.
+
+The six Confederations recogized by FIFA include: <br>
+  1. AFC - Asian Football Confederation in **Asia and Australia** <br>
+  2. CAF - Confédération Africaine de Football in **Africa** <br>
+  3. CONCACAF - Confederation of **North, Central American and Caribbean** Association Football <br>
+  4. CONMEBOL - Confederación Sudamericana de Fútbol in **South America** <br>
+  5. OFC - Oceania Football Confederation in **Oceania** <br>
+  6. UEFA - Union of European Football Associations in **Europe** <br>
+
+<br>
+
+#### National Teams That Have Participated in the World Cup by FIFA Confederation
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+tm_shape(wc_countries) + 
+  tm_polygons(
+    col = "confederat",
+    style = "cat",
+    palette = "viridis",
+    id = "country",
+    alpha = .8,
+    border.col = "white",
+    lwd = .5, 
+    title = "Confederation") -> worldmap_conf
+
+worldmap_conf
+```
+As of the 2022, `r nrow(wc_df)` national teams from all six confederations have participated in the FIFA World Cup.
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+  group_by(confederation) %>%
+  summarize(n_countries = n()) %>%
+  ggplot(aes(x = confederation, y = n_countries, fill = confederation)) + 
+  geom_bar(stat = 'identity', alpha = .7) +
+  labs(
+    title = "World Cup Participations by FIFA Confederation",
+    x = "Confederation",
+    y = "Number of Countries") + 
+  geom_text(aes(label = n_countries), vjust = -0.3, size = 3.5)  + 
+  theme(legend.position = "none")
+```
+<br>
+
+Most of the national teams that have participated in the World Cup have been from the Union of European Football Associations in Europe (UEFA) Confederation, while only one team from the Oceania Football Confederation in Oceania (OFC) Confederation has participated.
+
+<br>
+
+#### Number of Participations in the World Cup
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+worldmap_conf +
+    tm_bubbles("w",
+      col = "w", 
+      border.col = "white", 
+      style = "cont", 
+      breaks = seq(0, 75, by = 15),
+      palette = "Greys", 
+      alpha = 0.7,
+      size = "w",
+      scale = 1.5,
+      title.col = "Games Won (w)", 
+      id = "country")
+```
+
+#### Number of Games Won in the World Cup
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+worldmap_conf +
+    tm_bubbles("part",
+      col = "part", 
+      border.col = "white", 
+      style = "cont", 
+      breaks = seq(0, 22, by = 2),
+      palette = "Greys", 
+      alpha = 0.7,
+      size = "part",
+      scale = 1.5,
+      title.col = "Participations (part)", 
+      id = "country")
+```
+
+<br>
+
+The national teams that have both participated and won the most games in World Cup appear to be spatially clustered in the CONMEBOL (South America) and UEFA (Europe) Confederations.
+
+<br>
+
+### Data by Country
+
+<br>
+
+#### Number of Participations in the World Cup by Country
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+tm_shape(wc_countries) + 
+  tm_polygons(
+    col = "part",
+    style = "cont",
+    palette = "-viridis",
+    id = "country",
+    alpha = .7,
+    border.col = "white",
+    lwd = .5, 
+    breaks = seq(0, 22, by = 2),
+    title = "Participations (part)")
+```
+Brazil is an international powerhouse when it comes to soccer. Brazil is the only country to make an appearance at every World Cup in history from 1930-2022. Brazil's national team has appeared in all 22 tournaments to date, with Germany having participated in 20, Italy and Argentina in 18 and Mexico in 17.
+
+<br>
+
+#### FIFA Ranking
+FIFA rankings are a unique way to measure how national teams compare to each other and can prove important when it comes to tournaments like a World Cup. National teams are ranked by FIFA based on their game results with the most successful teams being ranked highest (top team ranked as #1).
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+tm_shape(wc_countries) + 
+  tm_polygons(
+    col = "rank",
+    style = "cont",
+    palette = "viridis",
+    id = "country",
+    alpha = .7,
+    border.col = "white",
+    lwd = .5, 
+    breaks = seq(0, 170, by = 20),
+    title = "FIFA Rank (rank)") 
+```
+
+<br>
+  
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+  mutate(
+    country = fct_reorder(country, -rank),
+    text_label = str_c("Country: ", country, "\nFIFA Rank: ", rank, "\nConfederation: ", confederation)) %>%
+  plot_ly(
+    x = ~country, 
+    y = ~rank, 
+    # type = "scatter",
+    # mode = "markers",
+    color = ~confederation,
+    text = ~text_label, 
+    alpha = 0.7, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "FIFA Rank By Country", 
+    xaxis = list(title = "Country"), 
+    yaxis = list(title = "FIFA Rank"))
+```
+As of the 2022 FIFA world cup, Brazil is the highest ranked national team, followed by Belgium, Argentina, France, and England. <br>
+
+The highest ranked national teams appear to be spatially clustered in the CONMEBOL (South America) and UEFA (Europe) Confederations, while the lowest ranked teams are in the AFC (Asia and Australia) and CFC (Africa) Confederations.
+
+<br>
+
+#### Goals Scored by Top Player
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+  mutate(
+    country = fct_reorder(country, goals),
+    text_label = str_c("Country: ", country, "\nGoals Scored: ", goals, "\nPlayer: ", player, "\nConfederation: ", confederation)) %>%
+  plot_ly(
+    x = ~country, 
+    y = ~goals, 
+    # type = "scatter",
+    # mode = "markers",
+    color = ~confederation,
+    text = ~text_label, 
+    alpha = 0.7, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "Number Goals Scored By Top Player In Each Country", 
+    xaxis = list(title = "Country"), 
+    yaxis = list(title = "Goals"))
+```
+
+## Bivariable Exploration
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+  plot_ly(
+    data = wc_df,
+    x = ~w, 
+    y = ~rank,
+    type = "scatter",
+    mode = "markers",
+    color = ~confederation, 
+    text = ~country, 
+    alpha = 0.7, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "Number of World Cup Games Won vs. 2022 FIFA Ranking", 
+    xaxis = list(title = "Games Won"), 
+    yaxis = list(title = "FIFA Ranking"))
+```
