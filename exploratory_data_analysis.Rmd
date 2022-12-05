@@ -128,7 +128,7 @@ Most of the national teams that have participated in the World Cup have been fro
 
 <br>
 
-#### Number of Participations in the World Cup
+#### Number of Games Won in the World Cup
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 worldmap_conf +
     tm_bubbles("w",
@@ -144,7 +144,7 @@ worldmap_conf +
       id = "country")
 ```
 
-#### Number of Games Won in the World Cup
+#### Number of Participations in the World Cup
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 worldmap_conf +
     tm_bubbles("part",
