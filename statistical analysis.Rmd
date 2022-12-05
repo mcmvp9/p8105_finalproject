@@ -1,0 +1,132 @@
+---
+title: "statistical test"
+author: "Jiawen Zhao"
+date: "12/5/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = FALSE, include=FALSE}
+#install.packages('faraway')
+#install.packages('Hmisc')
+library(Hmisc)
+library(faraway)
+library(tidyverse)
+library(glmnet)
+library(MuMIn)
+library(corrplot)
+library(glmnet)
+library(modelr)
+library(leaps)
+library(caret)
+```
+
+Correlation matrix between predictor variables
+
+```{r}
+data <- read.csv("./data/12_4_dataset.csv") %>% 
+  na.omit()
+hist.data.frame(data, nclass = 8)
+num = data[3:12] %>% 
+  select(-gd)
+summary(num)
+corrplot(cor(num), type = "upper", diag = FALSE)
+```
+
+Model selection: stepwise method
+
+
+```{r}
+model_step_wise = step(glm(gf ~ ., data = data), direction = "both")
+model_forward = step(glm(gf ~ 1, data = data), direction = "forward", scope = formula(lm(gf ~ ., data = data)), test = "F")
+model_backward = step(glm(gf ~ ., data = data), direction = "backward", test = "F")
+model_step_wise
+model_forward
+model_backward
+```
+
+```{r}
+predictor_state = num%>%
+  select(-gf)
+
+lambda_seq <- 10^seq(-3, 0, by = .1)
+set.seed(2020)
+cv_object <- cv.glmnet(as.matrix(predictor_state), num$gf,
+lambda = lambda_seq,
+nfolds = 5)
+cv_object
+tibble(lambda = cv_object$lambda,
+mean_cv_error = cv_object$cvm) %>%
+ggplot(aes(x = lambda, y = mean_cv_error)) +
+geom_point()
+lambda = cv_object$lambda.min
+
+fit_bestcv <- glmnet(as.matrix(predictor_state), num$gf, lambda = cv_object$lambda.min)
+coef(fit_bestcv)
+lambda
+
+```
+
+
+Cross-validation of models
+
+
+```{r}
+cv_df = 
+  crossv_kfold(data, k = 10) %>%
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble)
+  ) %>%
+  mutate(
+    fit = map(train, ~glm(gf ~ w + ga, data = .x)),
+    rmse = map2_dbl(fit, test, ~rmse(model = .x, data = .y))
+  )
+
+models <- map(cv_df$train, ~ glm(gf ~ w + ga, data = .))
+summary(map2_dbl(models, cv_df$test, modelr::rmse))
+
+cv_df %>%
+  ggplot(aes(x = rmse)) +
+  geom_density()
+
+
+cv_df2 = 
+  crossv_kfold(data, k = 10) %>%
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble)
+  ) %>%
+  mutate(
+    fit = map(train, ~glm(gf ~ part+l, data = .x)),
+    rmse = map2_dbl(fit, test, ~rmse(model = .x, data = .y))
+  )
+
+models <- map(cv_df2$train, ~ glm(gf ~ part+l, data = .))
+summary(map2_dbl(models, cv_df2$test, modelr::rmse))
+
+cv_df2 %>%
+  ggplot(aes(x = rmse)) +
+  geom_density()
+```
+
+
+Final regression model output
+
+
+```{r}
+glm(gf ~ w + ga, data = data)
+```
+
+Results/output from regression model
+With this country's number of goals scored against a country in the World Cup (since 1990) and this country's number of soccer games a country has won in the World Cup (since 1990), we will bw able to predict the number of points to gain given a country in the wourld cup.
+
+This model will be gf = 2.7789gf+0.2573ga.
+That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would increase by 2.7789.
+
+
+
+
