@@ -163,7 +163,7 @@ summary(glm(w ~ pld + d + rank + gf+ ga, data = data))
 ```
 
 Results/output from regression model
-With this country's number of goals scored against a country in the World Cup (since 1990) and this country's number of soccer games a country has won in the World Cup (since 1990), we will bw able to predict the number of points to gain given a country in the wourld cup.
+
 
 This model will be w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.
 That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would increase by 2.7789.
@@ -171,7 +171,7 @@ That means if the number of number of goals scored against a country in the Worl
 
 ```{r}
 filter_data = data %>% 
-  select(-country, -player) %>%  
+  select( -player) %>%  
   na.omit()
 m=glm(w~., data = filter_data)
 m=lm(w~pld+d+rank, data = num)
