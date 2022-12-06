@@ -28,21 +28,22 @@ Correlation matrix between predictor variables
 
 ```{r}
 data <- read.csv("./data/12_4_dataset.csv") %>% 
-  na.omit()
+  na.omit() %>% 
+  select(-country)
 hist.data.frame(data, nclass = 8)
-num = data[3:12] %>% 
+num = data[2:11] %>% 
   select(-gd)
 summary(num)
-corrplot(cor(num), type = "upper", diag = FALSE)
+corrplot(cor(num),  diag = FALSE)
 ```
 
 Model selection: stepwise method
 
 
 ```{r}
-model_step_wise = step(glm(gf ~ ., data = data), direction = "both")
-model_forward = step(glm(gf ~ 1, data = data), direction = "forward", scope = formula(lm(gf ~ ., data = data)), test = "F")
-model_backward = step(glm(gf ~ ., data = data), direction = "backward", test = "F")
+model_step_wise = step(glm(w ~ ., data = data), direction = "both")
+model_forward = step(glm(w ~ 1, data = data), direction = "forward", scope = formula(lm(gf ~ ., data = data)), test = "F")
+model_backward = step(glm(w ~ ., data = data), direction = "backward", test = "F")
 model_step_wise
 model_forward
 model_backward
@@ -50,11 +51,11 @@ model_backward
 
 ```{r}
 predictor_state = num%>%
-  select(-gf)
+  select(-w)
 
 lambda_seq <- 10^seq(-3, 0, by = .1)
-set.seed(2020)
-cv_object <- cv.glmnet(as.matrix(predictor_state), num$gf,
+set.seed(2022)
+cv_object <- cv.glmnet(as.matrix(predictor_state), num$w,
 lambda = lambda_seq,
 nfolds = 5)
 cv_object
@@ -73,7 +74,7 @@ lambda
 
 Cross-validation of models
 
-
+Cross validation - 10 fold
 ```{r}
 cv_df = 
   crossv_kfold(data, k = 10) %>%
@@ -82,11 +83,11 @@ cv_df =
     test = map(test, as_tibble)
   ) %>%
   mutate(
-    fit = map(train, ~glm(gf ~ w + ga, data = .x)),
+    fit = map(train, ~glm(w ~ pld + d + rank+ gf, data = .x)),
     rmse = map2_dbl(fit, test, ~rmse(model = .x, data = .y))
   )
 
-models <- map(cv_df$train, ~ glm(gf ~ w + ga, data = .))
+models <- map(cv_df$train, ~ glm(w ~ pld + d + rank+ gf, data = .))
 summary(map2_dbl(models, cv_df$test, modelr::rmse))
 
 cv_df %>%
@@ -101,11 +102,11 @@ cv_df2 =
     test = map(test, as_tibble)
   ) %>%
   mutate(
-    fit = map(train, ~glm(gf ~ part+l, data = .x)),
+    fit = map(train, ~glm(w ~ pld + d + rank + gf + ga, data = .x)),
     rmse = map2_dbl(fit, test, ~rmse(model = .x, data = .y))
   )
 
-models <- map(cv_df2$train, ~ glm(gf ~ part+l, data = .))
+models <- map(cv_df2$train, ~ glm(w ~ pld + d + rank + gf+ ga, data = .))
 summary(map2_dbl(models, cv_df2$test, modelr::rmse))
 
 cv_df2 %>%
@@ -114,11 +115,52 @@ cv_df2 %>%
 ```
 
 
+cross validation with violin plot
+```{r}
+cv_df =
+  crossv_mc(data, 100) %>% ##always use 100??????
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble))
+# cv_df %>% pull(train) %>% .[[1]] %>% as_tibble
+# cv_df %>% pull(test) %>% .[[1]] %>% as_tibble
+cv_df =
+  cv_df %>% 
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble))
+
+cv_df = 
+  cv_df %>% 
+  mutate(
+    fit1  = map(train, ~lm(w ~ pld + d + rank, data = .x)),
+    fit2  = map(train, ~lm(w ~ pld + d + rank + gf, data = .x)),
+    fit3  = map(train, ~lm(w ~ pld + d + rank + gf + ga, data = .x))) %>% 
+  mutate(
+    rmse_fit1 = map2_dbl(fit1, test, ~rmse(model = .x, data = .y)),
+    rmse_fit2 = map2_dbl(fit2, test, ~rmse(model = .x, data = .y)),
+    rmse_fit3 = map2_dbl(fit3, test, ~rmse(model = .x, data = .y)))
+
+cv_df %>% 
+  select(starts_with("rmse")) %>% 
+  pivot_longer(
+    everything(),
+    names_to = "model", 
+    values_to = "rmse",
+    names_prefix = "rmse_") %>% 
+  mutate(model = fct_inorder(model)) %>% 
+  ggplot(aes(x = model, y = rmse)) + geom_violin()+
+  ylab("rmse Value") +
+  xlab("Models") +
+  labs(title = "Violin Plot of rmse Values for Three Models")
+```
+
+
 Final regression model output
 
 
 ```{r}
-glm(gf ~ w + ga, data = data)
+summary(glm(w ~ pld + d + rank + gf+ ga, data = data))
 ```
 
 Results/output from regression model
@@ -128,5 +170,13 @@ This model will be gf = 2.7789gf+0.2573ga.
 That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would increase by 2.7789.
 
 
+```{r}
+filter_data = data %>% 
+  select(-country, -player) %>%  
+  na.omit()
+m=glm(w~., data = filter_data)
+m=lm(w~pld+d+rank, data = num)
+summary(m)
 
+```
 
