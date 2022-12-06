@@ -35,8 +35,13 @@ knitr::opts_chunk$set(
 wc_df <- read_csv("data/12_4_dataset.csv") %>%
   janitor::clean_names() 
 ```
+<br>
 
-### Bivariable Explorations
+### Bivariable Exploration Between Games Won and Various Predictors
+
+<br>
+
+#### 2022 FIFA Ranking
 
 <br>
 
@@ -57,6 +62,11 @@ wc_df <- read_csv("data/12_4_dataset.csv") %>%
     xaxis = list(title = "FIFA Ranking"), 
     yaxis = list(title = "Games Won"))
 ```
+There is a negative nonlinear association between FIFA Ranking and the number of games won in the World Cup. As a team's FIFA Ranking increases (i.e. moves further from the #1 slot), the number of games won in the World Cup decreases. This is expected due to the FIFA ranking scheme that assigns the #1 slot to the top team.
+
+<br>
+
+#### Number of Games Played
 
 <br>
 
@@ -77,6 +87,11 @@ wc_df <- read_csv("data/12_4_dataset.csv") %>%
     xaxis = list(title = "Games Played"), 
     yaxis = list(title = "Games Won"))
 ```
+There is a positive linear association between the number of games played and the number of games won in the World Cup. This is expected, as the opportunity to participate in a higher number of games increases the number of games that is possible for a team to win.
+
+<br>
+
+#### Number of Goals For
 
 <br>
 
@@ -93,10 +108,15 @@ wc_df <- read_csv("data/12_4_dataset.csv") %>%
     legendgroup = ~confederation,
     colors = viridis_pal(option = "D")(3)) %>% 
   layout(
-    title = "Number of Goals For vs. Number of World Cup Games Won in the World Cup", 
+    title = "Number of Goals Against Opponent vs. Number of World Cup Games Won in the World Cup", 
     xaxis = list(title = "Goals For"), 
     yaxis = list(title = "Games Won"))
 ```
+There is a positive linear association between the number of goals a country has scored against opponents (i.e. "goals for") and the number of games a country has won in the World Cup. 
+
+<br>
+
+#### Number of Goals Against
 
 <br>
 
@@ -113,10 +133,15 @@ wc_df <- read_csv("data/12_4_dataset.csv") %>%
     legendgroup = ~confederation,
     colors = viridis_pal(option = "D")(3)) %>% 
   layout(
-    title = "Number of Goals Against vs. Number of World Cup Games Won in the World Cup", 
+    title = "Number of Goals Scored Against vs. Number of World Cup Games Won in the World Cup",
     xaxis = list(title = "Goals Against"), 
     yaxis = list(title = "Games Won"))
 ```
+There is a positive association between the number of goals scored against a country (i.e. "goals against") and the number of games a country has won in the World Cup. 
+
+<br>
+
+#### Number of Games Drawn
 
 <br>
 
@@ -134,6 +159,7 @@ wc_df <- read_csv("data/12_4_dataset.csv") %>%
     colors = viridis_pal(option = "D")(3)) %>% 
   layout(
     title = "Number of Games Drawn vs. Number of World Cup Games Won in the World Cup", 
-    xaxis = list(title = "Number of Draws"), 
+    xaxis = list(title = "Games Drawn"), 
     yaxis = list(title = "Games Won"))
 ```
+There is a positive association between the number of games drawn and the number of games a country has won in the World Cup. 
