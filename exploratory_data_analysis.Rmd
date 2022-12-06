@@ -277,3 +277,5 @@ wc_df %>%
     xaxis = list(title = "Games Won"), 
     yaxis = list(title = "FIFA Ranking"))
 ```
+
+<br>
