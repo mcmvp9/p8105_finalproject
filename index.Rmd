@@ -16,7 +16,7 @@ h1.title {
 
 <center>
 
-<img src="images/2018_FIFApng.png" style="width:45%" class="center">
+<img src="images/worldcup_2022_maroon.jpg" style="width: 45%" class="center">
 
 <font size = "5">*As the world watches some of their favorite players play in the World Cup-- maybe for the first time or even the last-- a possible question on people's minds is how much of this is luck? Well let's try to put it to the test. There are many factors that could lead a team to make it to the World Cup.*</font>
 
@@ -38,9 +38,8 @@ We used data from the
 
 In the Exploratory Analyses tab, you can observe:
 
-  * H
-  * S
-  * H
+  * Geographic Analyses
+  * Bi-variable Analyses
 
 
 [project report](finalprojectreport.html)

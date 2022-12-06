@@ -46,12 +46,12 @@ wc_stats
     ## # A tibble: 80 × 10
     ##    country     part  pld   w     d     l     gf    ga    gd    pts  
     ##    <chr>       <chr> <chr> <chr> <chr> <chr> <chr> <chr> <chr> <chr>
-    ##  1 Brazil      22    "112" 75    18    19    "232" "106" +126  "243"
+    ##  1 Brazil      22    "113" 76    18    19    "236" "107" +129  "246"
     ##  2 Germany     20    "112" 68    21    23    "232" "130" +102  "225"
     ##  3 Italy       18    " 83" 45    21    17    "128" " 77" +51   "156"
     ##  4 Argentina   18    " 85" 46    15    24    "144" " 96" +48   "153"
     ##  5 France      16    " 70" 37    13    20    "129" " 81" +48   "124"
-    ##  6 England     16    " 72" 31    22    19    "100" " 66" +34   "115"
+    ##  6 England     16    " 73" 32    22    19    "103" " 66" +37   "118"
     ##  7 Spain       16    " 66" 31    16    19    "108" " 75" +33   "109"
     ##  8 Netherlands 11    " 54" 30    13    11    " 94" " 50" +44   "103"
     ##  9 Uruguay     14    " 59" 25    13    21    " 89" " 76" +13   " 88"
@@ -544,7 +544,7 @@ goals_country_df
     ## 35                                             Samuel Eto'o    56
     ## 36                                               Cyle Larin    25
     ## 37                                             Héldon Ramos    15
-    ## 38                                         Lee Ramoon[e][c]    12
+    ## 38                                         Lee Ramoon[f][c]    12
     ## 39                                             Hilaire Momi    10
     ## 40                                      Ezechiel N'Douassel    15
     ## 41                                           Alexis Sánchez    50
@@ -583,7 +583,7 @@ goals_country_df
     ## 74                                          Shota Arveladze    26
     ## 75                                           Miroslav Klose    71
     ## 76                                             Asamoah Gyan    51
-    ## 77                        Roy Chipolina[f] & Liam Walker[g]     5
+    ## 77                        Roy Chipolina[g] & Liam Walker[h]     5
     ## 78                                       Nikos Anastopoulos    29
     ## 79                                            Ricky Charles    37
     ## 80                                           Jason Cunliffe    25
@@ -653,7 +653,7 @@ goals_country_df
     ## 144                                           Muhammad Essa    11
     ## 145                             Fahed Attal & Ashraf Nu'man    14
     ## 146                                             Luis Tejada    43
-    ## 147                                           Reggie Davani    13
+    ## 147                                        Reggie Davani[e]    13
     ## 148                                        Roque Santa Cruz    32
     ## 149                                          Paolo Guerrero    38
     ## 150                                       Phil Younghusband    52
@@ -813,47 +813,3 @@ Output final dataset as `.csv` file for final project use.
 ``` r
 write.csv(final_merge, "./data/12_4_dataset.csv")
 ```
-
-# Below ways that I tried to change the name of the conderation by code
-
-final_dataset\[is.na(final_dataset)\] = “Something”
-
-mutate(confederation = ifelse(confederation == “NA”, “UEFA”))
-
--   big problem is it can make a change in the cell but it will be the
-    same for each of the NA
-
--   we want different for each cell
-
--   also tried doing “if_else” and it wasn’t successful
-
--   unfortunately there are missing for alot of different variable still
-
--   if we can get the code to work it will make it very easy to make the
-    changes
-
-Also to keep track this is missing data for both confederation and land
-area km are:<br>
-
--   England UEFA (can’t find for england alone in km)
-
--   East Germany 108330 UEFA
-
--   Scotland 77910 UEFA
-
--   Republic of Ireland UEFA 70273
-
--   Northern Ireland UEFA 14130
-
--   Wales UEFA 20780
-
--   Senegal, CAF
-
--   Spain, UEFA
-
-Just confederation missing: - Bosnia and Herzegovina, UEFA, 51209 -
-Trinidad and Tobago, CONCACAF, 5128 - United Arab Emirates, AFC, 83600 -
-wales 20780 - england 130,279
-
-**I found majority of land area km so we could actually use that one,
-only one missing is England **

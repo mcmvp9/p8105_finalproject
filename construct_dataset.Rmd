@@ -2,7 +2,7 @@
 title: "Dataset Creation"
 author: "Melvin Coleman"
 date: "12/2/2022"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}

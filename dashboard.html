@@ -1,0 +1,2128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Data Science Dashboard</title>
+
+<meta property="og:title" content="Data Science Dashboard" />
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+
+<link rel="icon" href="data:image/x-icon;" type="image/x-icon">
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script type="text/javascript">
+window.FlexDashboardComponents = [];
+</script>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/stickytableheaders-0.1.19/jquery.stickytableheaders.min.js"></script>
+<link href="site_libs/value-box-accent-static-0.6.0/theme-cosmo-value-box.css" rel="stylesheet" />
+<link href="site_libs/flexdashboard-css-0.6.0/flexdashboard.min.css" rel="stylesheet" />
+<link href="site_libs/flexdashboard-css-0.6.0/theme-cosmo.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<style type="text/css">
+/*
+  CSS for flexdashboard.js' use of Sly(). The sizing/position of this CSS needs to be
+  applied _before_ flexdashboard.js initializes, which is why this CSS has been pulled
+  out from flexdashboard.scss and inlined in the document's head.
+*/
+
+.storyboard-nav button {
+  background: transparent;
+  border: 0;
+  opacity: .3;
+  outline: none;
+  padding: 0;
+}
+
+.storyboard-nav button:hover,
+.storyboard-nav button:hover {
+  opacity: .5;
+}
+
+.storyboard-nav button:disabled,
+.storyboard-nav button:disabled {
+  opacity: .1;
+}
+
+.storyboard-nav .sbnext,
+.storyboard-nav .sbprev {
+  float: left;
+  width: 2%;
+  height: 120px;
+}
+
+.storyboard-nav .sbprev {
+  text-align: left;
+  width: 2%;
+}
+
+.storyboard-nav .sbnext {
+  float: right;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.storyboard-nav .sbframelist {
+  margin: 0 auto;
+  width: 94%;
+  height: 120px;
+  overflow: hidden;
+  text-shadow: none;
+  margin-bottom: 8px;
+}
+
+.storyboard-nav .sbframelist ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.storyboard-nav .sbframelist ul li {
+  float: left;
+  width: 270px;
+  height: 100%;
+  padding: 10px 10px 10px 10px;
+  margin-right: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.storyboard-nav .sbframelist ul li:last-child {
+  margin-right: 0px;
+}
+
+.sbframe-commentary {
+  width: 300px;
+}
+
+.sbframe-commentary ul {
+  padding-left: 22px;
+}
+
+.sbframe.active {
+  display: flex;
+}
+
+.sbframe:not(.active) {
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+html, body {
+  height: 100%;
+}
+
+#dashboard-container {
+  height: 100%;
+}
+}
+</style>
+
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="container-fluid">
+<div class="navbar-header">
+
+<span class="navbar-logo">
+  
+</span>
+<span class="navbar-brand">
+  Data Science Dashboard
+  <span class="navbar-author">
+        </span>
+</span>
+
+<button id="navbar-button" type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav navbar-nav navbar-left">
+</ul>
+<ul class="nav navbar-nav navbar-right">
+</ul>
+</div><!--/.nav-collapse-->
+</div><!--/.container-->
+</div><!--/.navbar-->
+
+<script type="text/javascript">
+
+
+var FlexDashboard = (function () {
+
+  // initialize options
+  var _options = {};
+
+  var FlexDashboard = function() {
+
+    // default options
+    _options = $.extend(_options, {
+      theme: "cosmo",
+      fillPage: false,
+      orientation: 'columns',
+      storyboard: false,
+      defaultFigWidth: 576,
+      defaultFigHeight: 461,
+      defaultFigWidthMobile: 360,
+      defaultFigHeightMobile: 461,
+      isMobile: false,
+      isPortrait: false,
+      resize_reload: true
+    });
+  };
+
+  function init(options) {
+
+    // extend default options
+    $.extend(true, _options, options);
+
+    // add ids to sections that don't have them (pandoc won't assign ids
+    // to e.g. sections with titles consisting of only chinese characters)
+    var nextId = 1;
+    $('.level1:not([id]),.level2:not([id]),.level3:not([id])').each(function() {
+      $(this).attr('id', 'dashboard-' + nextId++);
+    });
+
+    // find navbar items
+    var navbarItems = $('#flexdashboard-navbar');
+    if (navbarItems.length)
+      navbarItems = JSON.parse(navbarItems.html());
+    addNavbarItems(navbarItems);
+
+    // find the main dashboard container
+    var dashboardContainer = $('#dashboard-container');
+
+    // resolve mobile classes
+    resolveMobileClasses(dashboardContainer);
+
+    // one time global initialization for components
+    componentsInit(dashboardContainer);
+
+    // look for a global sidebar
+    var globalSidebar = dashboardContainer.find(".section.level1.sidebar");
+    if (globalSidebar.length > 0) {
+
+      // global layout for fullscreen displays
+      if (!isMobilePhone()) {
+
+         // hoist it up to the top level
+         globalSidebar.insertBefore(dashboardContainer);
+
+         // lay it out (set width/positions)
+         layoutSidebar(globalSidebar, dashboardContainer);
+
+      // tuck sidebar into first page for mobile phones
+      } else {
+
+        // convert it into a level3 section
+        globalSidebar.removeClass('sidebar');
+        globalSidebar.removeClass('level1');
+        globalSidebar.addClass('level3');
+        var h1 = globalSidebar.children('h1');
+        var h3 = $('<h3></h3>');
+        h3.append(h1.contents());
+        h3.insertBefore(h1);
+        h1.detach();
+
+        // move it into the first page
+        var page = dashboardContainer.find('.section.level1').first();
+        if (page.length > 0)
+          page.prepend(globalSidebar);
+      }
+    }
+
+    // look for pages to layout
+    var pages = $('div.section.level1');
+    if (pages.length > 0) {
+
+        // find the navbar and collapse on clicked
+        var navbar = $('#navbar');
+        navbar.on("click", "a[data-toggle!=dropdown]", null, function () {
+           navbar.collapse('hide');
+        });
+
+        // envelop the dashboard container in a tab content div
+        dashboardContainer.wrapInner('<div class="tab-content"></div>');
+
+        pages.each(function(index) {
+
+          // lay it out
+          layoutDashboardPage($(this));
+
+          // add it to the navbar
+          addToNavbar($(this), index === 0);
+
+        });
+
+    } else {
+
+      // remove the navbar and navbar button if we don't
+      // have any navbuttons
+      if (navbarItems.length === 0) {
+        $('#navbar').remove();
+        $('#navbar-button').remove();
+      }
+
+      // add the storyboard class if requested
+      if (_options.storyboard)
+        dashboardContainer.addClass('storyboard');
+
+      // layout the entire page
+      layoutDashboardPage(dashboardContainer);
+    }
+
+    // if we are in shiny we need to trigger a window resize event to
+    // force correct layout of shiny-bound-output elements
+    if (isShinyDoc())
+      $(window).trigger('resize');
+
+    // make main components visible
+    $('.section.sidebar').css('visibility', 'visible');
+    dashboardContainer.css('visibility', 'visible');
+
+    // handle location hash
+    handleLocationHash();
+
+    // intialize prism highlighting
+    initPrismHighlighting();
+
+    // record mobile and orientation state then register a handler
+    // to refresh if resize_reload is set to true and it changes
+    _options.isMobile = isMobilePhone();
+    _options.isPortrait = isPortrait();
+    if (_options.resize_reload) {
+      $(window).on('resize', function() {
+        if (_options.isMobile !== isMobilePhone() ||
+            _options.isPortrait !== isPortrait()) {
+          window.location.reload();
+        }
+      });
+    } else {
+      // if in desktop mode and resizing to mobile, make sure the heights are 100%
+      // This enforces what `fillpage.css` does for "wider" pages.
+      // Since we are not reloading once the page becomes small, we need to force the height to 100%
+      // This is a new situation introduced when `_options.resize_reload` is `false`
+      if (! _options.isMobile) {
+        // only add if `fillpage.css` was added in the first place
+        if (_options.fillPage) {
+          // fillpage.css
+          $("html,body,#dashboard").css("height", "100%");
+        }
+      }
+    }
+    // trigger layoutcomplete event
+    dashboardContainer.trigger('flexdashboard:layoutcomplete');
+  }
+
+  function resolveMobileClasses(dashboardContainer) {
+     // add top level layout class
+    dashboardContainer.addClass(isMobilePhone() ? 'mobile-layout' :
+                                                  'desktop-layout');
+
+    // look for .mobile sections and add .no-mobile to their peers
+    var mobileSections = $('.section.mobile');
+    mobileSections.each(function() {
+       var id = $(this).attr('id');
+       var nomobileId = id.replace(/-\d+$/, '');
+       $('#' + nomobileId).addClass('no-mobile');
+    });
+  }
+
+  function addNavbarItems(navbarItems) {
+
+    var navbarLeft = $('ul.navbar-left');
+    var navbarRight = $('ul.navbar-right');
+
+    for (var i = 0; i<navbarItems.length; i++) {
+
+      // get the item
+      var item = navbarItems[i];
+
+      // determine the container
+      var container = null;
+      if (item.align === "left")
+        container = navbarLeft;
+      else
+        container = navbarRight;
+
+      // navbar menu if we have multiple items
+      if (item.items) {
+        var menu = navbarMenu(null, item.icon, item.title, container);
+        for (var j = 0; j<item.items.length; j++) {
+          var subItem = item.items[j];
+          var li = $('<li></li>');
+          var a = navbarLink(subItem.icon, subItem.title, subItem.href, subItem.target);
+          a.removeClass("nav-link").addClass("dropdown-item");
+          li.append(a);
+          menu.append(li);
+        }
+      } else {
+        var li = $('<li class="nav-item"></li>');
+        li.append(navbarLink(item.icon, item.title, item.href, item.target));
+        container.append(li);
+      }
+    }
+  }
+
+  // create or get a reference to an existing dropdown menu
+  function navbarMenu(id, icon, title, container) {
+    var existingMenu = [];
+    if (id)
+      existingMenu = container.children('#' + id);
+    if (existingMenu.length > 0) {
+      return existingMenu.children('ul');
+    } else {
+      var li = $('<li class="nav-item"></li>');
+      if (id)
+        li.attr('id', id);
+      li.addClass('dropdown');
+      // auto add "Share" title on mobile if necessary
+      if (!title && icon && (icon === "fa-share-alt") && isMobilePhone())
+        title = "Share";
+      if (title) {
+        title = title + ' <span class="caret"></span>';
+      }
+      var a = navbarLink(icon, title, "#");
+      a.addClass('dropdown-toggle');
+      a.attr('data-toggle', 'dropdown');
+      a.attr('data-bs-toggle', 'dropdown');
+      a.attr('role', 'button');
+      a.attr('aria-expanded', 'false');
+      li.append(a);
+      var ul = $('<ul class="dropdown-menu"></ul>');
+      ul.attr('role', 'menu');
+      li.append(ul);
+      container.append(li);
+      return ul;
+    }
+  }
+
+  function addToNavbar(page, active) {
+
+    // capture the id and data-icon attribute (if any)
+    var id = page.attr('id');
+    var icon = page.attr('data-icon');
+    var navmenu = page.attr('data-navmenu');
+
+    // get hidden state (transfer this to navbar)
+    var hidden = page.hasClass('hidden');
+    page.removeClass('hidden');
+
+    // sanitize the id for use with bootstrap tabs
+    id = id.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_');
+    page.attr('id', id);
+
+    // get the wrapper
+    var wrapper = page.closest('.dashboard-page-wrapper');
+
+    // move the id to the wrapper
+    page.removeAttr('id');
+    wrapper.attr('id', id);
+
+    // add the tab-pane class to the wrapper
+    wrapper.addClass('tab-pane');
+    if (active)
+      wrapper.addClass('active');
+
+    // get a reference to the h1, discover its inner contens, then detach it
+    var h1 = wrapper.find('h1').first();
+    var title = h1.contents();
+    h1.detach();
+
+    // create a navbar item
+    var li = $('<li></li>');
+    var a = navbarLink(icon, title, '#' + id);
+    a.attr('data-toggle', 'tab');
+    li.append(a);
+
+    // add it to the navbar (or navbar menu if specified)
+    var container = $('ul.navbar-left');
+    if (navmenu) {
+      var menuId = navmenu.replace(/\s+/g, '');
+      var menu = navbarMenu(menuId, null, navmenu, container);
+      li.find("> a").removeClass("nav-link").addClass("dropdown-item");
+      menu.append(li);
+    } else {
+      li.addClass("nav-item")
+      container.append(li);
+    }
+
+    // hide it if requested
+    if (hidden)
+      li.addClass('hidden');
+  }
+
+  function navbarLink(icon, title, href, target) {
+
+    var a = $('<a class="nav-link"></a>');
+    if (icon) {
+
+      // get the name of the icon set and icon
+      var dashPos = icon.indexOf("-");
+      var iconSet = null;
+      var iconSplit = icon.split(" ");
+      if (iconSplit.length > 1) {
+        iconSet = iconSplit[0];
+        icon = iconSplit.slice(1).join(" ");
+      } else {
+        iconSet = icon.substring(0, dashPos);
+      }
+      var iconName = icon.substring(dashPos + 1);
+
+      // create the icon
+      var iconElement = $('<span class="' + iconSet + ' ' + icon + '"></span>');
+      if (title)
+        iconElement.css('margin-right', '7px');
+      a.append(iconElement);
+      // if href is null see if we can auto-generate based on icon (e.g. social)
+      if (!href)
+        maybeGenerateLinkFromIcon(iconName, a);
+    }
+    if (title)
+      a.append(title);
+
+    // add the href.
+    if (href) {
+      if (href === "source_embed") {
+        a.attr('href', '#');
+        a.attr('data-featherlight', "#flexdashboard-source-code");
+        a.featherlight({
+            beforeOpen: function(event){
+              $('body').addClass('unselectable');
+            },
+            afterClose: function(event){
+              $('body').removeClass('unselectable');
+            }
+        });
+      } else {
+        a.attr('href', href);
+      }
+    }
+
+    // add the arget
+    if (target)
+      a.attr('target', target);
+
+    return a;
+  }
+
+  // auto generate a link from an icon name (e.g. twitter) when possible
+  function maybeGenerateLinkFromIcon(iconName, a) {
+
+     var serviceLinks = {
+      "twitter": "https://twitter.com/share?text=" + encodeURIComponent(document.title) + "&url="+encodeURIComponent(location.href),
+      "facebook": "https://www.facebook.com/sharer/sharer.php?s=100&p[url]="+encodeURIComponent(location.href),
+      "linkedin": "https://www.linkedin.com/shareArticle?mini=true&url="+encodeURIComponent(location.href) + "&title=" + encodeURIComponent(document.title),
+      "pinterest": "https://pinterest.com/pin/create/link/?url="+encodeURIComponent(location.href) + "&description=" + encodeURIComponent(document.title)
+    };
+
+    var makeSocialLink = function(a, href) {
+      a.attr('href', '#');
+      a.on('click', function(e) {
+        e.preventDefault();
+        window.open(href);
+      });
+    };
+
+    $.each(serviceLinks, function(key, value) {
+      if (iconName.indexOf(key) !== -1)
+        makeSocialLink(a, value);
+    });
+  }
+
+  // layout a dashboard page
+  function layoutDashboardPage(page) {
+
+    // use a page wrapper so that free form content above the
+    // dashboard appears at the top rather than the side (as it
+    // would without the wrapper in a column orientation)
+    var wrapper = $('<div class="dashboard-page-wrapper"></div>');
+    page.wrap(wrapper);
+
+    // if there are no level2 or level3 headers synthesize a level3
+    // header to contain the (e.g. frame it, scroll container, etc.)
+    var headers = page.find('h2,h3');
+    if (headers.length === 0)
+      page.wrapInner('<div class="section level3"></div>');
+
+    // hoist up any content before level 2 or level 3 headers
+    var children = page.children();
+    children.each(function(index) {
+      if ($(this).hasClass('level2') || $(this).hasClass('level3'))
+        return false;
+      $(this).insertBefore(page);
+    });
+
+    // determine orientation and fillPage behavior for distinct media
+    var orientation, fillPage, storyboard;
+
+    // media: mobile phone
+    if (isMobilePhone()) {
+
+      // if there is a sidebar we need to ensure it's content
+      // is properly framed as an h3
+      var sidebar = page.find('.section.sidebar');
+      sidebar.removeClass('sidebar');
+      sidebar.wrapInner('<div class="section level3"></div>');
+      var h2 = sidebar.find('h2');
+      var h3 = $('<h3></h3>');
+      h3.append(h2.contents());
+      h3.insertBefore(h2);
+      h2.detach();
+
+      // wipeout h2 elements then enclose them in a single h2
+      var level2 = page.find('div.section.level2');
+      level2.each(function() {
+        level2.children('h2').remove();
+        level2.children().unwrap();
+      });
+      page.wrapInner('<div class="section level2"></div>');
+
+      // substitute mobile images
+      if (isPortrait()) {
+        var mobileFigures = $('img.mobile-figure');
+        mobileFigures.each(function() {
+          // get the src (might be base64 encoded)
+          var src = $(this).attr('src');
+
+          // find it's peer
+          var id = $(this).attr('data-mobile-figure-id');
+          var img = $('img[data-figure-id=' + id + "]");
+          img.attr('src', src)
+             .attr('width', _options.defaultFigWidthMobile)
+             .attr('height', _options.defaultFigHeightMobile);
+        });
+      }
+
+      // hoist storyboard commentary into it's own section
+      if (page.hasClass('storyboard')) {
+        var commentaryHR = page.find('div.section.level3 hr');
+        commentaryHR.each(function() {
+          var commentary = $(this).nextAll().detach();
+          var commentarySection = $('<div class="section level3"></div>');
+          commentarySection.append(commentary);
+          commentarySection.insertAfter($(this).closest('div.section.level3'));
+          $(this).remove();
+        });
+      }
+
+      // force a non full screen layout by columns
+      orientation = _options.orientation = 'columns';
+      fillPage = _options.fillPage = false;
+      storyboard = _options.storyboard = false;
+
+    // media: desktop
+    } else {
+
+      // determine orientation
+      orientation = page.attr('data-orientation');
+      if (orientation !== 'rows' && orientation != 'columns')
+        orientation = _options.orientation;
+
+      // determine storyboard mode
+      storyboard = page.hasClass('storyboard');
+
+      // fillPage based on options (force for storyboard)
+      fillPage = _options.fillPage || storyboard;
+
+      // handle sidebar
+      var sidebar = page.find('.section.level2.sidebar');
+      if (sidebar.length > 0)
+        layoutSidebar(sidebar, page);
+    }
+
+    // give it and it's parent divs height: 100% if we are in fillPage mode
+    if (fillPage) {
+      page.addClass('vertical-layout-fill');
+      page.css('height', '100%');
+      page.parents('div').css('height', '100%');
+    } else {
+      page.addClass('vertical-layout-scroll');
+    }
+
+    // perform the layout
+    if (storyboard)
+      layoutPageAsStoryboard(page);
+    else if (orientation === 'rows')
+      layoutPageByRows(page, fillPage);
+    else if (orientation === 'columns')
+      layoutPageByColumns(page, fillPage);
+  }
+
+  function layoutSidebar(sidebar, content) {
+
+    // get it out of the header hierarchy
+    sidebar = sidebar.first();
+    if (sidebar.hasClass('level1')) {
+      sidebar.removeClass('level1');
+      sidebar.children('h1').remove();
+    } else if (sidebar.hasClass('level2')) {
+      sidebar.removeClass('level2');
+      sidebar.children('h2').remove();
+    }
+
+    // determine width
+    var sidebarWidth = isTablet() ? 220 : 250;
+    var dataWidth = parseInt(sidebar.attr('data-width'));
+    if (dataWidth)
+      sidebarWidth = dataWidth;
+
+    // set the width and shift the page right to accomodate the sidebar
+    sidebar.css('width', sidebarWidth + 'px');
+    content.css('padding-left', sidebarWidth + 'px');
+
+    // wrap it's contents in a form
+    sidebar.wrapInner($('<form></form>'));
+  }
+
+  function layoutPageAsStoryboard(page) {
+
+    // create storyboard navigation
+    var nav = $('<div class="storyboard-nav"></div>');
+
+    // add navigation buttons
+    var prev = $('<button class="sbprev"><i class="fa fa-angle-left"></i></button>');
+    nav.append(prev);
+    var next= $('<button class="sbnext"><i class="fa fa-angle-right"></i></button>');
+    nav.append(next);
+
+    // add navigation frame
+    var frameList = $('<div class="sbframelist"></div>');
+    nav.append(frameList);
+    var ul = $('<ul></ul>');
+    frameList.append(ul);
+
+     // find all the level3 sections (those are the storyboard frames)
+    var frames = page.find('div.section.level3');
+    frames.each(function() {
+
+      // mark it
+      $(this).addClass('sbframe');
+
+      // divide it into chart content and (optional) commentary
+      $(this).addClass('dashboard-column-orientation');
+
+      // stuff the chart into it's own div w/ flex
+      $(this).wrapInner('<div class="sbframe-component"></div>');
+      setFlex($(this), 1);
+      var frame = $(this).children('.sbframe-component');
+
+      // extract the title from the h3
+      var li = $('<li></li>');
+      var h3 = frame.children('h3');
+      li.append(h3.contents());
+      h3.detach();
+      ul.append(li);
+
+      // extract commentary
+      var hr = frame.children('hr');
+      if (hr.length) {
+        var commentary = hr.nextAll().detach();
+        hr.remove();
+        var commentaryFrame = $('<div class="sbframe-commentary"></div>');
+        commentaryFrame.addClass('flowing-content-shim');
+        commentaryFrame.addClass('flowing-content-container');
+        commentaryFrame.append(commentary);
+        $(this).append(commentaryFrame);
+
+        // look for a data-commentary-width attribute
+        var commentaryWidth = $(this).attr('data-commentary-width');
+        if (commentaryWidth)
+          commentaryFrame.css('width', commentaryWidth + 'px');
+      }
+
+      // layout the chart (force flex)
+      var result = layoutChart(frame, true);
+
+      // ice the notes if there are none
+      if (!result.notes)
+        frame.find('.chart-notes').remove();
+
+      // set flex on chart
+      setFlex(frame, 1);
+    });
+
+    // create a div to hold all the frames
+    var frameContent = $('<div class="sbframe-content"></div>');
+    frameContent.addClass('dashboard-row-orientation');
+    frameContent.append(frames.detach());
+
+    // row orientation to stack nav and frame content
+    page.addClass('dashboard-row-orientation');
+    page.append(nav);
+    page.append(frameContent);
+    setFlex(frameContent, 1);
+
+    // initialize sly
+    var sly = new Sly(frameList, {
+    		horizontal: true,
+    		itemNav: 'basic',
+    		smart: true,
+    		activateOn: 'click',
+    		startAt: 0,
+    		scrollBy: 1,
+    		activatePageOn: 'click',
+    		speed: 200,
+    		moveBy: 600,
+    		dragHandle: true,
+    		dynamicHandle: true,
+    		clickBar: true,
+    		keyboardNavBy: 'items',
+    		next: next,
+    		prev: prev
+    	}).init();
+
+    // make first frame active
+    frames.removeClass('active');
+    frames.first().addClass('active');
+
+    // subscribe to frame changed events
+    sly.on('active', function (eventName, itemIndex) {
+      frames.removeClass('active');
+      frames.eq(itemIndex).addClass('active')
+                          .trigger('shown');
+    });
+  }
+
+  function layoutPageByRows(page, fillPage) {
+
+    // row orientation
+    page.addClass('dashboard-row-orientation');
+
+    // find all the level2 sections (those are the rows)
+    var rows = page.find('div.section.level2');
+
+    // if there are no level2 sections then treat the
+    // entire page as if it's a level 2 section
+    if (rows.length === 0) {
+      page.wrapInner('<div class="section level2"></div>');
+      rows = page.find('div.section.level2');
+    }
+
+    rows.each(function () {
+
+      // flags
+      var haveNotes = false;
+      var haveFlexHeight = true;
+
+      // remove the h2
+      $(this).children('h2').remove();
+
+      // check for a tabset
+      var isTabset = $(this).hasClass('tabset');
+      if (isTabset)
+        layoutTabset($(this));
+
+      // give it row layout semantics if it's not a tabset
+      if (!isTabset)
+        $(this).addClass('dashboard-row');
+
+      // find all of the level 3 subheads
+      var columns = $(this).find('div.section.level3');
+
+      // determine figureSizes sizes
+      var figureSizes = chartFigureSizes(columns);
+
+      // fixup the columns
+      columns.each(function(index) {
+
+        // layout the chart (force flex if we are in a tabset)
+        var result = layoutChart($(this), isTabset);
+
+        // update flexHeight state
+        if (!result.flex)
+          haveFlexHeight = false;
+
+        // update state
+        if (result.notes)
+          haveNotes = true;
+
+        // set the column flex based on the figure width
+        // (value boxes will just get the default figure width)
+        var chartWidth = figureSizes[index].width;
+        setFlex($(this), chartWidth + ' ' + chartWidth + ' 0px');
+
+      });
+
+      // remove empty chart note divs
+      if (isTabset)
+        $(this).find('.chart-notes').filter(function() {
+            return $(this).html() === "&nbsp;";
+        }).remove();
+      if (!haveNotes)
+        $(this).find('.chart-notes').remove();
+
+       // make it a flexbox row
+      if (haveFlexHeight)
+        $(this).addClass('dashboard-row-flex');
+
+      // now we can set the height on all the wrappers (based on maximum
+      // figure height + room for title and notes, or data-height on the
+      // container if specified). However, don't do this if there is
+      // no flex on any of the constituent columns
+      var flexHeight = null;
+      var dataHeight = parseInt($(this).attr('data-height'));
+      if (dataHeight)
+        flexHeight = adjustedHeight(dataHeight, columns.first());
+      else if (haveFlexHeight)
+        flexHeight = maxChartHeight(figureSizes, columns);
+      if (flexHeight) {
+        if (fillPage)
+          setFlex($(this), flexHeight + ' ' + flexHeight + ' 0px');
+        else {
+          $(this).css('height', flexHeight + 'px');
+          setFlex($(this), '0 0 ' + flexHeight + 'px');
+        }
+      }
+
+    });
+  }
+
+  function layoutPageByColumns(page, fillPage) {
+
+    // column orientation
+    page.addClass('dashboard-column-orientation');
+
+    // find all the level2 sections (those are the columns)
+    var columns = page.find('div.section.level2');
+
+    // if there are no level2 sections then treat the
+    // entire page as if it's a level 2 section
+    if (columns.length === 0) {
+      page.wrapInner('<div class="section level2"></div>');
+      columns = page.find('div.section.level2');
+    }
+
+    // layout each column
+    columns.each(function (index) {
+
+      // remove the h2
+      $(this).children('h2').remove();
+
+      // make it a flexbox column
+      $(this).addClass('dashboard-column');
+
+      // check for a tabset
+      var isTabset = $(this).hasClass('tabset');
+      if (isTabset)
+        layoutTabset($(this));
+
+      // find all the h3 elements
+      var rows = $(this).find('div.section.level3');
+
+      // get the figure sizes for the rows
+      var figureSizes = chartFigureSizes(rows);
+
+      // column flex is the max row width (or data-width if specified)
+      var flexWidth;
+      var dataWidth = parseInt($(this).attr('data-width'));
+      if (dataWidth)
+        flexWidth = dataWidth;
+      else
+        flexWidth = maxChartWidth(figureSizes);
+      setFlex($(this), flexWidth + ' ' + flexWidth + ' 0px');
+
+      // layout each chart
+      rows.each(function(index) {
+
+        // perform the layout
+        var result = layoutChart($(this), false);
+
+        // ice the notes if there are none
+        if (!result.notes)
+          $(this).find('.chart-notes').remove();
+
+        // set flex height based on figHeight, then adjust
+        if (result.flex) {
+          var chartHeight = figureSizes[index].height;
+          chartHeight = adjustedHeight(chartHeight, $(this));
+          if (fillPage)
+            setFlex($(this), chartHeight + ' ' + chartHeight + ' 0px');
+          else {
+            $(this).css('height', chartHeight + 'px');
+            setFlex($(this), chartHeight + ' ' + chartHeight + ' ' + chartHeight + 'px');
+          }
+        }
+      });
+    });
+  }
+
+  function chartFigureSizes(charts) {
+
+    // sizes
+    var figureSizes = new Array(charts.length);
+
+    // check each chart
+    charts.each(function(index) {
+
+      // start with default
+      figureSizes[index] = {
+        width: _options.defaultFigWidth,
+        height: _options.defaultFigHeight
+      };
+
+      // look for data-height or data-width then knit options
+      var dataWidth = parseInt($(this).attr('data-width'));
+      var dataHeight = parseInt($(this).attr('data-height'));
+      var knitrOptions = $(this).find('.knitr-options:first');
+      var knitrWidth, knitrHeight;
+      if (knitrOptions) {
+        knitrWidth = parseInt(knitrOptions.attr('data-fig-width'));
+        knitrHeight =  parseInt(knitrOptions.attr('data-fig-height'));
+      }
+
+      // width
+      if (dataWidth)
+        figureSizes[index].width = dataWidth;
+      else if (knitrWidth)
+        figureSizes[index].width = knitrWidth;
+
+      // height
+      if (dataHeight)
+        figureSizes[index].height = dataHeight;
+      else if (knitrHeight)
+        figureSizes[index].height = knitrHeight;
+    });
+
+    // return sizes
+    return figureSizes;
+  }
+
+  function maxChartHeight(figureSizes, charts) {
+
+    // first compute the maximum height
+    var maxHeight = _options.defaultFigHeight;
+    for (var i = 0; i<figureSizes.length; i++)
+      if (figureSizes[i].height > maxHeight)
+        maxHeight = figureSizes[i].height;
+
+    // now add offests for chart title and chart notes
+    if (charts.length)
+      maxHeight = adjustedHeight(maxHeight, charts.first());
+
+    return maxHeight;
+  }
+
+  function adjustedHeight(height, chart) {
+    if (chart.length > 0) {
+      var chartTitle = chart.find('.chart-title');
+      if (chartTitle.length)
+        height += chartTitle.first().outerHeight();
+      var chartNotes = chart.find('.chart-notes');
+      if (chartNotes.length)
+        height += chartNotes.first().outerHeight();
+    }
+    return height;
+  }
+
+  function maxChartWidth(figureSizes) {
+    var maxWidth = _options.defaultFigWidth;
+    for (var i = 0; i<figureSizes.length; i++)
+      if (figureSizes[i].width > maxWidth)
+        maxWidth = figureSizes[i].width;
+    return maxWidth;
+  }
+
+  // layout a chart
+  function layoutChart(chart, forceFlex) {
+
+    // state to return
+    var result = {
+      notes: false,
+      flex: false
+    };
+
+    // extract the title
+    var title = extractTitle(chart);
+
+    // find components that apply to this container
+    var components = componentsFind(chart);
+
+    // if it's a custom component then call it and return
+    var customComponents = componentsCustom(components);
+    if (customComponents.length) {
+      componentsLayout(customComponents, title, chart);
+      result.notes = false;
+      result.flex = forceFlex || componentsFlex(customComponents);
+      return result;
+    }
+
+    // put all the content in a chart wrapper div
+    chart.addClass('chart-wrapper');
+    chart.wrapInner('<div class="chart-stage"></div>');
+    var chartContent = chart.children('.chart-stage');
+
+    // flex the content if appropriate
+    result.flex = forceFlex || componentsFlex(components);
+    if (result.flex) {
+      // add flex classes
+      chart.addClass('chart-wrapper-flex');
+      chartContent.addClass('chart-stage-flex');
+
+      // additional shim to break out of flexbox sizing
+      chartContent.wrapInner('<div class="chart-shim"></div>');
+      chartContent = chartContent.children('.chart-shim');
+    }
+
+    // set custom data-padding attribute
+    var pad = chart.attr('data-padding');
+    if (pad) {
+      if (pad === "0")
+        chart.addClass('no-padding');
+      else {
+        pad = pad + 'px';
+        chartContent.css('left', pad)
+                    .css('top', pad)
+                    .css('right', pad)
+                    .css('bottom', pad)
+      }
+    }
+
+    // call compoents
+    componentsLayout(components, title, chartContent);
+
+    // also activate components on shiny output
+    findShinyOutput(chartContent).on('shiny:value',
+      function(event) {
+        var element = $(event.target);
+        setTimeout(function() {
+
+          // see if we opted out of flex based on our output (for shiny
+          // we can't tell what type of output we have until after the
+          // value is bound)
+          var components = componentsFind(element);
+          var flex = forceFlex || componentsFlex(components);
+          if (!flex) {
+            chart.css('height', "");
+            setFlex(chart, "");
+            chart.removeClass('chart-wrapper-flex');
+            chartContent.removeClass('chart-stage-flex');
+            chartContent.children().unwrap();
+          }
+
+          // perform layout
+          componentsLayout(components, title, element.parent());
+        }, 10);
+      });
+
+    // add the title
+    var chartTitle = $('<div class="chart-title"></div>');
+    chartTitle.append(title);
+    chart.prepend(chartTitle);
+
+    // add the notes section
+    var chartNotes = $('<div class="chart-notes"></div>');
+    chartNotes.html('&nbsp;');
+    chart.append(chartNotes);
+
+    // attempt to extract notes if we have a component
+    if (components.length)
+      result.notes = extractChartNotes(chartContent, chartNotes);
+
+    // return result
+    return result;
+  }
+
+  // build a tabset from a section div with the .tabset class
+  function layoutTabset(tabset) {
+
+    // check for fade option
+    var fade = tabset.hasClass("tabset-fade");
+    var pills = tabset.hasClass("tabset-pills");
+    var navClass = pills ? "nav-pills" : "nav-tabs";
+
+    // determine the heading level of the tabset and tabs
+    var match = tabset.attr('class').match(/level(\d) /);
+    if (match === null)
+      return;
+    var tabsetLevel = Number(match[1]);
+    var tabLevel = tabsetLevel + 1;
+
+    // find all subheadings immediately below
+    var tabs = tabset.find("div.section.level" + tabLevel);
+    if (!tabs.length)
+      return;
+
+    // create tablist and tab-content elements
+    var tabList = $('<ul class="nav ' + navClass + '" role="tablist"></ul>');
+    $(tabs[0]).before(tabList);
+    var tabContent = $('<div class="tab-content"></div>');
+    $(tabs[0]).before(tabContent);
+
+    // build the tabset
+    var activeTab = 0;
+    tabs.each(function(i) {
+
+      // get the tab div
+      var tab = $(tabs[i]);
+
+      // get the id then sanitize it for use with bootstrap tabs
+      var id = tab.attr('id');
+
+      // see if this is marked as the active tab
+      if (tab.hasClass('active'))
+        activeTab = i;
+
+      // sanitize the id for use with bootstrap tabs
+      id = id.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_');
+      tab.attr('id', id);
+
+      // get the heading element within it and grab it's text
+      var heading = tab.find('h' + tabLevel + ':first');
+      var headingDom = heading.contents();
+
+      // build and append the tab list item
+      var a = $('<a role="tab" data-toggle="tab" class="nav-link"></a>');
+      a.append(headingDom);
+      a.attr('href', '#' + id);
+      a.attr('aria-controls', id);
+      var li = $('<li role="presentation" class="nav-item"></li>');
+      li.append(a);
+      tabList.append(li);
+
+      // set it's attributes
+      tab.attr('role', 'tabpanel');
+      tab.addClass('tab-pane');
+      tab.addClass('tabbed-pane');
+      tab.addClass('no-title');
+      if (fade)
+        tab.addClass('fade');
+
+      // move it into the tab content div
+      tab.detach().appendTo(tabContent);
+    });
+
+    // set active tab
+    $(tabList.children()[activeTab]).tab("show");
+    var active = $(tabContent.children('div.section')[activeTab]);
+    active.addClass('active');
+    if (fade)
+      active.addClass('in');
+
+    // add nav-tabs-custom
+    tabset.addClass('nav-tabs-custom');
+
+    // internal layout is dashboard-column with tab-content flexing
+    tabset.addClass('dashboard-column');
+    setFlex(tabContent, 1);
+  }
+
+  // one time global initialization for components
+  function componentsInit(dashboardContainer) {
+    for (var i=0; i<window.FlexDashboardComponents.length; i++) {
+      var component = window.FlexDashboardComponents[i];
+      if (component.init)
+        component.init(dashboardContainer);
+    }
+  }
+
+  // find components that apply within a container
+  function componentsFind(container) {
+
+    // look for components
+    var components = [];
+    for (var i=0; i<window.FlexDashboardComponents.length; i++) {
+      var component = window.FlexDashboardComponents[i];
+      if (component.find(container).length)
+        components.push(component);
+    }
+
+    // if there were none then use a special flowing content component
+    // that just adds a scrollbar in fillPage mode
+    if (components.length == 0) {
+      components.push({
+        find: function(container) {
+          return container;
+        },
+
+        flex: function(fillPage) {
+          return fillPage;
+        },
+
+        layout: function(title, container, element, fillPage) {
+          if (fillPage) {
+            container.addClass('flowing-content-shim');
+            container.addClass('flowing-content-container');
+          }
+        }
+      });
+    }
+
+    return components;
+  }
+
+  // if there is a custom component then pick it out
+  function componentsCustom(components) {
+    var customComponent = [];
+    for (var i=0; i<components.length; i++)
+      if (components[i].type === "custom") {
+        customComponent.push(components[i]);
+        break;
+      }
+    return customComponent;
+  }
+
+  // query all components for flex
+  function componentsFlex(components) {
+
+    // no components at all means no flex
+    if (components.length === 0)
+      return false;
+
+    // otherwise query components (assume true unless we see false)
+    var isMobile = isMobilePhone();
+    for (var i=0; i<components.length; i++)
+      if (components[i].flex && !components[i].flex(_options.fillPage))
+        return false;
+    return true;
+  }
+
+  // layout all components
+  function componentsLayout(components, title, container) {
+    var isMobile = isMobilePhone();
+    for (var i=0; i<components.length; i++) {
+      var element = components[i].find(container);
+      if (components[i].layout) {
+        // call layout (don't call other components if it returns false)
+        var result = components[i].layout(title, container, element, _options.fillPage);
+        if (result === false)
+          return;
+      }
+    }
+  }
+
+  // get a reference to the h3, discover it's inner html, and remove it
+  function extractTitle(container) {
+    var h3 = container.children('h3').first();
+    var title = '';
+    if (!container.hasClass('no-title'))
+      title = h3.contents();
+    h3.detach();
+    return title;
+  }
+
+  // extract chart notes
+  function extractChartNotes(chartContent, chartNotes) {
+    // look for a terminating blockquote or image caption
+    var blockquote = chartContent.children('blockquote:last-child');
+    var caption = chartContent.children('div.image-container')
+                              .children('p.caption');
+    if (blockquote.length) {
+      chartNotes.empty().append(blockquote.children('p:first-child').contents());
+      blockquote.remove();
+      return true;
+    } else if (caption.length) {
+      chartNotes.empty().append(caption.contents());
+      caption.remove();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function findShinyOutput(chartContent) {
+    return chartContent.find('.shiny-text-output, .shiny-html-output');
+  }
+
+  // safely detect rendering on a mobile phone
+  function isMobilePhone() {
+    try
+    {
+      return ! window.matchMedia("only screen and (min-width: 768px)").matches;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  function isFillPage() {
+    return _options.fillPage;
+  }
+
+  // detect portrait mode
+  function isPortrait() {
+    return ($(window).width() < $(window).height());
+  }
+
+  // safely detect rendering on a tablet
+  function isTablet() {
+    try
+    {
+      return window.matchMedia("only screen and (min-width: 769px) and (max-width: 992px)").matches;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  // test whether this is a shiny doc
+  function isShinyDoc() {
+    return (typeof(window.Shiny) !== "undefined" && !!window.Shiny.outputBindings);
+  }
+
+  // set flex using vendor specific prefixes
+  function setFlex(el, flex) {
+    el.css('-webkit-box-flex', flex)
+      .css('-webkit-flex', flex)
+      .css('-ms-flex', flex)
+      .css('flex', flex);
+  }
+
+  // support bookmarking of pages
+  function handleLocationHash() {
+
+    // restore tab/page from bookmark
+    var hash = window.decodeURIComponent(window.location.hash);
+    if (hash.length > 0)
+      $('ul.nav a[href="' + hash + '"]').tab('show');
+    FlexDashboardUtils.manageActiveNavbarMenu();
+
+    // navigate to a tab when the history changes
+    window.addEventListener("popstate", function(e) {
+      var hash = window.decodeURIComponent(window.location.hash);
+      var activeTab = $('ul.nav a[href="' + hash + '"]');
+      if (activeTab.length) {
+        activeTab.tab('show');
+      } else {
+        $('ul.nav a:first').tab('show');
+      }
+      FlexDashboardUtils.manageActiveNavbarMenu();
+    });
+
+    // add a hash to the URL when the user clicks on a tab/page
+    $('.navbar-nav a[data-toggle="tab"]').on('click', function(e) {
+      var baseUrl = FlexDashboardUtils.urlWithoutHash(window.location.href);
+      var hash = FlexDashboardUtils.urlHash($(this).attr('href'));
+      var href = baseUrl + hash;
+      FlexDashboardUtils.setLocation(href);
+    });
+
+    // handle clicks of other links that should activate pages
+    var navPages = $('ul.navbar-nav li a[data-toggle=tab]');
+    navPages.each(function() {
+      var href =  $(this).attr('href');
+      var links = $('a[href="' + href + '"][data-toggle!=tab]');
+      links.each(function() {
+        $(this).on('click', function(e) {
+          window.FlexDashboardUtils.showPage(href);
+        });
+      });
+    });
+  }
+
+  // tweak Prism highlighting
+  function initPrismHighlighting() {
+
+    if (window.Prism) {
+      Prism.languages.insertBefore('r', 'comment', {
+        'heading': [
+          {
+            // title 1
+        	  // =======
+
+        	  // title 2
+        	  // -------
+        	  pattern: /\w+.*(?:\r?\n|\r)(?:====+|----+)/,
+            alias: 'operator'
+          },
+          {
+            // ### title 3
+            pattern: /(^\s*)###[^#].+/m,
+            lookbehind: true,
+            alias: 'operator'
+          }
+        ]
+      });
+
+      // prism highlight
+      Prism.highlightAll();
+    }
+  }
+
+  FlexDashboard.prototype = {
+    constructor: FlexDashboard,
+    init: init,
+    isMobilePhone: isMobilePhone,
+    isFillPage: isFillPage
+  };
+
+  return FlexDashboard;
+
+})();
+
+// utils
+window.FlexDashboardUtils = {
+  resizableImage: function(img) {
+    var src = img.attr('src');
+    var url = 'url("' + src + '")';
+    img.parent().css('background', url)
+                .css('background-size', 'contain')
+                .css('background-repeat', 'no-repeat')
+                .css('background-position', 'center')
+                .addClass('image-container');
+  },
+  setLocation: function(href) {
+    if (history && history.pushState) {
+      history.pushState(null, null, href);
+    } else {
+      window.location.replace(href);
+    }
+    setTimeout(function() {
+        window.scrollTo(0, 0);
+    }, 10);
+    this.manageActiveNavbarMenu();
+  },
+  showPage: function(href) {
+    $('ul.navbar-nav li a[href="' + href + '"]').tab('show');
+    var baseUrl = this.urlWithoutHash(window.location.href);
+    var loc = baseUrl + href;
+    this.setLocation(loc);
+  },
+  showLinkedValue: function(href) {
+    // check for a page link
+    if ($('ul.navbar-nav li a[data-toggle=tab][href="' + href + '"]').length > 0)
+      this.showPage(href);
+    else
+      window.open(href);
+  },
+  urlWithoutHash: function(url) {
+    var hashLoc = url.indexOf('#');
+    if (hashLoc != -1)
+      return url.substring(0, hashLoc);
+    else
+      return url;
+  },
+  urlHash: function(url) {
+    var hashLoc = url.indexOf('#');
+    if (hashLoc != -1)
+      return url.substring(hashLoc);
+    else
+      return "";
+  },
+  manageActiveNavbarMenu: function () {
+    // remove active from currently active tabs
+    $('.navbar ul.nav .active').removeClass('active');
+    // find the active tab
+    var activeTab = $('.dashboard-page-wrapper.tab-pane.active');
+    if (activeTab.length > 0) {
+      var tabId = activeTab.attr('id');
+      if (tabId)
+        $(".navbar ul.nav a[href='#" + tabId + "']").tab("show");
+    }
+  }
+};
+
+window.FlexDashboard = new FlexDashboard();
+
+// empty content
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    if (container.find('p').length == 0)
+      return container;
+    else
+      return $();
+  }
+})
+
+// plot image
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('p')
+                    .children('img:only-child');
+  },
+
+  layout: function(title, container, element, fillPage) {
+    FlexDashboardUtils.resizableImage(element);
+  }
+});
+
+// plot image (figure style)
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('div.figure').children('img');
+  },
+
+  layout: function(title, container, element, fillPage) {
+    FlexDashboardUtils.resizableImage(element);
+  }
+});
+
+// htmlwidget
+window.FlexDashboardComponents.push({
+
+  init: function(dashboardContainer) {
+    // trigger "shown" after initial layout to force static htmlwidgets
+    // in runtime: shiny to be resized after the dom has been transformed
+    dashboardContainer.on('flexdashboard:layoutcomplete', function(event) {
+      setTimeout(function() {
+        dashboardContainer.trigger('shown');
+      }, 200);
+    });
+  },
+
+  find: function(container) {
+    return container.children('div[id^="htmlwidget-"],div.html-widget');
+  }
+});
+
+// gauge
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('div.html-widget.gauge');
+  },
+
+  flex: function(fillPage) {
+    return false;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+
+  }
+
+});
+
+// shiny output
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    return container.children('div[class^="shiny-"]');
+  }
+});
+
+// bootstrap table
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    var bsTable = container.find('table.table');
+    if (bsTable.length !== 0)
+      return bsTable;
+    else
+      return container.find('tr.header').parent('thead').parent('table');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+    // alias variables
+    var bsTable = element;
+
+    // fixup xtable generated tables with a proper thead
+    var headerRow = bsTable.find('tbody > tr:first-child > th').parent();
+    if (headerRow.length > 0) {
+      var thead = $('<thead></thead>');
+      bsTable.prepend(thead);
+      headerRow.detach().appendTo(thead);
+    }
+
+    // improve appearance
+    container.addClass('bootstrap-table');
+
+    // for fill page provide scrolling w/ sticky headers
+    if (fillPage) {
+      // force scrollbar on overflow
+      container.addClass('flowing-content-shim');
+
+      // stable table headers when scrolling
+      bsTable.stickyTableHeaders({
+        scrollableArea: container
+      });
+    }
+  }
+});
+
+// embedded shiny app
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.find('iframe.shiny-frame');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+    if (fillPage) {
+      element.attr('height', '100%');
+    } else {
+      // provide default height if necessary
+      var height = element.get(0).style.height;
+      if (!height)
+        height = element.attr('height');
+      if (!height)
+        element.attr('height', 500);
+    }
+  }
+});
+
+// shiny fillRow or fillCol
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.find('.flexfill-container');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+    if (fillPage)
+      element.css('height', '100%');
+    else {
+      // provide default height if necessary
+      var height = element.get(0).style.height;
+      if (height === "100%" || height === "auto" || height === "initial" ||
+          height === "inherit" || !height) {
+        element.css('height', 500);
+      }
+    }
+  }
+});
+
+// valueBox
+window.FlexDashboardComponents.push({
+
+  type: "custom",
+
+  find: function(container) {
+    if (container.find('span.value-output, .shiny-valuebox-output').length)
+      return container;
+    else
+      return $();
+  },
+
+  flex: function(fillPage) {
+    return false;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+    // alias variables
+    var chartTitle = title;
+    var valueBox = element;
+
+    // add value-box class to container
+    container.addClass('value-box');
+
+    // value paragraph
+    var value = $('<p class="value"></p>');
+
+    // if we have shiny-text-output then just move it in
+    var valueOutputSpan = [];
+    var shinyOutput = valueBox.find('.shiny-valuebox-output').detach();
+    if (shinyOutput.length) {
+      valueBox.children().remove();
+      shinyOutput.html("&mdash;");
+      value.append(shinyOutput);
+    } else {
+      // extract the value (remove leading vector index)
+      var chartValue = valueBox.text().trim();
+      chartValue = chartValue.replace("[1] ", "");
+      valueOutputSpan = valueBox.find('span.value-output').detach();
+      valueBox.children().remove();
+      value.text(chartValue);
+    }
+
+    // caption
+    var caption = $('<p class="caption"></p>');
+    caption.append(chartTitle);
+
+    // build inner div for value box and add it
+    var inner = $('<div class="inner"></div>');
+    inner.append(value);
+    inner.append(caption);
+    valueBox.append(inner);
+
+    // add icon if specified
+    var icon = $('<div class="icon"><i></i></div>');
+    valueBox.append(icon);
+    function setIcon(chartIcon) {
+      var iconLib = "";
+      var iconSplit = chartIcon.split(" ");
+      if (iconSplit.length > 1) {
+        iconLib = iconSplit[0];
+        chartIcon = iconSplit.slice(1).join(" ");
+      } else {
+        var components = chartIcon.split("-");
+        if (components.length > 1)
+          iconLib = components[0];
+      }
+      icon.children('i').attr('class', iconLib + ' ' + chartIcon);
+    }
+    var chartIcon = valueBox.attr('data-icon');
+    if (chartIcon)
+      setIcon(chartIcon);
+
+    // handle data attributes in valueOutputSpan
+    function handleValueOutput(valueOutput) {
+
+      // caption
+      var dataCaption = valueOutput.attr('data-caption');
+      if (dataCaption)
+        caption.html(dataCaption);
+
+      // icon
+      var dataIcon = valueOutput.attr('data-icon');
+      if (dataIcon)
+        setIcon(dataIcon);
+
+      // If valueBox(color=) was an accent color, this attr should
+      // be populated with the accent color and the relevant CSS comes
+      // in through HTML dependencies
+      var dataColorAccent = valueOutput.attr('data-color-accent');
+      var valueBoxClasses = "value-box-" + (["primary", "info", "danger", "warning", "success"].join(" value-box-"));
+      if (dataColorAccent) {
+        valueBox.removeClass(valueBoxClasses);
+        valueBox.addClass('value-box-' + dataColorAccent);
+      }
+
+      // If valueBox(color=) was a CSS color, these other data-color-*
+      // attrs will be populated
+      var dataColor = valueOutput.attr('data-color');
+      if (dataColor) {
+        valueBox.removeClass(valueBoxClasses);
+        valueBox.css('background-color', dataColor);
+      }
+      var dataColorText = valueOutput.attr('data-color-text');
+      if (dataColorText) {
+        valueBox.find(".inner").css('color', dataColorText);
+      }
+      var dataColorIcon = valueOutput.attr('data-color-icon');
+      if (dataColorIcon) {
+        valueBox.find(".icon").css('color', dataColorIcon);
+      }
+
+      // url
+      var dataHref = valueOutput.attr('data-href');
+      if (dataHref) {
+        valueBox.addClass('linked-value');
+        valueBox.off('click.value-box');
+        valueBox.on('click.value-box', function(e) {
+          window.FlexDashboardUtils.showLinkedValue(dataHref);
+        });
+      }
+    }
+
+    // check for a valueOutputSpan
+    if (valueOutputSpan.length > 0) {
+      handleValueOutput(valueOutputSpan);
+    }
+
+    // if we have a shinyOutput then bind a listener to handle
+    // new valueOutputSpan values
+    shinyOutput.on('shiny:value',
+      function(event) {
+        var element = $(event.target);
+        setTimeout(function() {
+          var valueOutputSpan = element.find('span.value-output');
+          if (valueOutputSpan.length > 0)
+            handleValueOutput(valueOutputSpan);
+        }, 10);
+      }
+    );
+  }
+});
+</script>
+
+<div id="dashboard-container">
+
+<div id="column" class="section level2" data-width="650">
+<h2>Column</h2>
+</div>
+<div id="problem-2" class="section level1">
+<h1>Problem 2</h1>
+<div id="chart-a" class="section level3">
+<h3>Chart A</h3>
+Loading the Instacart data
+<div class="knitr-options" data-fig-width="768" data-fig-height="576">
+
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;instacart&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>instacart <span class="ot">=</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  instacart <span class="sc">%&gt;%</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(instacart)</span></code></pre></div>
+Creating a Plotly Barchart
+<div class="knitr-options" data-fig-width="768" data-fig-height="576">
+
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>instacart <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(aisle) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">aisle =</span> <span class="fu">fct_reorder</span>(aisle, n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_ly</span>(<span class="at">x =</span> <span class="sc">~</span>aisle, <span class="at">y =</span> <span class="sc">~</span>n, <span class="at">color =</span> <span class="sc">~</span>aisle, <span class="at">type =</span> <span class="st">&quot;bar&quot;</span>, <span class="at">colors =</span> <span class="st">&quot;viridis&quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-d5a67e54b5103533697e" style="width:90%;height:576px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d5a67e54b5103533697e">{"x":{"visdat":{"3f98197f5d84":["function () ","plotlyVisDat"]},"cur_data":"3f98197f5d84","attrs":{"3f98197f5d84":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"aisle","type":"category","categoryorder":"array","categoryarray":["butter","oils vinegars","dry pasta","candy chocolate","canned meals beans","spreads","cream","nuts seeds dried fruit","canned jarred vegetables","paper goods","hot dogs bacon sausage","other creams cheeses","baking ingredients","baby food formula","packaged produce","juice nectars","soup broth bouillon","fresh dips tapenades","fresh herbs","cereal","soft drinks","lunch meat","energy granola bars","frozen meals","crackers","eggs","frozen produce","ice cream ice","refrigerated","bread","soy lactosefree","chips pretzels","milk","water seltzer sparkling water","packaged cheese","yogurt","packaged vegetables fruits","fresh fruits","fresh vegetables"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"n"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["butter"],"y":[10575],"type":"bar","name":"butter","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["oils vinegars"],"y":[10620],"type":"bar","name":"oils vinegars","marker":{"color":"rgba(70,11,94,1)","line":{"color":"rgba(70,11,94,1)"}},"textfont":{"color":"rgba(70,11,94,1)"},"error_y":{"color":"rgba(70,11,94,1)"},"error_x":{"color":"rgba(70,11,94,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["dry pasta"],"y":[11298],"type":"bar","name":"dry pasta","marker":{"color":"rgba(72,21,103,1)","line":{"color":"rgba(72,21,103,1)"}},"textfont":{"color":"rgba(72,21,103,1)"},"error_y":{"color":"rgba(72,21,103,1)"},"error_x":{"color":"rgba(72,21,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["candy chocolate"],"y":[11453],"type":"bar","name":"candy chocolate","marker":{"color":"rgba(72,29,111,1)","line":{"color":"rgba(72,29,111,1)"}},"textfont":{"color":"rgba(72,29,111,1)"},"error_y":{"color":"rgba(72,29,111,1)"},"error_x":{"color":"rgba(72,29,111,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["canned meals beans"],"y":[11774],"type":"bar","name":"canned meals beans","marker":{"color":"rgba(72,38,119,1)","line":{"color":"rgba(72,38,119,1)"}},"textfont":{"color":"rgba(72,38,119,1)"},"error_y":{"color":"rgba(72,38,119,1)"},"error_x":{"color":"rgba(72,38,119,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["spreads"],"y":[12102],"type":"bar","name":"spreads","marker":{"color":"rgba(71,47,125,1)","line":{"color":"rgba(71,47,125,1)"}},"textfont":{"color":"rgba(71,47,125,1)"},"error_y":{"color":"rgba(71,47,125,1)"},"error_x":{"color":"rgba(71,47,125,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["cream"],"y":[12356],"type":"bar","name":"cream","marker":{"color":"rgba(69,55,129,1)","line":{"color":"rgba(69,55,129,1)"}},"textfont":{"color":"rgba(69,55,129,1)"},"error_y":{"color":"rgba(69,55,129,1)"},"error_x":{"color":"rgba(69,55,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["nuts seeds dried fruit"],"y":[12532],"type":"bar","name":"nuts seeds dried fruit","marker":{"color":"rgba(66,63,133,1)","line":{"color":"rgba(66,63,133,1)"}},"textfont":{"color":"rgba(66,63,133,1)"},"error_y":{"color":"rgba(66,63,133,1)"},"error_x":{"color":"rgba(66,63,133,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["canned jarred vegetables"],"y":[12679],"type":"bar","name":"canned jarred vegetables","marker":{"color":"rgba(63,71,136,1)","line":{"color":"rgba(63,71,136,1)"}},"textfont":{"color":"rgba(63,71,136,1)"},"error_y":{"color":"rgba(63,71,136,1)"},"error_x":{"color":"rgba(63,71,136,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["paper goods"],"y":[12694],"type":"bar","name":"paper goods","marker":{"color":"rgba(61,78,138,1)","line":{"color":"rgba(61,78,138,1)"}},"textfont":{"color":"rgba(61,78,138,1)"},"error_y":{"color":"rgba(61,78,138,1)"},"error_x":{"color":"rgba(61,78,138,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["hot dogs bacon sausage"],"y":[12813],"type":"bar","name":"hot dogs bacon sausage","marker":{"color":"rgba(57,85,140,1)","line":{"color":"rgba(57,85,140,1)"}},"textfont":{"color":"rgba(57,85,140,1)"},"error_y":{"color":"rgba(57,85,140,1)"},"error_x":{"color":"rgba(57,85,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["other creams cheeses"],"y":[12820],"type":"bar","name":"other creams cheeses","marker":{"color":"rgba(54,93,141,1)","line":{"color":"rgba(54,93,141,1)"}},"textfont":{"color":"rgba(54,93,141,1)"},"error_y":{"color":"rgba(54,93,141,1)"},"error_x":{"color":"rgba(54,93,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["baking ingredients"],"y":[13088],"type":"bar","name":"baking ingredients","marker":{"color":"rgba(50,100,142,1)","line":{"color":"rgba(50,100,142,1)"}},"textfont":{"color":"rgba(50,100,142,1)"},"error_y":{"color":"rgba(50,100,142,1)"},"error_x":{"color":"rgba(50,100,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["baby food formula"],"y":[13198],"type":"bar","name":"baby food formula","marker":{"color":"rgba(48,106,142,1)","line":{"color":"rgba(48,106,142,1)"}},"textfont":{"color":"rgba(48,106,142,1)"},"error_y":{"color":"rgba(48,106,142,1)"},"error_x":{"color":"rgba(48,106,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["packaged produce"],"y":[13460],"type":"bar","name":"packaged produce","marker":{"color":"rgba(45,113,142,1)","line":{"color":"rgba(45,113,142,1)"}},"textfont":{"color":"rgba(45,113,142,1)"},"error_y":{"color":"rgba(45,113,142,1)"},"error_x":{"color":"rgba(45,113,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["juice nectars"],"y":[14350],"type":"bar","name":"juice nectars","marker":{"color":"rgba(42,119,142,1)","line":{"color":"rgba(42,119,142,1)"}},"textfont":{"color":"rgba(42,119,142,1)"},"error_y":{"color":"rgba(42,119,142,1)"},"error_x":{"color":"rgba(42,119,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["soup broth bouillon"],"y":[15109],"type":"bar","name":"soup broth bouillon","marker":{"color":"rgba(40,125,142,1)","line":{"color":"rgba(40,125,142,1)"}},"textfont":{"color":"rgba(40,125,142,1)"},"error_y":{"color":"rgba(40,125,142,1)"},"error_x":{"color":"rgba(40,125,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["fresh dips tapenades"],"y":[15142],"type":"bar","name":"fresh dips tapenades","marker":{"color":"rgba(37,131,142,1)","line":{"color":"rgba(37,131,142,1)"}},"textfont":{"color":"rgba(37,131,142,1)"},"error_y":{"color":"rgba(37,131,142,1)"},"error_x":{"color":"rgba(37,131,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["fresh herbs"],"y":[16052],"type":"bar","name":"fresh herbs","marker":{"color":"rgba(35,138,141,1)","line":{"color":"rgba(35,138,141,1)"}},"textfont":{"color":"rgba(35,138,141,1)"},"error_y":{"color":"rgba(35,138,141,1)"},"error_x":{"color":"rgba(35,138,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["cereal"],"y":[16201],"type":"bar","name":"cereal","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["soft drinks"],"y":[16279],"type":"bar","name":"soft drinks","marker":{"color":"rgba(31,150,139,1)","line":{"color":"rgba(31,150,139,1)"}},"textfont":{"color":"rgba(31,150,139,1)"},"error_y":{"color":"rgba(31,150,139,1)"},"error_x":{"color":"rgba(31,150,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["lunch meat"],"y":[16957],"type":"bar","name":"lunch meat","marker":{"color":"rgba(30,157,137,1)","line":{"color":"rgba(30,157,137,1)"}},"textfont":{"color":"rgba(30,157,137,1)"},"error_y":{"color":"rgba(30,157,137,1)"},"error_x":{"color":"rgba(30,157,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["energy granola bars"],"y":[17449],"type":"bar","name":"energy granola bars","marker":{"color":"rgba(32,163,134,1)","line":{"color":"rgba(32,163,134,1)"}},"textfont":{"color":"rgba(32,163,134,1)"},"error_y":{"color":"rgba(32,163,134,1)"},"error_x":{"color":"rgba(32,163,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["frozen meals"],"y":[18221],"type":"bar","name":"frozen meals","marker":{"color":"rgba(35,169,131,1)","line":{"color":"rgba(35,169,131,1)"}},"textfont":{"color":"rgba(35,169,131,1)"},"error_y":{"color":"rgba(35,169,131,1)"},"error_x":{"color":"rgba(35,169,131,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["crackers"],"y":[19592],"type":"bar","name":"crackers","marker":{"color":"rgba(41,175,127,1)","line":{"color":"rgba(41,175,127,1)"}},"textfont":{"color":"rgba(41,175,127,1)"},"error_y":{"color":"rgba(41,175,127,1)"},"error_x":{"color":"rgba(41,175,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["eggs"],"y":[19875],"type":"bar","name":"eggs","marker":{"color":"rgba(50,182,122,1)","line":{"color":"rgba(50,182,122,1)"}},"textfont":{"color":"rgba(50,182,122,1)"},"error_y":{"color":"rgba(50,182,122,1)"},"error_x":{"color":"rgba(50,182,122,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["frozen produce"],"y":[22453],"type":"bar","name":"frozen produce","marker":{"color":"rgba(60,187,117,1)","line":{"color":"rgba(60,187,117,1)"}},"textfont":{"color":"rgba(60,187,117,1)"},"error_y":{"color":"rgba(60,187,117,1)"},"error_x":{"color":"rgba(60,187,117,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["ice cream ice"],"y":[22676],"type":"bar","name":"ice cream ice","marker":{"color":"rgba(72,193,110,1)","line":{"color":"rgba(72,193,110,1)"}},"textfont":{"color":"rgba(72,193,110,1)"},"error_y":{"color":"rgba(72,193,110,1)"},"error_x":{"color":"rgba(72,193,110,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["refrigerated"],"y":[23228],"type":"bar","name":"refrigerated","marker":{"color":"rgba(86,198,103,1)","line":{"color":"rgba(86,198,103,1)"}},"textfont":{"color":"rgba(86,198,103,1)"},"error_y":{"color":"rgba(86,198,103,1)"},"error_x":{"color":"rgba(86,198,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["bread"],"y":[23635],"type":"bar","name":"bread","marker":{"color":"rgba(100,203,94,1)","line":{"color":"rgba(100,203,94,1)"}},"textfont":{"color":"rgba(100,203,94,1)"},"error_y":{"color":"rgba(100,203,94,1)"},"error_x":{"color":"rgba(100,203,94,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["soy lactosefree"],"y":[26240],"type":"bar","name":"soy lactosefree","marker":{"color":"rgba(116,208,85,1)","line":{"color":"rgba(116,208,85,1)"}},"textfont":{"color":"rgba(116,208,85,1)"},"error_y":{"color":"rgba(116,208,85,1)"},"error_x":{"color":"rgba(116,208,85,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["chips pretzels"],"y":[31269],"type":"bar","name":"chips pretzels","marker":{"color":"rgba(132,212,75,1)","line":{"color":"rgba(132,212,75,1)"}},"textfont":{"color":"rgba(132,212,75,1)"},"error_y":{"color":"rgba(132,212,75,1)"},"error_x":{"color":"rgba(132,212,75,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["milk"],"y":[32644],"type":"bar","name":"milk","marker":{"color":"rgba(148,216,64,1)","line":{"color":"rgba(148,216,64,1)"}},"textfont":{"color":"rgba(148,216,64,1)"},"error_y":{"color":"rgba(148,216,64,1)"},"error_x":{"color":"rgba(148,216,64,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["water seltzer sparkling water"],"y":[36617],"type":"bar","name":"water seltzer sparkling water","marker":{"color":"rgba(166,219,53,1)","line":{"color":"rgba(166,219,53,1)"}},"textfont":{"color":"rgba(166,219,53,1)"},"error_y":{"color":"rgba(166,219,53,1)"},"error_x":{"color":"rgba(166,219,53,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["packaged cheese"],"y":[41699],"type":"bar","name":"packaged cheese","marker":{"color":"rgba(184,222,41,1)","line":{"color":"rgba(184,222,41,1)"}},"textfont":{"color":"rgba(184,222,41,1)"},"error_y":{"color":"rgba(184,222,41,1)"},"error_x":{"color":"rgba(184,222,41,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["yogurt"],"y":[55240],"type":"bar","name":"yogurt","marker":{"color":"rgba(202,225,31,1)","line":{"color":"rgba(202,225,31,1)"}},"textfont":{"color":"rgba(202,225,31,1)"},"error_y":{"color":"rgba(202,225,31,1)"},"error_x":{"color":"rgba(202,225,31,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["packaged vegetables fruits"],"y":[78493],"type":"bar","name":"packaged vegetables fruits","marker":{"color":"rgba(220,227,24,1)","line":{"color":"rgba(220,227,24,1)"}},"textfont":{"color":"rgba(220,227,24,1)"},"error_y":{"color":"rgba(220,227,24,1)"},"error_x":{"color":"rgba(220,227,24,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["fresh fruits"],"y":[150473],"type":"bar","name":"fresh fruits","marker":{"color":"rgba(237,229,27,1)","line":{"color":"rgba(237,229,27,1)"}},"textfont":{"color":"rgba(237,229,27,1)"},"error_y":{"color":"rgba(237,229,27,1)"},"error_x":{"color":"rgba(237,229,27,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["fresh vegetables"],"y":[150609],"type":"bar","name":"fresh vegetables","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<hr />
+</div>
+<div id="chart-b" class="section level3">
+<h3>Chart B</h3>
+<div class="knitr-options" data-fig-width="768" data-fig-height="576">
+
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;ny_noaa&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ny_noaa <span class="ot">=</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  ny_noaa <span class="sc">%&gt;%</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(ny_noaa)</span></code></pre></div>
+<div class="knitr-options" data-fig-width="768" data-fig-height="576">
+
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ny_noaa_tidy2 <span class="ot">=</span>  </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  ny_noaa <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">2000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">separate</span>(date, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.integer</span>(year), <span class="at">month =</span> <span class="fu">as.integer</span>(month), <span class="at">day =</span> <span class="fu">as.integer</span>(day)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> month.name[<span class="fu">as.integer</span>(month)]) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tmin=</span> <span class="fu">as.numeric</span>(tmin)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tmin =</span> <span class="fu">as.numeric</span>(tmin <span class="sc">/</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tmax=</span> <span class="fu">as.numeric</span>(tmax)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tmax =</span> <span class="fu">as.numeric</span>(tmax <span class="sc">/</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prcp=</span> <span class="fu">as.numeric</span>(prcp)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prcp =</span> <span class="fu">as.numeric</span>(prcp <span class="sc">/</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a> <span class="fu">select</span>(id, year, month, day, prcp, snow, snwd, tmax, tmin)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>ny_noaa_tidy2</span></code></pre></div>
+<pre><code># A tibble: 2,000 × 9
+   id           year month       day  prcp  snow  snwd  tmax  tmin
+   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 USC00307633  1989 August       30   6.4     0     0  24.4  20.6
+ 2 USC00303065  1986 August       17   0       0     0  NA    NA  
+ 3 USC00301401  1999 June          5   0       0     0  26.1   7.8
+ 4 USC00307210  1994 January      24   0       0   508  NA    NA  
+ 5 USC00305925  1989 October      29   0       0     0  NA    NA  
+ 6 USC00306820  2001 March         9  NA      NA    NA  NA    NA  
+ 7 USC00304207  2008 September     8   0.3     0     0  20     7.8
+ 8 USC00307721  2006 June          9  10.2     0     0  NA    NA  
+ 9 USC00305751  1985 January       3   0      NA    NA  NA    NA  
+10 USC00306047  1986 July         20   0       0     0  NA    NA  
+# … with 1,990 more rows</code></pre>
+<div class="knitr-options" data-fig-width="768" data-fig-height="576">
+
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">pull</span>(ny_noaa_tidy2, tmax), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] 13.76264</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pull</span>(ny_noaa_tidy2, tmax) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] 13.76264</code></pre>
+<div class="knitr-options" data-fig-width="768" data-fig-height="576">
+
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ny_noaa_tidy2 <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">text_label =</span> <span class="fu">str_c</span>(<span class="st">&quot;tmax&quot;</span>, tmax, <span class="st">&quot;tmin&quot;</span>, tmin)) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="sc">~</span>tmax, <span class="at">y =</span> <span class="sc">~</span>tmin, <span class="at">type =</span> <span class="st">&quot;scatter&quot;</span>, <span class="at">mode =</span> <span class="st">&quot;markers&quot;</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="sc">~</span>tmax, <span class="at">text =</span> <span class="sc">~</span>text_label, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div id="htmlwidget-77a24e9830b8fbc946c1" style="width:90%;height:576px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-77a24e9830b8fbc946c1">{"x":{"visdat":{"3f984b562980":["function () ","plotlyVisDat"]},"cur_data":"3f984b562980","attrs":{"3f984b562980":{"x":{},"y":{},"mode":"markers","text":{},"color":{},"alpha":0.5,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"tmax"},"yaxis":{"domain":[0,1],"automargin":true,"title":"tmin"},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[24.4,26.1,20,26.7,20,10.6,20,-26.7,3.9,7.2,-4.9,13.9,4.4,25.6,8.9,8.3,8.3,22.8,29.4,1.7,16.7,-1.1,-14.4,9.4,0,6.1,27.2,6.7,9.4,31.1,1.7,12.8,14.4,12.2,25.6,23.9,1.7,26.7,21.7,27.2,12.8,12.2,-14.4,7.2,12.8,16.1,37.2,28.3,7.2,22.8,31.1,26.7,30,13.3,7.2,22.2,8.3,14.4,8.9,15,1.1,14.4,0.6,11.7,15.6,-2.8,15,8.3,3.3,33.3,5.6,0.6,15,9.4,7.8,28.3,27.8,3.9,19.4,13.9,5,0.6,-1.7,25.6,31.1,8.9,16.7,10,12.8,7.8,3.9,27.2,7.8,15,20,-5.6,26.1,5.6,29.4,23.3,14.4,2.8,22.8,0.6,5,18.9,19.4,30,0,21.1,8.3,11.1,25.6,17.2,-2.8,29.4,6.7,20.6,25,2.8,28.9,13.9,11.7,17.8,31.7,20,2.2,15.6,15.6,1.1,1.1,18.9,25,1.7,23.3,-3.3,26.7,25.6,16.1,15,16.1,28.9,20.6,28.3,26.7,1.7,2.8,16.7,25.6,-10,26.7,0,-7.2,21.1,31.1,30.6,7.2,3.9,-2.2,-2.8,2.8,20.6,16.1,4.4,15.6,30.6,-7.8,23.9,24.4,35.6,23.3,33.3,29.4,23.9,28.9,10,23.9,0.6,23.9,3.9,29.4,27.8,18.9,-2.8,18.9,-0.6,5,-5.6,18.3,19.4,12.2,8.3,11.7,0.6,-15,17.2,7.2,32.8,6.7,28.9,2.2,20,26.1,3.3,16.7,18.9,11.1,28.3,6.1,9.4,14.4,27.8,-1.1,22.2,24.4,21.1,-11.1,5.6,12.2,31.7,25,26.1,23.9,6.1,0.6,4.4,-3.3,10,4.4,26.7,13.3,17.8,11.7,-2.8,20,28.3,-1.7,-8.3,1.7,25,8.9,20,25.6,11.1,19.4,25.6,28.3,25,20,27.8,31.7,-8.3,26.7,29.4,26.7,6.7,21.1,3.9,7.8,1.7,31.7,9.4,9.4,32.2,27.8,10.6,29.4,14.4,2.2,27.2,7.2,6.1,11.1,5.6,26.1,15.6,25.6,27.8,7.2,6.1,23.3,20,18.9,-15.6,-3.3,3.9,0.6,30,8.9,-9.4,1.1,12.2,18.3,13.3,-10,26.1,17.8,25.6,32.2,6.7,7.2,10.6,18.9,21.1,23.3,-2.8,23.3,1.7,24.4,2.2,25.6,29.4,-2.8,6.1,28.9,-3.3,-1.7,25.6,15.6,13.3,-1.7,30.6,21.7,14.4,21.1,21.1,4.4,-2.2,25,-1.1,34.4,-0.6,8.9,22.8,2.8,29.4,1.7,16.7,4.4,11.1,-3.9,6.7,3.3,21.1,0.6,26.1,24.4,31.7,29.4,5.6,-4.4,-3.9,12.8,23.9,16.7,11.7,9.4,23.9,26.1,12.8,21.1,17.8,30.6,10,9.4,0,1.1,25,21.7,23.9,22.2,22.8,11.7,28.3,27.2,2.8,15.6,6.1,5.6,27.8,25,11.1,28.3,6.7,12.8,11.7,-10,23.3,-2.8,11.1,-7.2,-2.8,4.4,32.2,3.3,-2.2,12.8,26.7,30.6,15.6,3.3,28.9,18.9,11.1,20,12.2,-2.8,12.8,9.4,21.7,8.3,10.6,2.2,8.9,-4.4,7.2,7.2,27.2,25.6,21.1,13.3,6.7,15,8.3,0.6,15.6,2.2,31.7,13.3,6.7,12.8,12.2,0.5,29.4,1.7,-7.2,1.1,-6.1,23.9,11.7,7.2,-3.3,14.4,7.2,21.7,3.9,9.4,3.3,22.2,8.3,27.8,-3.3,5.6,-5.6,11.7,23.9,-10.6,26.7,28.3,6.7,25.6,27.8,1.7,19.4,-1.1,24.4,-2.2,10.6,16.1,4.4,26.1,9.4,19.4,1.1,12.2,-4.4,2.8,31.7,7.8,0.6,21.1,1.7,16.1,30,18.3,19.4,-5.6,8.3,24.4,16.7,3.9,-6.1,25.6,6.6,10.6,27.2,6.7,14.8,26.1,21.7,27.8,6.7,18.3,25.6,12.8,27.2,30.6,2.2,6.7,17.8,-18.3,15.6,26.7,21.7,3.3,25,17.2,21.7,-1.7,26.1,0,29.4,23.9,26.1,26.1,28.9,23.9,21.1,-2.2,12.2,22.2,5.6,17.2,-12.2,30,-17.2,-6.1,25.6,4.4,12.2,0.6,20.6,11.7,22.2,22.2,14.4,1.7,-5.6,2.2,1.1,-3.3,21.1,-7.2,22.2,27.8,25,25.6,33.3,13.3,13.3,6.1,32.2,25,-5,12.8,28.9,6.7,3.3,18.9,6.1,17.2,5.6,1.7,-8.9,-7.2,3.9,2.2,31.7,-0.6,12.8,14.4,5.6,1.1,23.9,18.9,16.7,16.7,0.6,34.4,25,24.4,13.3,27.8,30.6,-1.1,8.3,5.6,7.2,15.6,-16.7,28.9,31.1,8.3,-4.4,14.4,10.6,5,29.4,23.3,0.6,13.3,28.3,0.6,26.1,25,1.1,5.6,-1.7,20,20.6,18.3,13.9,28.9,1.1,18.3,5,3.3,21.1,5,8.9,3.3,7.8,35,28.9,21.7,7.2,7.2,16.7,27.8,20,20,17.7,21.7,27.8,19.4,4.4,23.9,19.4,-2.2,3.3,27.2,-2.2,31.1,26.7,26.1,3.3,26.7,15,12.2,5,10.6,6.7,26.1,-3.3,3.9,29.4,3.3,21.7,26.7,22.8,11.1,22.2,25,27.8,20.6,32.2,-4.4,15.6,30.6,3.3,19.4,25.6,27.2,31.1,15.6,6.1,28.9,15.6,19.4,24.4,27.8,26.1,19.4,6.1,28.9,10,33.9,14.4,15.6,25.6,11.7,18.3,16.1,-0.6,22.8,15.6,23.3,21.7,8.3,21.1,24.4,10,25,-2.2,19.4,19.4,20.6,11.1,1.1,26.7,11.7,16.1,8.3,26.7,28.3,-7.8,28.3,18.3,13.3,22.2,-2.8,5.6,6.1,10.7,6.1,23.9,10,26.1,14.4,21.1,24.4,26.7,-10.6,-4.4,10,25,0.6,12.8,12.2,1.7,12.8,8.9,10.6,15,11.7,-4.4,2.2,7.8,4.4,21.1,-6.7,-9.4,6.7,13.3,27.2,22.8,18.3,10.6,0,-5,10,0,11.7,29.4,5.6,0.6,24.4,23.9,22.8,30,13.3,22.8,0.6,28.3,23.9,20.6,-0.6,18.3,2.8,-1.7,13.3,5,17.2,3.3,-2.8,6.7,4.4,21.1,5.6,20,22.2,0.6,26.7,5.6,23.3,22.8,6.7,8.9,14.4,20.6,6.7,7.2,28.3,3.3,8.3,28.3,0.6,10.6,6.1,29.4,-11.7,2.8,3.9,4.4,24.4,-4.4,22.2,21.7,2.2,17.2,12.8,0,26.7,34.4,15,1.1,23.3,18.3,26.7,0.6,13.3,9.4,26.1,15.6,28.9,4.4,12.8,2.2,17.8,6.7,-2.8,7.8,30.6,5.6,17.8,15,23.9,13.3,24.4,25,-10.6,15,0.6,8.9,19.4,26.7,1.1,5.6,25.6,14.4,2.8,26.7,-1.1,29.4,5,-3.3,33.3,12.8,16.7,25.6,13.3,16.7,-2.1,10.6,24.4,27.2,2.8,-9.4,23.3,7.2,8.9,18.9,22.2,5,18.3,-2.1,31.1,35.6,18.9,23.3,26.1,4.4,-7.8,10,-11.7,23.9,1.7,24.4,15.6,2.2,-3.9,11.7,18.3,22.8,10,-1.7,21.1,-9.4,-5,-3.9,30.6,0,19.4,6.7,10,16.1,-1.7,30.6,20.6,27.2,-4.4,4.4,22.2,33.3,2.2,5.6,32.2,-3.9,15.6,28.3,24.4,4.4,28.9,26.1,10.6,11.1,18.9,27.2,6.7,11.7,12.2,8.3,2.2,-1.7,15.6,25.6,26.7,5.6,27.8,27.2,4.4,11.1,27.2,13.3,23.9,17.8,33.3,6.1,23.9,27.8,12.2,26.1,3.9,20.6,7.2,0,23.3,-6.7,32.2,27.8,28.9,28.9,13.3,27.8,9.4,14.4,4.4,23.3,26.7,15,8.9,2.8,32.2,29.4,2.8,15.6,0.6,21.1,1.1,-4.4,23.9,12.2,0,7.2,6.1,19.4,20.6,10.6,30.6,3.9,8.9,17.2,13.9,6.7,6.7,27.8,18.3,22.8,25,-14.4,18.3,25,14.4,18.9,22.2,30,13.9,-4.4,12.8,26.7,1.7,14.4,23.9,23.3,20.6,5,18.3,10,3.3,22.8,-3.9,13.9,17.2,10,0,-0.6,33.3,21.7,-3.3,24.4,8.3,2.8,12.8,5,20,26.7,17.2,7.8,3.9,20,-5,8.9,6.7,21.7,26.7,31.7,23.9,18.3,28.9,7.2,11.7,-0.6,4.4,29.4,23.9,1.7,21.1,23.9,30.6,25.6,6.1,2.8,21.7,16.1,3.9,13.9,25.6,26.7,2.2,-1.7,0,26.1,14.4,14.4,1.1,25.6,7.8,-8.3,16.7,6.1,2.8,26.1,-3.9,0,23.3,28.9,9.4],"y":[20.6,7.8,7.8,17.8,-5,-5,2.2,-29.4,-7.8,-8.9,-13.2,5,-1.7,16.1,-1.1,3.3,-2.2,10,20.6,-12.2,7.2,-7.8,-22.8,2.8,-15,0,16.7,0.6,5.6,18.3,-3.3,-2.2,6.1,1.7,10.6,12.2,-7.2,20.6,8.9,16.1,-1.1,-1.7,-19.4,0,0,0,23.9,15.6,-6.7,10,12.8,13.9,16.1,6.7,1.7,9.4,-2.2,1.7,-3.9,2.8,-5,3.3,-2.2,2.8,-1.1,-11.1,9.4,-1.1,-5.6,17.8,-2.2,-13.9,9.4,0.6,-5,17.8,16.7,-12.2,-1.7,1.7,-0.6,-0.6,-8.3,8.3,19.4,-5.6,7.8,0,2.2,-2.8,-7.8,11.7,2.2,-1.1,15.6,-17.2,19.4,-5,17.8,14.4,2.8,-4.4,16.7,-2.8,-5,9.4,5.6,20.6,-5.6,10,-3.9,3.9,8.9,3.9,-7.8,20.6,2.8,16.1,18.9,-15,17.2,6.7,1.7,-0.6,23.3,3.3,-7.2,-1.1,12.2,-7.8,-10.6,7.2,15.6,-5,11.7,-10.6,11.1,19.4,6.7,3.3,5.6,13.9,5.6,18.9,11.1,-10.6,-3.9,3.3,11.1,-15.6,7.8,-9.4,-20.6,12.8,20.6,18.3,-3.9,-3.3,-25.6,-9.4,-7.8,10.6,3.9,-2.2,-1.7,17.8,-17.2,8.3,18.3,18.3,9.4,18.3,17.2,13.9,14.4,0,17.2,-5,14.4,-1.1,21.1,10,2.2,-5,13.3,-16.7,0,-12.8,10,11.7,5,-3.3,3.9,-7.8,-21.1,11.7,2.8,23.9,0,19.4,-8.9,8.9,11.7,-4.4,-2.8,1.7,-5,16.1,-3.9,-8.2,7.8,10.6,-8.3,11.7,13.3,4.4,-27.8,-1,-3.9,18.9,10,16.7,9.4,-9.4,-16.1,-2.2,-11.7,-2.2,-5,12.2,1.7,7.8,-7.2,-11.1,15,14.4,-6.7,-28.3,-6.1,13.3,1.1,8.9,18.3,7.8,3.9,17.2,15.6,15.6,11.7,16.7,15.6,-22.8,17.2,11.7,12.8,-4.4,8.3,-6.1,-3.9,-4.4,22.2,-1.1,5,14.4,13.3,2.8,17.8,12.2,-4.4,20.6,-1.1,-0.6,2.2,-0.6,17.8,1.1,9.4,8.9,1.1,1.7,5,3.3,5,-32.8,-10,-4.4,-15.6,7.2,0.6,-22.8,-7.2,2.2,2.8,1.7,-23.3,10.6,-6,10,22.2,-1.7,-6.1,-4.4,13.3,19.4,10,-13.3,5,-11.1,13.3,-2.2,5,16.1,-5.6,-3.9,18.9,-16.1,-7.8,14.4,4.4,3.3,-11.1,16.1,7.8,5.6,11.1,3.3,-7.8,-6.7,11.1,-2.2,16.1,-6.1,-3.9,3.9,-3.9,16.7,0.6,7.8,-8.3,3.9,-26.1,-3.3,-4.4,16.7,-4.4,13.3,16.1,18.3,13.9,-1.1,-18.3,-15.6,5.6,6.7,12.2,4.4,0,5.6,14.4,-3.3,12.2,11.1,18.9,-1.7,-1.7,-2.8,-8.9,12.2,1.7,8.3,11.7,17.2,-7.8,14.4,14.4,0,10,-5.6,-1.7,13.3,14.4,1.7,13.9,-2.2,1.1,0,-18.3,13.3,-12.8,3.9,-11.1,-6.7,-1.1,16.7,-5.6,-5,-0.6,8.9,12.2,1.7,-5,13.9,5.6,2.8,-0.6,-1.7,-12.8,3.9,-0.6,15.6,-3.3,3.9,-0.6,-0.6,-17.2,0.6,2.2,14.4,13.3,8.3,5.6,-5.6,7.2,-2.8,-9.4,11.1,-2.8,18.3,2.2,3.9,2.8,-2.2,-0.7,23.3,-3.9,-28.3,-4.4,-13.9,15,3.9,-2.2,-21.7,-1.1,-5.6,15,-8.3,7.2,-2.8,6.7,0.6,13.3,-8.9,-12.2,-15,4.4,13.9,-28.3,2.2,19.4,1.1,11.1,15.6,0,10.6,-6.7,12.8,-10,-1.7,6.1,0.6,12.8,-4.4,3.9,-1.1,-2.8,-7.8,-6.1,16.1,4.4,-23.3,8.9,-6.1,-7.8,14.4,8.3,0.6,-10.6,-3.9,16.7,5,-3.3,-20.6,15.6,-8.2,0,22.2,-9.4,-0.9,14.4,13.9,14.4,3.3,6.7,10.6,-3.3,13.9,17.2,-6.1,-2.8,4.4,-2.8,2.2,11.7,17.2,-1.1,20,5,2.8,-15.6,10.6,-11.7,14.4,7.2,11.7,11.7,8.3,4.4,11.7,-20,6.7,9.4,1.1,7.8,-20.6,17.8,-27.2,-11.1,10.6,0.6,-3.9,-5,4.4,-12.8,7.8,4.4,4.4,-5.6,-5.6,-1.1,0,-15,11.1,-22.8,10.6,13.3,17.8,-0.6,16.7,1.7,8.3,0,22.2,13.9,-18.3,1.1,18.3,-7.2,-6.7,5,0,8.3,-2.8,-16.1,-17.2,-12.2,-8.3,-6.7,14.4,-9.4,-0.6,9.4,0,-6.1,8.9,10.6,6.7,1.7,-13.9,14.4,4.4,7.2,-1.7,16.1,11.7,-3.9,-2.8,-3.3,0,6.1,-24.4,16.1,23.3,0,-15,5.6,2.2,-7.2,10,11.1,-3.9,6.7,17.8,-8.9,13.3,11.7,-16.1,-8.3,-13.9,3.9,2.8,11.7,-0.6,19.4,-3.9,11.1,-7.2,-14.4,9.4,1.1,0,-7.2,-3.9,5,17.2,13.9,0.6,-2.8,9.4,11.7,6.1,11.1,7.3,2.8,7.2,16.1,-3.9,9.4,8.3,-15,-11.1,13.9,-12.2,15.6,12.2,11.7,-7.2,12.2,3.9,2.8,-6.1,5,0.6,11.7,-6.7,-2.8,15.6,-15.6,14.4,13.3,14.4,-1.1,17.2,12.8,14.4,5.6,20,-13.9,7.8,20.6,1.1,2.2,12.8,17.2,13.3,11.1,8.9,18.3,-0.6,6.7,6.1,15,9.4,12.8,0.6,24.4,7.8,20.6,3.3,8.3,7.8,1.1,3.9,-2.2,-8.9,6.7,3.3,13.9,7.2,-8.9,9.4,14.4,3.9,18.3,-11.7,10,-1.1,13.3,1.7,-0.6,13.9,4.4,5.6,-8.3,20.6,14.4,-17.8,13.3,0.6,3.3,11.7,-8.9,1.7,1.7,-5.7,0,17.8,-0.6,15.6,5,9.4,18.9,2.8,-26.7,-16.7,3.3,15,0,7.2,0.6,-5,7.8,4.4,6.7,1.7,-2.2,-11.1,-13.2,3.9,-7.2,11.1,-26.7,-21.1,3.3,-1.7,16.7,13.3,4.4,0.6,-1.1,-10.6,3.3,-6.1,-4.4,20,2.8,-17.2,13.3,7.8,13.9,18.3,6.7,7.8,-11.1,15.6,10,5.6,-13.9,4.4,-4.4,-15.6,7.2,-6.1,7.2,0.6,-2.8,-8.3,0,4.4,-6.1,11.7,11.7,-2.2,10,-1.7,13.3,4.4,-1.7,3.3,-7.8,3.3,-2.8,4.4,13.9,-7.8,-0.6,8.3,-3.3,3.9,-3.9,15.6,-15,-10.6,-0.6,-2.2,16.7,-21.1,5,16.7,-5.6,7.8,-3.3,-7.2,20,21.1,3.3,-6.7,22.8,8.9,18.3,-3.3,6.1,0,12.8,-0.6,12.8,-0.6,2.8,-5,10,2.8,-28.9,-5.6,18.9,-1.7,7.2,-3.3,11.7,4.4,7.2,15.6,-28.3,7.2,-8.3,2.8,12.8,18.3,-9.4,-3.3,10,4.4,-8.3,13.9,-12.2,18.9,1.1,-5.6,20.6,0,2.8,11.1,3.9,3.3,-11,3.3,10,18.3,-1.1,-16.1,5.6,-1.7,1.7,13.3,14.4,-11.7,8.3,-9.9,12.8,16.7,8.3,16.1,12.8,-1.1,-15.6,-3.9,-32.8,9.4,-1.7,13.9,0,-22.2,-12.8,6.7,0.6,16.7,3.3,-3.9,8.3,-14.4,-13.9,-13.9,15.6,-13.3,8.9,3.3,5,7.8,-4.4,18.3,7.8,6.7,-12.2,-13.3,13.9,19.4,-5.6,-3.3,21.1,-6.7,11.1,11.1,10,-0.6,15,10,2.8,2.2,1.7,9.4,-5,1.1,6.7,-0.6,-15,-4.4,7.2,17.2,21.1,-1.7,11.7,15,0.6,-2.2,17.8,-1.7,7.8,1.1,18.3,-0.6,11.1,17.2,-1.1,5.6,-1.1,7.8,-2.8,-5,9.4,-15,18.9,22.2,19.4,13.9,6.1,13.3,3.9,8.9,-2.2,15.6,19.4,7.8,-8.3,0.6,12.2,18.3,-6.7,2.2,-2.2,8.9,-9.4,-10.6,13.9,-1.7,-9.4,1.7,-6.7,11.1,6.1,-1.7,18.3,-8.3,3.3,3.3,-1.1,-2.8,-6,11.1,0,14.4,10.6,-20,4.4,12.2,9.4,-2.2,6.7,17.8,4.4,-16.7,4.4,10.6,-9.4,-0.6,11.7,8.3,7.2,-1.1,5.6,0.6,-6.1,7.2,-9.4,-3.9,5,2.8,-5,-5.6,19.4,5.6,-16.1,6.1,-0.6,-2.2,7.8,-0.6,11.1,8.9,-2.2,0,0,11.1,-15.6,-1.7,-15.6,12.2,14.4,11.1,13.9,10,18.3,-2.2,2.8,-17.2,-3.9,13.3,17.8,-5.6,15,15,15.6,13.9,-2.8,-3.9,9.4,1.1,1.1,3.3,11.1,16.1,-8.2,-7.2,-7.8,14.4,3.3,1.1,-3.9,15.6,-4.4,-21.1,11.7,-23.9,-1.7,10,-18.3,-2.2,13.9,13.9,0],"mode":"markers","text":["tmax24.4tmin20.6","tmax26.1tmin7.8","tmax20tmin7.8","tmax26.7tmin17.8","tmax20tmin-5","tmax10.6tmin-5","tmax20tmin2.2","tmax-26.7tmin-29.4","tmax3.9tmin-7.8","tmax7.2tmin-8.9","tmax-4.9tmin-13.2","tmax13.9tmin5","tmax4.4tmin-1.7","tmax25.6tmin16.1","tmax8.9tmin-1.1","tmax8.3tmin3.3","tmax8.3tmin-2.2","tmax22.8tmin10","tmax29.4tmin20.6","tmax1.7tmin-12.2","tmax16.7tmin7.2","tmax-1.1tmin-7.8","tmax-14.4tmin-22.8","tmax9.4tmin2.8","tmax0tmin-15","tmax6.1tmin0","tmax27.2tmin16.7","tmax6.7tmin0.6","tmax9.4tmin5.6","tmax31.1tmin18.3","tmax1.7tmin-3.3","tmax12.8tmin-2.2","tmax14.4tmin6.1","tmax12.2tmin1.7","tmax25.6tmin10.6","tmax23.9tmin12.2","tmax1.7tmin-7.2","tmax26.7tmin20.6","tmax21.7tmin8.9","tmax27.2tmin16.1","tmax12.8tmin-1.1","tmax12.2tmin-1.7","tmax-14.4tmin-19.4","tmax7.2tmin0","tmax12.8tmin0","tmax16.1tmin0","tmax37.2tmin23.9","tmax28.3tmin15.6","tmax7.2tmin-6.7","tmax22.8tmin10","tmax31.1tmin12.8","tmax26.7tmin13.9","tmax30tmin16.1","tmax13.3tmin6.7","tmax7.2tmin1.7","tmax22.2tmin9.4","tmax8.3tmin-2.2","tmax14.4tmin1.7","tmax8.9tmin-3.9","tmax15tmin2.8","tmax1.1tmin-5","tmax14.4tmin3.3","tmax0.6tmin-2.2","tmax11.7tmin2.8","tmax15.6tmin-1.1","tmax-2.8tmin-11.1","tmax15tmin9.4","tmax8.3tmin-1.1","tmax3.3tmin-5.6","tmax33.3tmin17.8","tmax5.6tmin-2.2","tmax0.6tmin-13.9","tmax15tmin9.4","tmax9.4tmin0.6","tmax7.8tmin-5","tmax28.3tmin17.8","tmax27.8tmin16.7","tmax3.9tmin-12.2","tmax19.4tmin-1.7","tmax13.9tmin1.7","tmax5tmin-0.6","tmax0.6tmin-0.6","tmax-1.7tmin-8.3","tmax25.6tmin8.3","tmax31.1tmin19.4","tmax8.9tmin-5.6","tmax16.7tmin7.8","tmax10tmin0","tmax12.8tmin2.2","tmax7.8tmin-2.8","tmax3.9tmin-7.8","tmax27.2tmin11.7","tmax7.8tmin2.2","tmax15tmin-1.1","tmax20tmin15.6","tmax-5.6tmin-17.2","tmax26.1tmin19.4","tmax5.6tmin-5","tmax29.4tmin17.8","tmax23.3tmin14.4","tmax14.4tmin2.8","tmax2.8tmin-4.4","tmax22.8tmin16.7","tmax0.6tmin-2.8","tmax5tmin-5","tmax18.9tmin9.4","tmax19.4tmin5.6","tmax30tmin20.6","tmax0tmin-5.6","tmax21.1tmin10","tmax8.3tmin-3.9","tmax11.1tmin3.9","tmax25.6tmin8.9","tmax17.2tmin3.9","tmax-2.8tmin-7.8","tmax29.4tmin20.6","tmax6.7tmin2.8","tmax20.6tmin16.1","tmax25tmin18.9","tmax2.8tmin-15","tmax28.9tmin17.2","tmax13.9tmin6.7","tmax11.7tmin1.7","tmax17.8tmin-0.6","tmax31.7tmin23.3","tmax20tmin3.3","tmax2.2tmin-7.2","tmax15.6tmin-1.1","tmax15.6tmin12.2","tmax1.1tmin-7.8","tmax1.1tmin-10.6","tmax18.9tmin7.2","tmax25tmin15.6","tmax1.7tmin-5","tmax23.3tmin11.7","tmax-3.3tmin-10.6","tmax26.7tmin11.1","tmax25.6tmin19.4","tmax16.1tmin6.7","tmax15tmin3.3","tmax16.1tmin5.6","tmax28.9tmin13.9","tmax20.6tmin5.6","tmax28.3tmin18.9","tmax26.7tmin11.1","tmax1.7tmin-10.6","tmax2.8tmin-3.9","tmax16.7tmin3.3","tmax25.6tmin11.1","tmax-10tmin-15.6","tmax26.7tmin7.8","tmax0tmin-9.4","tmax-7.2tmin-20.6","tmax21.1tmin12.8","tmax31.1tmin20.6","tmax30.6tmin18.3","tmax7.2tmin-3.9","tmax3.9tmin-3.3","tmax-2.2tmin-25.6","tmax-2.8tmin-9.4","tmax2.8tmin-7.8","tmax20.6tmin10.6","tmax16.1tmin3.9","tmax4.4tmin-2.2","tmax15.6tmin-1.7","tmax30.6tmin17.8","tmax-7.8tmin-17.2","tmax23.9tmin8.3","tmax24.4tmin18.3","tmax35.6tmin18.3","tmax23.3tmin9.4","tmax33.3tmin18.3","tmax29.4tmin17.2","tmax23.9tmin13.9","tmax28.9tmin14.4","tmax10tmin0","tmax23.9tmin17.2","tmax0.6tmin-5","tmax23.9tmin14.4","tmax3.9tmin-1.1","tmax29.4tmin21.1","tmax27.8tmin10","tmax18.9tmin2.2","tmax-2.8tmin-5","tmax18.9tmin13.3","tmax-0.6tmin-16.7","tmax5tmin0","tmax-5.6tmin-12.8","tmax18.3tmin10","tmax19.4tmin11.7","tmax12.2tmin5","tmax8.3tmin-3.3","tmax11.7tmin3.9","tmax0.6tmin-7.8","tmax-15tmin-21.1","tmax17.2tmin11.7","tmax7.2tmin2.8","tmax32.8tmin23.9","tmax6.7tmin0","tmax28.9tmin19.4","tmax2.2tmin-8.9","tmax20tmin8.9","tmax26.1tmin11.7","tmax3.3tmin-4.4","tmax16.7tmin-2.8","tmax18.9tmin1.7","tmax11.1tmin-5","tmax28.3tmin16.1","tmax6.1tmin-3.9","tmax9.4tmin-8.2","tmax14.4tmin7.8","tmax27.8tmin10.6","tmax-1.1tmin-8.3","tmax22.2tmin11.7","tmax24.4tmin13.3","tmax21.1tmin4.4","tmax-11.1tmin-27.8","tmax5.6tmin-1","tmax12.2tmin-3.9","tmax31.7tmin18.9","tmax25tmin10","tmax26.1tmin16.7","tmax23.9tmin9.4","tmax6.1tmin-9.4","tmax0.6tmin-16.1","tmax4.4tmin-2.2","tmax-3.3tmin-11.7","tmax10tmin-2.2","tmax4.4tmin-5","tmax26.7tmin12.2","tmax13.3tmin1.7","tmax17.8tmin7.8","tmax11.7tmin-7.2","tmax-2.8tmin-11.1","tmax20tmin15","tmax28.3tmin14.4","tmax-1.7tmin-6.7","tmax-8.3tmin-28.3","tmax1.7tmin-6.1","tmax25tmin13.3","tmax8.9tmin1.1","tmax20tmin8.9","tmax25.6tmin18.3","tmax11.1tmin7.8","tmax19.4tmin3.9","tmax25.6tmin17.2","tmax28.3tmin15.6","tmax25tmin15.6","tmax20tmin11.7","tmax27.8tmin16.7","tmax31.7tmin15.6","tmax-8.3tmin-22.8","tmax26.7tmin17.2","tmax29.4tmin11.7","tmax26.7tmin12.8","tmax6.7tmin-4.4","tmax21.1tmin8.3","tmax3.9tmin-6.1","tmax7.8tmin-3.9","tmax1.7tmin-4.4","tmax31.7tmin22.2","tmax9.4tmin-1.1","tmax9.4tmin5","tmax32.2tmin14.4","tmax27.8tmin13.3","tmax10.6tmin2.8","tmax29.4tmin17.8","tmax14.4tmin12.2","tmax2.2tmin-4.4","tmax27.2tmin20.6","tmax7.2tmin-1.1","tmax6.1tmin-0.6","tmax11.1tmin2.2","tmax5.6tmin-0.6","tmax26.1tmin17.8","tmax15.6tmin1.1","tmax25.6tmin9.4","tmax27.8tmin8.9","tmax7.2tmin1.1","tmax6.1tmin1.7","tmax23.3tmin5","tmax20tmin3.3","tmax18.9tmin5","tmax-15.6tmin-32.8","tmax-3.3tmin-10","tmax3.9tmin-4.4","tmax0.6tmin-15.6","tmax30tmin7.2","tmax8.9tmin0.6","tmax-9.4tmin-22.8","tmax1.1tmin-7.2","tmax12.2tmin2.2","tmax18.3tmin2.8","tmax13.3tmin1.7","tmax-10tmin-23.3","tmax26.1tmin10.6","tmax17.8tmin-6","tmax25.6tmin10","tmax32.2tmin22.2","tmax6.7tmin-1.7","tmax7.2tmin-6.1","tmax10.6tmin-4.4","tmax18.9tmin13.3","tmax21.1tmin19.4","tmax23.3tmin10","tmax-2.8tmin-13.3","tmax23.3tmin5","tmax1.7tmin-11.1","tmax24.4tmin13.3","tmax2.2tmin-2.2","tmax25.6tmin5","tmax29.4tmin16.1","tmax-2.8tmin-5.6","tmax6.1tmin-3.9","tmax28.9tmin18.9","tmax-3.3tmin-16.1","tmax-1.7tmin-7.8","tmax25.6tmin14.4","tmax15.6tmin4.4","tmax13.3tmin3.3","tmax-1.7tmin-11.1","tmax30.6tmin16.1","tmax21.7tmin7.8","tmax14.4tmin5.6","tmax21.1tmin11.1","tmax21.1tmin3.3","tmax4.4tmin-7.8","tmax-2.2tmin-6.7","tmax25tmin11.1","tmax-1.1tmin-2.2","tmax34.4tmin16.1","tmax-0.6tmin-6.1","tmax8.9tmin-3.9","tmax22.8tmin3.9","tmax2.8tmin-3.9","tmax29.4tmin16.7","tmax1.7tmin0.6","tmax16.7tmin7.8","tmax4.4tmin-8.3","tmax11.1tmin3.9","tmax-3.9tmin-26.1","tmax6.7tmin-3.3","tmax3.3tmin-4.4","tmax21.1tmin16.7","tmax0.6tmin-4.4","tmax26.1tmin13.3","tmax24.4tmin16.1","tmax31.7tmin18.3","tmax29.4tmin13.9","tmax5.6tmin-1.1","tmax-4.4tmin-18.3","tmax-3.9tmin-15.6","tmax12.8tmin5.6","tmax23.9tmin6.7","tmax16.7tmin12.2","tmax11.7tmin4.4","tmax9.4tmin0","tmax23.9tmin5.6","tmax26.1tmin14.4","tmax12.8tmin-3.3","tmax21.1tmin12.2","tmax17.8tmin11.1","tmax30.6tmin18.9","tmax10tmin-1.7","tmax9.4tmin-1.7","tmax0tmin-2.8","tmax1.1tmin-8.9","tmax25tmin12.2","tmax21.7tmin1.7","tmax23.9tmin8.3","tmax22.2tmin11.7","tmax22.8tmin17.2","tmax11.7tmin-7.8","tmax28.3tmin14.4","tmax27.2tmin14.4","tmax2.8tmin0","tmax15.6tmin10","tmax6.1tmin-5.6","tmax5.6tmin-1.7","tmax27.8tmin13.3","tmax25tmin14.4","tmax11.1tmin1.7","tmax28.3tmin13.9","tmax6.7tmin-2.2","tmax12.8tmin1.1","tmax11.7tmin0","tmax-10tmin-18.3","tmax23.3tmin13.3","tmax-2.8tmin-12.8","tmax11.1tmin3.9","tmax-7.2tmin-11.1","tmax-2.8tmin-6.7","tmax4.4tmin-1.1","tmax32.2tmin16.7","tmax3.3tmin-5.6","tmax-2.2tmin-5","tmax12.8tmin-0.6","tmax26.7tmin8.9","tmax30.6tmin12.2","tmax15.6tmin1.7","tmax3.3tmin-5","tmax28.9tmin13.9","tmax18.9tmin5.6","tmax11.1tmin2.8","tmax20tmin-0.6","tmax12.2tmin-1.7","tmax-2.8tmin-12.8","tmax12.8tmin3.9","tmax9.4tmin-0.6","tmax21.7tmin15.6","tmax8.3tmin-3.3","tmax10.6tmin3.9","tmax2.2tmin-0.6","tmax8.9tmin-0.6","tmax-4.4tmin-17.2","tmax7.2tmin0.6","tmax7.2tmin2.2","tmax27.2tmin14.4","tmax25.6tmin13.3","tmax21.1tmin8.3","tmax13.3tmin5.6","tmax6.7tmin-5.6","tmax15tmin7.2","tmax8.3tmin-2.8","tmax0.6tmin-9.4","tmax15.6tmin11.1","tmax2.2tmin-2.8","tmax31.7tmin18.3","tmax13.3tmin2.2","tmax6.7tmin3.9","tmax12.8tmin2.8","tmax12.2tmin-2.2","tmax0.5tmin-0.7","tmax29.4tmin23.3","tmax1.7tmin-3.9","tmax-7.2tmin-28.3","tmax1.1tmin-4.4","tmax-6.1tmin-13.9","tmax23.9tmin15","tmax11.7tmin3.9","tmax7.2tmin-2.2","tmax-3.3tmin-21.7","tmax14.4tmin-1.1","tmax7.2tmin-5.6","tmax21.7tmin15","tmax3.9tmin-8.3","tmax9.4tmin7.2","tmax3.3tmin-2.8","tmax22.2tmin6.7","tmax8.3tmin0.6","tmax27.8tmin13.3","tmax-3.3tmin-8.9","tmax5.6tmin-12.2","tmax-5.6tmin-15","tmax11.7tmin4.4","tmax23.9tmin13.9","tmax-10.6tmin-28.3","tmax26.7tmin2.2","tmax28.3tmin19.4","tmax6.7tmin1.1","tmax25.6tmin11.1","tmax27.8tmin15.6","tmax1.7tmin0","tmax19.4tmin10.6","tmax-1.1tmin-6.7","tmax24.4tmin12.8","tmax-2.2tmin-10","tmax10.6tmin-1.7","tmax16.1tmin6.1","tmax4.4tmin0.6","tmax26.1tmin12.8","tmax9.4tmin-4.4","tmax19.4tmin3.9","tmax1.1tmin-1.1","tmax12.2tmin-2.8","tmax-4.4tmin-7.8","tmax2.8tmin-6.1","tmax31.7tmin16.1","tmax7.8tmin4.4","tmax0.6tmin-23.3","tmax21.1tmin8.9","tmax1.7tmin-6.1","tmax16.1tmin-7.8","tmax30tmin14.4","tmax18.3tmin8.3","tmax19.4tmin0.6","tmax-5.6tmin-10.6","tmax8.3tmin-3.9","tmax24.4tmin16.7","tmax16.7tmin5","tmax3.9tmin-3.3","tmax-6.1tmin-20.6","tmax25.6tmin15.6","tmax6.6tmin-8.2","tmax10.6tmin0","tmax27.2tmin22.2","tmax6.7tmin-9.4","tmax14.8tmin-0.9","tmax26.1tmin14.4","tmax21.7tmin13.9","tmax27.8tmin14.4","tmax6.7tmin3.3","tmax18.3tmin6.7","tmax25.6tmin10.6","tmax12.8tmin-3.3","tmax27.2tmin13.9","tmax30.6tmin17.2","tmax2.2tmin-6.1","tmax6.7tmin-2.8","tmax17.8tmin4.4","tmax-18.3tmin-2.8","tmax15.6tmin2.2","tmax26.7tmin11.7","tmax21.7tmin17.2","tmax3.3tmin-1.1","tmax25tmin20","tmax17.2tmin5","tmax21.7tmin2.8","tmax-1.7tmin-15.6","tmax26.1tmin10.6","tmax0tmin-11.7","tmax29.4tmin14.4","tmax23.9tmin7.2","tmax26.1tmin11.7","tmax26.1tmin11.7","tmax28.9tmin8.3","tmax23.9tmin4.4","tmax21.1tmin11.7","tmax-2.2tmin-20","tmax12.2tmin6.7","tmax22.2tmin9.4","tmax5.6tmin1.1","tmax17.2tmin7.8","tmax-12.2tmin-20.6","tmax30tmin17.8","tmax-17.2tmin-27.2","tmax-6.1tmin-11.1","tmax25.6tmin10.6","tmax4.4tmin0.6","tmax12.2tmin-3.9","tmax0.6tmin-5","tmax20.6tmin4.4","tmax11.7tmin-12.8","tmax22.2tmin7.8","tmax22.2tmin4.4","tmax14.4tmin4.4","tmax1.7tmin-5.6","tmax-5.6tmin-5.6","tmax2.2tmin-1.1","tmax1.1tmin0","tmax-3.3tmin-15","tmax21.1tmin11.1","tmax-7.2tmin-22.8","tmax22.2tmin10.6","tmax27.8tmin13.3","tmax25tmin17.8","tmax25.6tmin-0.6","tmax33.3tmin16.7","tmax13.3tmin1.7","tmax13.3tmin8.3","tmax6.1tmin0","tmax32.2tmin22.2","tmax25tmin13.9","tmax-5tmin-18.3","tmax12.8tmin1.1","tmax28.9tmin18.3","tmax6.7tmin-7.2","tmax3.3tmin-6.7","tmax18.9tmin5","tmax6.1tmin0","tmax17.2tmin8.3","tmax5.6tmin-2.8","tmax1.7tmin-16.1","tmax-8.9tmin-17.2","tmax-7.2tmin-12.2","tmax3.9tmin-8.3","tmax2.2tmin-6.7","tmax31.7tmin14.4","tmax-0.6tmin-9.4","tmax12.8tmin-0.6","tmax14.4tmin9.4","tmax5.6tmin0","tmax1.1tmin-6.1","tmax23.9tmin8.9","tmax18.9tmin10.6","tmax16.7tmin6.7","tmax16.7tmin1.7","tmax0.6tmin-13.9","tmax34.4tmin14.4","tmax25tmin4.4","tmax24.4tmin7.2","tmax13.3tmin-1.7","tmax27.8tmin16.1","tmax30.6tmin11.7","tmax-1.1tmin-3.9","tmax8.3tmin-2.8","tmax5.6tmin-3.3","tmax7.2tmin0","tmax15.6tmin6.1","tmax-16.7tmin-24.4","tmax28.9tmin16.1","tmax31.1tmin23.3","tmax8.3tmin0","tmax-4.4tmin-15","tmax14.4tmin5.6","tmax10.6tmin2.2","tmax5tmin-7.2","tmax29.4tmin10","tmax23.3tmin11.1","tmax0.6tmin-3.9","tmax13.3tmin6.7","tmax28.3tmin17.8","tmax0.6tmin-8.9","tmax26.1tmin13.3","tmax25tmin11.7","tmax1.1tmin-16.1","tmax5.6tmin-8.3","tmax-1.7tmin-13.9","tmax20tmin3.9","tmax20.6tmin2.8","tmax18.3tmin11.7","tmax13.9tmin-0.6","tmax28.9tmin19.4","tmax1.1tmin-3.9","tmax18.3tmin11.1","tmax5tmin-7.2","tmax3.3tmin-14.4","tmax21.1tmin9.4","tmax5tmin1.1","tmax8.9tmin0","tmax3.3tmin-7.2","tmax7.8tmin-3.9","tmax35tmin5","tmax28.9tmin17.2","tmax21.7tmin13.9","tmax7.2tmin0.6","tmax7.2tmin-2.8","tmax16.7tmin9.4","tmax27.8tmin11.7","tmax20tmin6.1","tmax20tmin11.1","tmax17.7tmin7.3","tmax21.7tmin2.8","tmax27.8tmin7.2","tmax19.4tmin16.1","tmax4.4tmin-3.9","tmax23.9tmin9.4","tmax19.4tmin8.3","tmax-2.2tmin-15","tmax3.3tmin-11.1","tmax27.2tmin13.9","tmax-2.2tmin-12.2","tmax31.1tmin15.6","tmax26.7tmin12.2","tmax26.1tmin11.7","tmax3.3tmin-7.2","tmax26.7tmin12.2","tmax15tmin3.9","tmax12.2tmin2.8","tmax5tmin-6.1","tmax10.6tmin5","tmax6.7tmin0.6","tmax26.1tmin11.7","tmax-3.3tmin-6.7","tmax3.9tmin-2.8","tmax29.4tmin15.6","tmax3.3tmin-15.6","tmax21.7tmin14.4","tmax26.7tmin13.3","tmax22.8tmin14.4","tmax11.1tmin-1.1","tmax22.2tmin17.2","tmax25tmin12.8","tmax27.8tmin14.4","tmax20.6tmin5.6","tmax32.2tmin20","tmax-4.4tmin-13.9","tmax15.6tmin7.8","tmax30.6tmin20.6","tmax3.3tmin1.1","tmax19.4tmin2.2","tmax25.6tmin12.8","tmax27.2tmin17.2","tmax31.1tmin13.3","tmax15.6tmin11.1","tmax6.1tmin8.9","tmax28.9tmin18.3","tmax15.6tmin-0.6","tmax19.4tmin6.7","tmax24.4tmin6.1","tmax27.8tmin15","tmax26.1tmin9.4","tmax19.4tmin12.8","tmax6.1tmin0.6","tmax28.9tmin24.4","tmax10tmin7.8","tmax33.9tmin20.6","tmax14.4tmin3.3","tmax15.6tmin8.3","tmax25.6tmin7.8","tmax11.7tmin1.1","tmax18.3tmin3.9","tmax16.1tmin-2.2","tmax-0.6tmin-8.9","tmax22.8tmin6.7","tmax15.6tmin3.3","tmax23.3tmin13.9","tmax21.7tmin7.2","tmax8.3tmin-8.9","tmax21.1tmin9.4","tmax24.4tmin14.4","tmax10tmin3.9","tmax25tmin18.3","tmax-2.2tmin-11.7","tmax19.4tmin10","tmax19.4tmin-1.1","tmax20.6tmin13.3","tmax11.1tmin1.7","tmax1.1tmin-0.6","tmax26.7tmin13.9","tmax11.7tmin4.4","tmax16.1tmin5.6","tmax8.3tmin-8.3","tmax26.7tmin20.6","tmax28.3tmin14.4","tmax-7.8tmin-17.8","tmax28.3tmin13.3","tmax18.3tmin0.6","tmax13.3tmin3.3","tmax22.2tmin11.7","tmax-2.8tmin-8.9","tmax5.6tmin1.7","tmax6.1tmin1.7","tmax10.7tmin-5.7","tmax6.1tmin0","tmax23.9tmin17.8","tmax10tmin-0.6","tmax26.1tmin15.6","tmax14.4tmin5","tmax21.1tmin9.4","tmax24.4tmin18.9","tmax26.7tmin2.8","tmax-10.6tmin-26.7","tmax-4.4tmin-16.7","tmax10tmin3.3","tmax25tmin15","tmax0.6tmin0","tmax12.8tmin7.2","tmax12.2tmin0.6","tmax1.7tmin-5","tmax12.8tmin7.8","tmax8.9tmin4.4","tmax10.6tmin6.7","tmax15tmin1.7","tmax11.7tmin-2.2","tmax-4.4tmin-11.1","tmax2.2tmin-13.2","tmax7.8tmin3.9","tmax4.4tmin-7.2","tmax21.1tmin11.1","tmax-6.7tmin-26.7","tmax-9.4tmin-21.1","tmax6.7tmin3.3","tmax13.3tmin-1.7","tmax27.2tmin16.7","tmax22.8tmin13.3","tmax18.3tmin4.4","tmax10.6tmin0.6","tmax0tmin-1.1","tmax-5tmin-10.6","tmax10tmin3.3","tmax0tmin-6.1","tmax11.7tmin-4.4","tmax29.4tmin20","tmax5.6tmin2.8","tmax0.6tmin-17.2","tmax24.4tmin13.3","tmax23.9tmin7.8","tmax22.8tmin13.9","tmax30tmin18.3","tmax13.3tmin6.7","tmax22.8tmin7.8","tmax0.6tmin-11.1","tmax28.3tmin15.6","tmax23.9tmin10","tmax20.6tmin5.6","tmax-0.6tmin-13.9","tmax18.3tmin4.4","tmax2.8tmin-4.4","tmax-1.7tmin-15.6","tmax13.3tmin7.2","tmax5tmin-6.1","tmax17.2tmin7.2","tmax3.3tmin0.6","tmax-2.8tmin-2.8","tmax6.7tmin-8.3","tmax4.4tmin0","tmax21.1tmin4.4","tmax5.6tmin-6.1","tmax20tmin11.7","tmax22.2tmin11.7","tmax0.6tmin-2.2","tmax26.7tmin10","tmax5.6tmin-1.7","tmax23.3tmin13.3","tmax22.8tmin4.4","tmax6.7tmin-1.7","tmax8.9tmin3.3","tmax14.4tmin-7.8","tmax20.6tmin3.3","tmax6.7tmin-2.8","tmax7.2tmin4.4","tmax28.3tmin13.9","tmax3.3tmin-7.8","tmax8.3tmin-0.6","tmax28.3tmin8.3","tmax0.6tmin-3.3","tmax10.6tmin3.9","tmax6.1tmin-3.9","tmax29.4tmin15.6","tmax-11.7tmin-15","tmax2.8tmin-10.6","tmax3.9tmin-0.6","tmax4.4tmin-2.2","tmax24.4tmin16.7","tmax-4.4tmin-21.1","tmax22.2tmin5","tmax21.7tmin16.7","tmax2.2tmin-5.6","tmax17.2tmin7.8","tmax12.8tmin-3.3","tmax0tmin-7.2","tmax26.7tmin20","tmax34.4tmin21.1","tmax15tmin3.3","tmax1.1tmin-6.7","tmax23.3tmin22.8","tmax18.3tmin8.9","tmax26.7tmin18.3","tmax0.6tmin-3.3","tmax13.3tmin6.1","tmax9.4tmin0","tmax26.1tmin12.8","tmax15.6tmin-0.6","tmax28.9tmin12.8","tmax4.4tmin-0.6","tmax12.8tmin2.8","tmax2.2tmin-5","tmax17.8tmin10","tmax6.7tmin2.8","tmax-2.8tmin-28.9","tmax7.8tmin-5.6","tmax30.6tmin18.9","tmax5.6tmin-1.7","tmax17.8tmin7.2","tmax15tmin-3.3","tmax23.9tmin11.7","tmax13.3tmin4.4","tmax24.4tmin7.2","tmax25tmin15.6","tmax-10.6tmin-28.3","tmax15tmin7.2","tmax0.6tmin-8.3","tmax8.9tmin2.8","tmax19.4tmin12.8","tmax26.7tmin18.3","tmax1.1tmin-9.4","tmax5.6tmin-3.3","tmax25.6tmin10","tmax14.4tmin4.4","tmax2.8tmin-8.3","tmax26.7tmin13.9","tmax-1.1tmin-12.2","tmax29.4tmin18.9","tmax5tmin1.1","tmax-3.3tmin-5.6","tmax33.3tmin20.6","tmax12.8tmin0","tmax16.7tmin2.8","tmax25.6tmin11.1","tmax13.3tmin3.9","tmax16.7tmin3.3","tmax-2.1tmin-11","tmax10.6tmin3.3","tmax24.4tmin10","tmax27.2tmin18.3","tmax2.8tmin-1.1","tmax-9.4tmin-16.1","tmax23.3tmin5.6","tmax7.2tmin-1.7","tmax8.9tmin1.7","tmax18.9tmin13.3","tmax22.2tmin14.4","tmax5tmin-11.7","tmax18.3tmin8.3","tmax-2.1tmin-9.9","tmax31.1tmin12.8","tmax35.6tmin16.7","tmax18.9tmin8.3","tmax23.3tmin16.1","tmax26.1tmin12.8","tmax4.4tmin-1.1","tmax-7.8tmin-15.6","tmax10tmin-3.9","tmax-11.7tmin-32.8","tmax23.9tmin9.4","tmax1.7tmin-1.7","tmax24.4tmin13.9","tmax15.6tmin0","tmax2.2tmin-22.2","tmax-3.9tmin-12.8","tmax11.7tmin6.7","tmax18.3tmin0.6","tmax22.8tmin16.7","tmax10tmin3.3","tmax-1.7tmin-3.9","tmax21.1tmin8.3","tmax-9.4tmin-14.4","tmax-5tmin-13.9","tmax-3.9tmin-13.9","tmax30.6tmin15.6","tmax0tmin-13.3","tmax19.4tmin8.9","tmax6.7tmin3.3","tmax10tmin5","tmax16.1tmin7.8","tmax-1.7tmin-4.4","tmax30.6tmin18.3","tmax20.6tmin7.8","tmax27.2tmin6.7","tmax-4.4tmin-12.2","tmax4.4tmin-13.3","tmax22.2tmin13.9","tmax33.3tmin19.4","tmax2.2tmin-5.6","tmax5.6tmin-3.3","tmax32.2tmin21.1","tmax-3.9tmin-6.7","tmax15.6tmin11.1","tmax28.3tmin11.1","tmax24.4tmin10","tmax4.4tmin-0.6","tmax28.9tmin15","tmax26.1tmin10","tmax10.6tmin2.8","tmax11.1tmin2.2","tmax18.9tmin1.7","tmax27.2tmin9.4","tmax6.7tmin-5","tmax11.7tmin1.1","tmax12.2tmin6.7","tmax8.3tmin-0.6","tmax2.2tmin-15","tmax-1.7tmin-4.4","tmax15.6tmin7.2","tmax25.6tmin17.2","tmax26.7tmin21.1","tmax5.6tmin-1.7","tmax27.8tmin11.7","tmax27.2tmin15","tmax4.4tmin0.6","tmax11.1tmin-2.2","tmax27.2tmin17.8","tmax13.3tmin-1.7","tmax23.9tmin7.8","tmax17.8tmin1.1","tmax33.3tmin18.3","tmax6.1tmin-0.6","tmax23.9tmin11.1","tmax27.8tmin17.2","tmax12.2tmin-1.1","tmax26.1tmin5.6","tmax3.9tmin-1.1","tmax20.6tmin7.8","tmax7.2tmin-2.8","tmax0tmin-5","tmax23.3tmin9.4","tmax-6.7tmin-15","tmax32.2tmin18.9","tmax27.8tmin22.2","tmax28.9tmin19.4","tmax28.9tmin13.9","tmax13.3tmin6.1","tmax27.8tmin13.3","tmax9.4tmin3.9","tmax14.4tmin8.9","tmax4.4tmin-2.2","tmax23.3tmin15.6","tmax26.7tmin19.4","tmax15tmin7.8","tmax8.9tmin-8.3","tmax2.8tmin0.6","tmax32.2tmin12.2","tmax29.4tmin18.3","tmax2.8tmin-6.7","tmax15.6tmin2.2","tmax0.6tmin-2.2","tmax21.1tmin8.9","tmax1.1tmin-9.4","tmax-4.4tmin-10.6","tmax23.9tmin13.9","tmax12.2tmin-1.7","tmax0tmin-9.4","tmax7.2tmin1.7","tmax6.1tmin-6.7","tmax19.4tmin11.1","tmax20.6tmin6.1","tmax10.6tmin-1.7","tmax30.6tmin18.3","tmax3.9tmin-8.3","tmax8.9tmin3.3","tmax17.2tmin3.3","tmax13.9tmin-1.1","tmax6.7tmin-2.8","tmax6.7tmin-6","tmax27.8tmin11.1","tmax18.3tmin0","tmax22.8tmin14.4","tmax25tmin10.6","tmax-14.4tmin-20","tmax18.3tmin4.4","tmax25tmin12.2","tmax14.4tmin9.4","tmax18.9tmin-2.2","tmax22.2tmin6.7","tmax30tmin17.8","tmax13.9tmin4.4","tmax-4.4tmin-16.7","tmax12.8tmin4.4","tmax26.7tmin10.6","tmax1.7tmin-9.4","tmax14.4tmin-0.6","tmax23.9tmin11.7","tmax23.3tmin8.3","tmax20.6tmin7.2","tmax5tmin-1.1","tmax18.3tmin5.6","tmax10tmin0.6","tmax3.3tmin-6.1","tmax22.8tmin7.2","tmax-3.9tmin-9.4","tmax13.9tmin-3.9","tmax17.2tmin5","tmax10tmin2.8","tmax0tmin-5","tmax-0.6tmin-5.6","tmax33.3tmin19.4","tmax21.7tmin5.6","tmax-3.3tmin-16.1","tmax24.4tmin6.1","tmax8.3tmin-0.6","tmax2.8tmin-2.2","tmax12.8tmin7.8","tmax5tmin-0.6","tmax20tmin11.1","tmax26.7tmin8.9","tmax17.2tmin-2.2","tmax7.8tmin0","tmax3.9tmin0","tmax20tmin11.1","tmax-5tmin-15.6","tmax8.9tmin-1.7","tmax6.7tmin-15.6","tmax21.7tmin12.2","tmax26.7tmin14.4","tmax31.7tmin11.1","tmax23.9tmin13.9","tmax18.3tmin10","tmax28.9tmin18.3","tmax7.2tmin-2.2","tmax11.7tmin2.8","tmax-0.6tmin-17.2","tmax4.4tmin-3.9","tmax29.4tmin13.3","tmax23.9tmin17.8","tmax1.7tmin-5.6","tmax21.1tmin15","tmax23.9tmin15","tmax30.6tmin15.6","tmax25.6tmin13.9","tmax6.1tmin-2.8","tmax2.8tmin-3.9","tmax21.7tmin9.4","tmax16.1tmin1.1","tmax3.9tmin1.1","tmax13.9tmin3.3","tmax25.6tmin11.1","tmax26.7tmin16.1","tmax2.2tmin-8.2","tmax-1.7tmin-7.2","tmax0tmin-7.8","tmax26.1tmin14.4","tmax14.4tmin3.3","tmax14.4tmin1.1","tmax1.1tmin-3.9","tmax25.6tmin15.6","tmax7.8tmin-4.4","tmax-8.3tmin-21.1","tmax16.7tmin11.7","tmax6.1tmin-23.9","tmax2.8tmin-1.7","tmax26.1tmin10","tmax-3.9tmin-18.3","tmax0tmin-2.2","tmax23.3tmin13.9","tmax28.9tmin13.9","tmax9.4tmin0"],"type":"scatter","marker":{"colorbar":{"title":"tmax","ticklen":2},"cmin":-26.7,"cmax":37.2,"colorscale":[["0","rgba(68,1,84,0.5)"],["0.0416666666666667","rgba(70,19,97,0.5)"],["0.0833333333333333","rgba(72,32,111,0.5)"],["0.125","rgba(71,45,122,0.5)"],["0.166666666666667","rgba(68,58,128,0.5)"],["0.208333333333333","rgba(64,70,135,0.5)"],["0.25","rgba(60,82,138,0.5)"],["0.291666666666667","rgba(56,93,140,0.5)"],["0.333333333333333","rgba(49,104,142,0.5)"],["0.375","rgba(46,114,142,0.5)"],["0.416666666666667","rgba(42,123,142,0.5)"],["0.458333333333333","rgba(38,133,141,0.5)"],["0.5","rgba(37,144,140,0.5)"],["0.541666666666667","rgba(33,154,138,0.5)"],["0.583333333333333","rgba(39,164,133,0.5)"],["0.625","rgba(47,174,127,0.5)"],["0.666666666666667","rgba(53,183,121,0.5)"],["0.708333333333333","rgba(79,191,110,0.5)"],["0.75","rgba(98,199,98,0.5)"],["0.791666666666667","rgba(119,207,85,0.5)"],["0.833333333333333","rgba(147,214,70,0.5)"],["0.875","rgba(172,220,52,0.5)"],["0.916666666666667","rgba(199,225,42,0.5)"],["0.958333333333333","rgba(226,228,40,0.5)"],["1","rgba(253,231,37,0.5)"]],"showscale":false,"color":[24.4,26.1,20,26.7,20,10.6,20,-26.7,3.9,7.2,-4.9,13.9,4.4,25.6,8.9,8.3,8.3,22.8,29.4,1.7,16.7,-1.1,-14.4,9.4,0,6.1,27.2,6.7,9.4,31.1,1.7,12.8,14.4,12.2,25.6,23.9,1.7,26.7,21.7,27.2,12.8,12.2,-14.4,7.2,12.8,16.1,37.2,28.3,7.2,22.8,31.1,26.7,30,13.3,7.2,22.2,8.3,14.4,8.9,15,1.1,14.4,0.6,11.7,15.6,-2.8,15,8.3,3.3,33.3,5.6,0.6,15,9.4,7.8,28.3,27.8,3.9,19.4,13.9,5,0.6,-1.7,25.6,31.1,8.9,16.7,10,12.8,7.8,3.9,27.2,7.8,15,20,-5.6,26.1,5.6,29.4,23.3,14.4,2.8,22.8,0.6,5,18.9,19.4,30,0,21.1,8.3,11.1,25.6,17.2,-2.8,29.4,6.7,20.6,25,2.8,28.9,13.9,11.7,17.8,31.7,20,2.2,15.6,15.6,1.1,1.1,18.9,25,1.7,23.3,-3.3,26.7,25.6,16.1,15,16.1,28.9,20.6,28.3,26.7,1.7,2.8,16.7,25.6,-10,26.7,0,-7.2,21.1,31.1,30.6,7.2,3.9,-2.2,-2.8,2.8,20.6,16.1,4.4,15.6,30.6,-7.8,23.9,24.4,35.6,23.3,33.3,29.4,23.9,28.9,10,23.9,0.6,23.9,3.9,29.4,27.8,18.9,-2.8,18.9,-0.6,5,-5.6,18.3,19.4,12.2,8.3,11.7,0.6,-15,17.2,7.2,32.8,6.7,28.9,2.2,20,26.1,3.3,16.7,18.9,11.1,28.3,6.1,9.4,14.4,27.8,-1.1,22.2,24.4,21.1,-11.1,5.6,12.2,31.7,25,26.1,23.9,6.1,0.6,4.4,-3.3,10,4.4,26.7,13.3,17.8,11.7,-2.8,20,28.3,-1.7,-8.3,1.7,25,8.9,20,25.6,11.1,19.4,25.6,28.3,25,20,27.8,31.7,-8.3,26.7,29.4,26.7,6.7,21.1,3.9,7.8,1.7,31.7,9.4,9.4,32.2,27.8,10.6,29.4,14.4,2.2,27.2,7.2,6.1,11.1,5.6,26.1,15.6,25.6,27.8,7.2,6.1,23.3,20,18.9,-15.6,-3.3,3.9,0.6,30,8.9,-9.4,1.1,12.2,18.3,13.3,-10,26.1,17.8,25.6,32.2,6.7,7.2,10.6,18.9,21.1,23.3,-2.8,23.3,1.7,24.4,2.2,25.6,29.4,-2.8,6.1,28.9,-3.3,-1.7,25.6,15.6,13.3,-1.7,30.6,21.7,14.4,21.1,21.1,4.4,-2.2,25,-1.1,34.4,-0.6,8.9,22.8,2.8,29.4,1.7,16.7,4.4,11.1,-3.9,6.7,3.3,21.1,0.6,26.1,24.4,31.7,29.4,5.6,-4.4,-3.9,12.8,23.9,16.7,11.7,9.4,23.9,26.1,12.8,21.1,17.8,30.6,10,9.4,0,1.1,25,21.7,23.9,22.2,22.8,11.7,28.3,27.2,2.8,15.6,6.1,5.6,27.8,25,11.1,28.3,6.7,12.8,11.7,-10,23.3,-2.8,11.1,-7.2,-2.8,4.4,32.2,3.3,-2.2,12.8,26.7,30.6,15.6,3.3,28.9,18.9,11.1,20,12.2,-2.8,12.8,9.4,21.7,8.3,10.6,2.2,8.9,-4.4,7.2,7.2,27.2,25.6,21.1,13.3,6.7,15,8.3,0.6,15.6,2.2,31.7,13.3,6.7,12.8,12.2,0.5,29.4,1.7,-7.2,1.1,-6.1,23.9,11.7,7.2,-3.3,14.4,7.2,21.7,3.9,9.4,3.3,22.2,8.3,27.8,-3.3,5.6,-5.6,11.7,23.9,-10.6,26.7,28.3,6.7,25.6,27.8,1.7,19.4,-1.1,24.4,-2.2,10.6,16.1,4.4,26.1,9.4,19.4,1.1,12.2,-4.4,2.8,31.7,7.8,0.6,21.1,1.7,16.1,30,18.3,19.4,-5.6,8.3,24.4,16.7,3.9,-6.1,25.6,6.6,10.6,27.2,6.7,14.8,26.1,21.7,27.8,6.7,18.3,25.6,12.8,27.2,30.6,2.2,6.7,17.8,-18.3,15.6,26.7,21.7,3.3,25,17.2,21.7,-1.7,26.1,0,29.4,23.9,26.1,26.1,28.9,23.9,21.1,-2.2,12.2,22.2,5.6,17.2,-12.2,30,-17.2,-6.1,25.6,4.4,12.2,0.6,20.6,11.7,22.2,22.2,14.4,1.7,-5.6,2.2,1.1,-3.3,21.1,-7.2,22.2,27.8,25,25.6,33.3,13.3,13.3,6.1,32.2,25,-5,12.8,28.9,6.7,3.3,18.9,6.1,17.2,5.6,1.7,-8.9,-7.2,3.9,2.2,31.7,-0.6,12.8,14.4,5.6,1.1,23.9,18.9,16.7,16.7,0.6,34.4,25,24.4,13.3,27.8,30.6,-1.1,8.3,5.6,7.2,15.6,-16.7,28.9,31.1,8.3,-4.4,14.4,10.6,5,29.4,23.3,0.6,13.3,28.3,0.6,26.1,25,1.1,5.6,-1.7,20,20.6,18.3,13.9,28.9,1.1,18.3,5,3.3,21.1,5,8.9,3.3,7.8,35,28.9,21.7,7.2,7.2,16.7,27.8,20,20,17.7,21.7,27.8,19.4,4.4,23.9,19.4,-2.2,3.3,27.2,-2.2,31.1,26.7,26.1,3.3,26.7,15,12.2,5,10.6,6.7,26.1,-3.3,3.9,29.4,3.3,21.7,26.7,22.8,11.1,22.2,25,27.8,20.6,32.2,-4.4,15.6,30.6,3.3,19.4,25.6,27.2,31.1,15.6,6.1,28.9,15.6,19.4,24.4,27.8,26.1,19.4,6.1,28.9,10,33.9,14.4,15.6,25.6,11.7,18.3,16.1,-0.6,22.8,15.6,23.3,21.7,8.3,21.1,24.4,10,25,-2.2,19.4,19.4,20.6,11.1,1.1,26.7,11.7,16.1,8.3,26.7,28.3,-7.8,28.3,18.3,13.3,22.2,-2.8,5.6,6.1,10.7,6.1,23.9,10,26.1,14.4,21.1,24.4,26.7,-10.6,-4.4,10,25,0.6,12.8,12.2,1.7,12.8,8.9,10.6,15,11.7,-4.4,2.2,7.8,4.4,21.1,-6.7,-9.4,6.7,13.3,27.2,22.8,18.3,10.6,0,-5,10,0,11.7,29.4,5.6,0.6,24.4,23.9,22.8,30,13.3,22.8,0.6,28.3,23.9,20.6,-0.6,18.3,2.8,-1.7,13.3,5,17.2,3.3,-2.8,6.7,4.4,21.1,5.6,20,22.2,0.6,26.7,5.6,23.3,22.8,6.7,8.9,14.4,20.6,6.7,7.2,28.3,3.3,8.3,28.3,0.6,10.6,6.1,29.4,-11.7,2.8,3.9,4.4,24.4,-4.4,22.2,21.7,2.2,17.2,12.8,0,26.7,34.4,15,1.1,23.3,18.3,26.7,0.6,13.3,9.4,26.1,15.6,28.9,4.4,12.8,2.2,17.8,6.7,-2.8,7.8,30.6,5.6,17.8,15,23.9,13.3,24.4,25,-10.6,15,0.6,8.9,19.4,26.7,1.1,5.6,25.6,14.4,2.8,26.7,-1.1,29.4,5,-3.3,33.3,12.8,16.7,25.6,13.3,16.7,-2.1,10.6,24.4,27.2,2.8,-9.4,23.3,7.2,8.9,18.9,22.2,5,18.3,-2.1,31.1,35.6,18.9,23.3,26.1,4.4,-7.8,10,-11.7,23.9,1.7,24.4,15.6,2.2,-3.9,11.7,18.3,22.8,10,-1.7,21.1,-9.4,-5,-3.9,30.6,0,19.4,6.7,10,16.1,-1.7,30.6,20.6,27.2,-4.4,4.4,22.2,33.3,2.2,5.6,32.2,-3.9,15.6,28.3,24.4,4.4,28.9,26.1,10.6,11.1,18.9,27.2,6.7,11.7,12.2,8.3,2.2,-1.7,15.6,25.6,26.7,5.6,27.8,27.2,4.4,11.1,27.2,13.3,23.9,17.8,33.3,6.1,23.9,27.8,12.2,26.1,3.9,20.6,7.2,0,23.3,-6.7,32.2,27.8,28.9,28.9,13.3,27.8,9.4,14.4,4.4,23.3,26.7,15,8.9,2.8,32.2,29.4,2.8,15.6,0.6,21.1,1.1,-4.4,23.9,12.2,0,7.2,6.1,19.4,20.6,10.6,30.6,3.9,8.9,17.2,13.9,6.7,6.7,27.8,18.3,22.8,25,-14.4,18.3,25,14.4,18.9,22.2,30,13.9,-4.4,12.8,26.7,1.7,14.4,23.9,23.3,20.6,5,18.3,10,3.3,22.8,-3.9,13.9,17.2,10,0,-0.6,33.3,21.7,-3.3,24.4,8.3,2.8,12.8,5,20,26.7,17.2,7.8,3.9,20,-5,8.9,6.7,21.7,26.7,31.7,23.9,18.3,28.9,7.2,11.7,-0.6,4.4,29.4,23.9,1.7,21.1,23.9,30.6,25.6,6.1,2.8,21.7,16.1,3.9,13.9,25.6,26.7,2.2,-1.7,0,26.1,14.4,14.4,1.1,25.6,7.8,-8.3,16.7,6.1,2.8,26.1,-3.9,0,23.3,28.9,9.4],"line":{"colorbar":{"title":"","ticklen":2},"cmin":-26.7,"cmax":37.2,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[24.4,26.1,20,26.7,20,10.6,20,-26.7,3.9,7.2,-4.9,13.9,4.4,25.6,8.9,8.3,8.3,22.8,29.4,1.7,16.7,-1.1,-14.4,9.4,0,6.1,27.2,6.7,9.4,31.1,1.7,12.8,14.4,12.2,25.6,23.9,1.7,26.7,21.7,27.2,12.8,12.2,-14.4,7.2,12.8,16.1,37.2,28.3,7.2,22.8,31.1,26.7,30,13.3,7.2,22.2,8.3,14.4,8.9,15,1.1,14.4,0.6,11.7,15.6,-2.8,15,8.3,3.3,33.3,5.6,0.6,15,9.4,7.8,28.3,27.8,3.9,19.4,13.9,5,0.6,-1.7,25.6,31.1,8.9,16.7,10,12.8,7.8,3.9,27.2,7.8,15,20,-5.6,26.1,5.6,29.4,23.3,14.4,2.8,22.8,0.6,5,18.9,19.4,30,0,21.1,8.3,11.1,25.6,17.2,-2.8,29.4,6.7,20.6,25,2.8,28.9,13.9,11.7,17.8,31.7,20,2.2,15.6,15.6,1.1,1.1,18.9,25,1.7,23.3,-3.3,26.7,25.6,16.1,15,16.1,28.9,20.6,28.3,26.7,1.7,2.8,16.7,25.6,-10,26.7,0,-7.2,21.1,31.1,30.6,7.2,3.9,-2.2,-2.8,2.8,20.6,16.1,4.4,15.6,30.6,-7.8,23.9,24.4,35.6,23.3,33.3,29.4,23.9,28.9,10,23.9,0.6,23.9,3.9,29.4,27.8,18.9,-2.8,18.9,-0.6,5,-5.6,18.3,19.4,12.2,8.3,11.7,0.6,-15,17.2,7.2,32.8,6.7,28.9,2.2,20,26.1,3.3,16.7,18.9,11.1,28.3,6.1,9.4,14.4,27.8,-1.1,22.2,24.4,21.1,-11.1,5.6,12.2,31.7,25,26.1,23.9,6.1,0.6,4.4,-3.3,10,4.4,26.7,13.3,17.8,11.7,-2.8,20,28.3,-1.7,-8.3,1.7,25,8.9,20,25.6,11.1,19.4,25.6,28.3,25,20,27.8,31.7,-8.3,26.7,29.4,26.7,6.7,21.1,3.9,7.8,1.7,31.7,9.4,9.4,32.2,27.8,10.6,29.4,14.4,2.2,27.2,7.2,6.1,11.1,5.6,26.1,15.6,25.6,27.8,7.2,6.1,23.3,20,18.9,-15.6,-3.3,3.9,0.6,30,8.9,-9.4,1.1,12.2,18.3,13.3,-10,26.1,17.8,25.6,32.2,6.7,7.2,10.6,18.9,21.1,23.3,-2.8,23.3,1.7,24.4,2.2,25.6,29.4,-2.8,6.1,28.9,-3.3,-1.7,25.6,15.6,13.3,-1.7,30.6,21.7,14.4,21.1,21.1,4.4,-2.2,25,-1.1,34.4,-0.6,8.9,22.8,2.8,29.4,1.7,16.7,4.4,11.1,-3.9,6.7,3.3,21.1,0.6,26.1,24.4,31.7,29.4,5.6,-4.4,-3.9,12.8,23.9,16.7,11.7,9.4,23.9,26.1,12.8,21.1,17.8,30.6,10,9.4,0,1.1,25,21.7,23.9,22.2,22.8,11.7,28.3,27.2,2.8,15.6,6.1,5.6,27.8,25,11.1,28.3,6.7,12.8,11.7,-10,23.3,-2.8,11.1,-7.2,-2.8,4.4,32.2,3.3,-2.2,12.8,26.7,30.6,15.6,3.3,28.9,18.9,11.1,20,12.2,-2.8,12.8,9.4,21.7,8.3,10.6,2.2,8.9,-4.4,7.2,7.2,27.2,25.6,21.1,13.3,6.7,15,8.3,0.6,15.6,2.2,31.7,13.3,6.7,12.8,12.2,0.5,29.4,1.7,-7.2,1.1,-6.1,23.9,11.7,7.2,-3.3,14.4,7.2,21.7,3.9,9.4,3.3,22.2,8.3,27.8,-3.3,5.6,-5.6,11.7,23.9,-10.6,26.7,28.3,6.7,25.6,27.8,1.7,19.4,-1.1,24.4,-2.2,10.6,16.1,4.4,26.1,9.4,19.4,1.1,12.2,-4.4,2.8,31.7,7.8,0.6,21.1,1.7,16.1,30,18.3,19.4,-5.6,8.3,24.4,16.7,3.9,-6.1,25.6,6.6,10.6,27.2,6.7,14.8,26.1,21.7,27.8,6.7,18.3,25.6,12.8,27.2,30.6,2.2,6.7,17.8,-18.3,15.6,26.7,21.7,3.3,25,17.2,21.7,-1.7,26.1,0,29.4,23.9,26.1,26.1,28.9,23.9,21.1,-2.2,12.2,22.2,5.6,17.2,-12.2,30,-17.2,-6.1,25.6,4.4,12.2,0.6,20.6,11.7,22.2,22.2,14.4,1.7,-5.6,2.2,1.1,-3.3,21.1,-7.2,22.2,27.8,25,25.6,33.3,13.3,13.3,6.1,32.2,25,-5,12.8,28.9,6.7,3.3,18.9,6.1,17.2,5.6,1.7,-8.9,-7.2,3.9,2.2,31.7,-0.6,12.8,14.4,5.6,1.1,23.9,18.9,16.7,16.7,0.6,34.4,25,24.4,13.3,27.8,30.6,-1.1,8.3,5.6,7.2,15.6,-16.7,28.9,31.1,8.3,-4.4,14.4,10.6,5,29.4,23.3,0.6,13.3,28.3,0.6,26.1,25,1.1,5.6,-1.7,20,20.6,18.3,13.9,28.9,1.1,18.3,5,3.3,21.1,5,8.9,3.3,7.8,35,28.9,21.7,7.2,7.2,16.7,27.8,20,20,17.7,21.7,27.8,19.4,4.4,23.9,19.4,-2.2,3.3,27.2,-2.2,31.1,26.7,26.1,3.3,26.7,15,12.2,5,10.6,6.7,26.1,-3.3,3.9,29.4,3.3,21.7,26.7,22.8,11.1,22.2,25,27.8,20.6,32.2,-4.4,15.6,30.6,3.3,19.4,25.6,27.2,31.1,15.6,6.1,28.9,15.6,19.4,24.4,27.8,26.1,19.4,6.1,28.9,10,33.9,14.4,15.6,25.6,11.7,18.3,16.1,-0.6,22.8,15.6,23.3,21.7,8.3,21.1,24.4,10,25,-2.2,19.4,19.4,20.6,11.1,1.1,26.7,11.7,16.1,8.3,26.7,28.3,-7.8,28.3,18.3,13.3,22.2,-2.8,5.6,6.1,10.7,6.1,23.9,10,26.1,14.4,21.1,24.4,26.7,-10.6,-4.4,10,25,0.6,12.8,12.2,1.7,12.8,8.9,10.6,15,11.7,-4.4,2.2,7.8,4.4,21.1,-6.7,-9.4,6.7,13.3,27.2,22.8,18.3,10.6,0,-5,10,0,11.7,29.4,5.6,0.6,24.4,23.9,22.8,30,13.3,22.8,0.6,28.3,23.9,20.6,-0.6,18.3,2.8,-1.7,13.3,5,17.2,3.3,-2.8,6.7,4.4,21.1,5.6,20,22.2,0.6,26.7,5.6,23.3,22.8,6.7,8.9,14.4,20.6,6.7,7.2,28.3,3.3,8.3,28.3,0.6,10.6,6.1,29.4,-11.7,2.8,3.9,4.4,24.4,-4.4,22.2,21.7,2.2,17.2,12.8,0,26.7,34.4,15,1.1,23.3,18.3,26.7,0.6,13.3,9.4,26.1,15.6,28.9,4.4,12.8,2.2,17.8,6.7,-2.8,7.8,30.6,5.6,17.8,15,23.9,13.3,24.4,25,-10.6,15,0.6,8.9,19.4,26.7,1.1,5.6,25.6,14.4,2.8,26.7,-1.1,29.4,5,-3.3,33.3,12.8,16.7,25.6,13.3,16.7,-2.1,10.6,24.4,27.2,2.8,-9.4,23.3,7.2,8.9,18.9,22.2,5,18.3,-2.1,31.1,35.6,18.9,23.3,26.1,4.4,-7.8,10,-11.7,23.9,1.7,24.4,15.6,2.2,-3.9,11.7,18.3,22.8,10,-1.7,21.1,-9.4,-5,-3.9,30.6,0,19.4,6.7,10,16.1,-1.7,30.6,20.6,27.2,-4.4,4.4,22.2,33.3,2.2,5.6,32.2,-3.9,15.6,28.3,24.4,4.4,28.9,26.1,10.6,11.1,18.9,27.2,6.7,11.7,12.2,8.3,2.2,-1.7,15.6,25.6,26.7,5.6,27.8,27.2,4.4,11.1,27.2,13.3,23.9,17.8,33.3,6.1,23.9,27.8,12.2,26.1,3.9,20.6,7.2,0,23.3,-6.7,32.2,27.8,28.9,28.9,13.3,27.8,9.4,14.4,4.4,23.3,26.7,15,8.9,2.8,32.2,29.4,2.8,15.6,0.6,21.1,1.1,-4.4,23.9,12.2,0,7.2,6.1,19.4,20.6,10.6,30.6,3.9,8.9,17.2,13.9,6.7,6.7,27.8,18.3,22.8,25,-14.4,18.3,25,14.4,18.9,22.2,30,13.9,-4.4,12.8,26.7,1.7,14.4,23.9,23.3,20.6,5,18.3,10,3.3,22.8,-3.9,13.9,17.2,10,0,-0.6,33.3,21.7,-3.3,24.4,8.3,2.8,12.8,5,20,26.7,17.2,7.8,3.9,20,-5,8.9,6.7,21.7,26.7,31.7,23.9,18.3,28.9,7.2,11.7,-0.6,4.4,29.4,23.9,1.7,21.1,23.9,30.6,25.6,6.1,2.8,21.7,16.1,3.9,13.9,25.6,26.7,2.2,-1.7,0,26.1,14.4,14.4,1.1,25.6,7.8,-8.3,16.7,6.1,2.8,26.1,-3.9,0,23.3,28.9,9.4]}},"xaxis":"x","yaxis":"y","frame":null},{"x":[-26.7,37.2],"y":[-32.8,24.4],"type":"scatter","mode":"markers","opacity":0,"hoverinfo":"none","showlegend":false,"marker":{"colorbar":{"title":"tmax","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"cmin":-26.7,"cmax":37.2,"colorscale":[["0","rgba(68,1,84,0.5)"],["0.0416666666666667","rgba(70,19,97,0.5)"],["0.0833333333333333","rgba(72,32,111,0.5)"],["0.125","rgba(71,45,122,0.5)"],["0.166666666666667","rgba(68,58,128,0.5)"],["0.208333333333333","rgba(64,70,135,0.5)"],["0.25","rgba(60,82,138,0.5)"],["0.291666666666667","rgba(56,93,140,0.5)"],["0.333333333333333","rgba(49,104,142,0.5)"],["0.375","rgba(46,114,142,0.5)"],["0.416666666666667","rgba(42,123,142,0.5)"],["0.458333333333333","rgba(38,133,141,0.5)"],["0.5","rgba(37,144,140,0.5)"],["0.541666666666667","rgba(33,154,138,0.5)"],["0.583333333333333","rgba(39,164,133,0.5)"],["0.625","rgba(47,174,127,0.5)"],["0.666666666666667","rgba(53,183,121,0.5)"],["0.708333333333333","rgba(79,191,110,0.5)"],["0.75","rgba(98,199,98,0.5)"],["0.791666666666667","rgba(119,207,85,0.5)"],["0.833333333333333","rgba(147,214,70,0.5)"],["0.875","rgba(172,220,52,0.5)"],["0.916666666666667","rgba(199,225,42,0.5)"],["0.958333333333333","rgba(226,228,40,0.5)"],["1","rgba(253,231,37,0.5)"]],"showscale":true,"color":[-26.7,37.2],"line":{"color":"rgba(255,127,14,1)"}},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="chart-c" class="section level3">
+<h3>Chart C</h3>
+<div class="knitr-options" data-fig-width="768" data-fig-height="576">
+
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;rest_inspec&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>rest_inspec <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(boro, grade) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> grade, <span class="at">values_from =</span> n)</span></code></pre></div>
+<pre><code># A tibble: 6 × 8
+# Groups:   boro [6]
+  boro              A     B     C `Not Yet Graded`     P     Z  `NA`
+  &lt;chr&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt;            &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1 BRONX         13688  2801   701              200   163   351 16833
+2 BROOKLYN      37449  6651  1684              702   416   977 51930
+3 MANHATTAN     61608 10532  2689              765   508  1237 80615
+4 Missing           4    NA    NA               NA    NA    NA    13
+5 QUEENS        35952  6492  1593              604   331   913 45816
+6 STATEN ISLAND  5215   933   207               85    47   149  6730</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rest_inspec <span class="ot">=</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  rest_inspec <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grade <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>), boro <span class="sc">!=</span> <span class="st">&quot;Missing&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">boro =</span> <span class="fu">str_to_title</span>(boro))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>rest_inspec <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(dba, <span class="st">&quot;[Pp][Ii][Zz][Zz][Aa]&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(boro, grade) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> grade, <span class="at">values_from =</span> n)</span></code></pre></div>
+<pre><code># A tibble: 5 × 4
+# Groups:   boro [5]
+  boro              A     B     C
+  &lt;chr&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1 Bronx          1170   305    56
+2 Brooklyn       1948   296    61
+3 Manhattan      1983   420    76
+4 Queens         1647   259    48
+5 Staten Island   323   127    21</code></pre>
+<div class="knitr-options" data-fig-width="768" data-fig-height="576">
+
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plot_2 <span class="ot">=</span> rest_inspec <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(dba, <span class="st">&quot;[Pp][Ii][Zz][Zz][Aa]&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> boro, <span class="at">fill =</span> grade)) <span class="sc">+</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(plot_2)</span></code></pre></div>
+<div id="htmlwidget-802fc0770e88ee3babaa" style="width:90%;height:576px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-802fc0770e88ee3babaa">{"x":{"data":[{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[361,357,496,307,148],"x":[1,2,3,4,5],"y":[1170,1948,1983,1647,323],"text":["count: 1170<br />boro: Bronx<br />grade: A","count: 1948<br />boro: Brooklyn<br />grade: A","count: 1983<br />boro: Manhattan<br />grade: A","count: 1647<br />boro: Queens<br />grade: A","count:  323<br />boro: Staten Island<br />grade: A"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(68,1,84,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"A","legendgroup":"A","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[56,61,76,48,21],"x":[1,2,3,4,5],"y":[305,296,420,259,127],"text":["count:  305<br />boro: Bronx<br />grade: B","count:  296<br />boro: Brooklyn<br />grade: B","count:  420<br />boro: Manhattan<br />grade: B","count:  259<br />boro: Queens<br />grade: B","count:  127<br />boro: Staten Island<br />grade: B"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(33,144,140,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"B","legendgroup":"B","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.9,0.9,0.9,0.9,0.9],"base":[0,0,0,0,0],"x":[1,2,3,4,5],"y":[56,61,76,48,21],"text":["count:   56<br />boro: Bronx<br />grade: C","count:   61<br />boro: Brooklyn<br />grade: C","count:   76<br />boro: Manhattan<br />grade: C","count:   48<br />boro: Queens<br />grade: C","count:   21<br />boro: Staten Island<br />grade: C"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(253,231,37,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"C","legendgroup":"C","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":25.7412480974125,"r":7.30593607305936,"b":39.6955859969559,"l":48.9497716894977},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["Bronx","Brooklyn","Manhattan","Queens","Staten Island"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["Bronx","Brooklyn","Manhattan","Queens","Staten Island"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"boro","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-123.95,2602.95],"tickmode":"array","ticktext":["0","500","1000","1500","2000","2500"],"tickvals":[0,500,1000,1500,2000,2500],"categoryorder":"array","categoryarray":["0","500","1000","1500","2000","2500"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"grade","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3f9847191d74":{"x":{},"fill":{},"type":"bar"}},"cur_data":"3f9847191d74","visdat":{"3f9847191d74":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+</div>
+
+<script>
+$(document).ready(function() {
+  // add bootstrap table styles to pandoc tables
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed table-sm');
+
+  // initialize mathjax
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+  document.getElementsByTagName("head")[0].appendChild(script);
+
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+  FlexDashboard.init({
+    fillPage: true,
+    orientation: "columns",
+    storyboard: false,
+    defaultFigWidth: 576,
+    defaultFigHeight: 460,
+    defaultFigWidthMobile: 360,
+    defaultFigHeightMobile: 460,
+    resize_reload: true
+  });
+  var navbar = $(".navbar").first();
+  var body = $("body").first();
+  var sidebar = $(".section.sidebar").first();
+  function addNavbarPadding() {
+    var navHeight = navbar.outerHeight();
+    body.css("padding-top", (navHeight + 8) + "px");
+    sidebar.css("top", navHeight + "px");
+    var resizeEvent = window.document.createEvent("UIEvents");
+    resizeEvent.initUIEvent("resize", true, false, window, 0);
+    window.dispatchEvent(resizeEvent);
+  }
+  if (!window.Shiny) setTimeout(addNavbarPadding, 100);
+  $(document).on("shiny:idle", function() {
+    setTimeout(addNavbarPadding, 50);
+  });
+});
+</script>
+
+</body>
+</html>
