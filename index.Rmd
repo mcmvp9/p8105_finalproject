@@ -1,0 +1,46 @@
+---
+title: "Predicting Goals Scored in the 2018 World Cup"
+output: html_document
+---
+
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+
+</style>
+
+&nbsp;
+&nbsp;
+
+<center>
+
+<img src="images/2018_FIFApng.png" style="width:45%" class="center">
+
+<font size = "5">*As the world watches some of their favorite players play in the World Cup-- maybe for the first time or even the last-- a possible question on people's minds is how much of this is luck? Well let's try to put it to the test. There are many factors that could lead a team to make it to the World Cup.*</font>
+
+</center>
+
+<div style="margin-bottom:50px;">
+</div>
+
+
+## Project Motivation
+
+
+
+&nbsp;
+
+## What You'll Discover in Our Project
+
+We used data from the 
+
+In the Exploratory Analyses tab, you can observe:
+
+  * H
+  * S
+  * H
+
+
+[project report](finalprojectreport.html)

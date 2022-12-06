@@ -1,0 +1,145 @@
+---
+title: "Data Science Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(ggridges)
+library(patchwork)
+library(hexbin)
+library(plotly)
+library(p8105.datasets)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+# Problem 2
+
+### Chart A
+
+Loading the Instacart data
+```{r}
+data("instacart")
+
+instacart = 
+  instacart %>% 
+  as_tibble(instacart)
+```
+
+Creating a Plotly Barchart
+```{r}
+instacart %>% 
+  count(aisle) %>% 
+  filter(n > 10000) %>% 
+  mutate(aisle = fct_reorder(aisle, n)) %>% 
+  plot_ly(x = ~aisle, y = ~n, color = ~aisle, type = "bar", colors = "viridis")
+```
+
+
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+data("ny_noaa")
+
+ny_noaa = 
+  ny_noaa %>% 
+  as_tibble(ny_noaa)
+```
+
+```{r}
+ny_noaa_tidy2 =  
+  ny_noaa %>% 
+  sample_n(2000) %>% 
+  janitor::clean_names() %>% 
+   separate(date, into = c("year", "month", "day")) %>% 
+  mutate(year = as.integer(year), month = as.integer(month), day = as.integer(day)) %>% 
+  mutate(month = month.name[as.integer(month)]) %>% 
+  mutate(tmin= as.numeric(tmin)) %>% 
+  mutate(tmin = as.numeric(tmin / 10)) %>%
+  mutate(tmax= as.numeric(tmax)) %>% 
+  mutate(tmax = as.numeric(tmax / 10)) %>%
+  mutate(prcp= as.numeric(prcp)) %>% 
+  mutate(prcp = as.numeric(prcp / 10)) %>% 
+ select(id, year, month, day, prcp, snow, snwd, tmax, tmin)
+ny_noaa_tidy2
+```
+
+
+```{r}
+mean(pull(ny_noaa_tidy2, tmax), na.rm = TRUE)
+pull(ny_noaa_tidy2, tmax) %>% 
+  mean(na.rm = TRUE)
+```
+
+```{r}
+ny_noaa_tidy2 %>% 
+    mutate(text_label = str_c("tmax", tmax, "tmin", tmin)) %>% 
+plot_ly(
+    x = ~tmax, y = ~tmin, type = "scatter", mode = "markers",
+    color = ~tmax, text = ~text_label, alpha = 0.5)
+
+```
+
+
+### Chart C
+
+```{r}
+data("rest_inspec")
+
+rest_inspec %>% 
+  group_by(boro, grade) %>% 
+  summarize(n = n()) %>% 
+  pivot_wider(names_from = grade, values_from = n)
+
+rest_inspec =
+  rest_inspec %>%
+  filter(grade %in% c("A", "B", "C"), boro != "Missing") %>% 
+  mutate(boro = str_to_title(boro))
+
+rest_inspec %>% 
+  filter(str_detect(dba, "[Pp][Ii][Zz][Zz][Aa]")) %>% 
+  group_by(boro, grade) %>% 
+  summarize(n = n()) %>% 
+  pivot_wider(names_from = grade, values_from = n)
+
+```
+
+```{r}
+plot_2 = rest_inspec %>% 
+  filter(str_detect(dba, "[Pp][Ii][Zz][Zz][Aa]")) %>%
+  ggplot(aes(x = boro, fill = grade)) + 
+  geom_bar() 
+ggplotly(plot_2)
+```
+
+
+
+
+

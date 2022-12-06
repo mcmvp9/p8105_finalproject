@@ -1,0 +1,20 @@
+---
+title: "Model Building"
+output: 
+  html_document:
+    code_folding: hide
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+options(scipen = 999)
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	message = FALSE,
+	fig.width = 12
+)
+```
+
+

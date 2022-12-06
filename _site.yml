@@ -1,0 +1,28 @@
+name: "Predicting Goals Scored in the 2018 World Cup"
+output_dir: "."
+navbar:
+  title: "Home"
+  left:
+  - text: "Exploratory Analyses"
+    menu:
+    - text: "Name"
+      href: 
+    - text: "Name"
+      href: 
+    - text: "Name"
+      href: 
+  - text: "Model Building"
+    href: modelbuilding.html
+  - text: "Prediction Tool"
+    href: 
+  right:
+    - text: "Project Report"
+      href: finalprojectreport.html
+    - icon: fa-youtube fa-lg
+      href: 
+    - icon: fa-github fa-lg
+      href: https://github.com/TaylorBays/p8105FinalProject.github.io
+
+output:
+  html_document:
+    theme: cosmo
