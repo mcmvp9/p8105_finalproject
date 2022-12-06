@@ -1,0 +1,23 @@
+VARIABLE,DEFINITION,NOTES
+country,Individual country (represents national soccer team),
+part,Number of times each country has participated in the World Cup (all time),
+pld,Number of games played in the World Cup (since 1990),
+w,Number of soccer games a country has won in the World Cup (since 1990),
+d,Number of soccer games a country has drawn in the World Cup (since 1990),
+l,Number of soccer games a country has lost in the World Cup (since 1990),
+gf,Number of goals a country has scored against opponents in the World Cup (since 1990),
+ga,Number of goals scored against a country in the World Cup (since 1990),
+gd,Goal difference of country (goals scored by country minus goals scored against country),
+pts,Number of points accumulated by country in the World Cup (since 1990),"Each country gets 
+3pts (if country won the game)
+
+1pt (if country drew the game)
+
+0pt (if country lost the game)"
+rank,Country Official FIFA ranking (2022 Rankings),Top teams ranked as #1
+player,Name of top record goal scorer,Includes active and inactive players
+goals,Number of goals scored by top record goal scorer,
+land_area_km,"Total area of the land-based portions of a country’s geography (measured in square kilometers, km²)",
+confederation,Country FIFA confederation,"In soccer, the world is broken up into different regions, and countries are grouped together and placed into confederations by FIFA.
+
+There are 6 confederations, CAF (Africa), AFC (Asia and Australia), UEFA (Europe), CONCACAF (North & Central America and the Caribbean), OFC (Oceania) and CONMEBOL (South America)."

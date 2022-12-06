@@ -10,18 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r, echo = FALSE, include=FALSE}
-#install.packages('faraway')
-#install.packages('Hmisc')
-library(Hmisc)
-library(faraway)
 library(tidyverse)
-library(glmnet)
-library(MuMIn)
 library(corrplot)
 library(glmnet)
 library(modelr)
-library(leaps)
-library(caret)
 ```
 
 Correlation matrix between predictor variables
@@ -30,7 +22,7 @@ Correlation matrix between predictor variables
 data <- read.csv("./data/12_4_dataset.csv") %>% 
   na.omit() %>% 
   select(-country)
-hist.data.frame(data, nclass = 8)
+#hist.data.frame(data, nclass = 8)
 num = data[2:11] %>% 
   select(-gd)
 summary(num)
