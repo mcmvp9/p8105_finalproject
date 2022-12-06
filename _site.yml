@@ -5,11 +5,9 @@ navbar:
   left:
   - text: "Exploratory Analyses"
     menu:
-    - text: "Name"
-      href: 
-    - text: "Name"
-      href: 
-    - text: "Name"
+    - text: "Geographic Analyses"
+      href: exploratory_data_analysis.html
+    - text: "Bi-variable Analyses"
       href: 
   - text: "Model Building"
     href: modelbuilding.html
@@ -21,7 +19,7 @@ navbar:
     - icon: fa-youtube fa-lg
       href: 
     - icon: fa-github fa-lg
-      href: https://github.com/TaylorBays/p8105FinalProject.github.io
+      href: https://github.com/mcmvp9/p8105_finalproject
 
 output:
   html_document:
