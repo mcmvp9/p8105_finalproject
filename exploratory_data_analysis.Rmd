@@ -1,5 +1,5 @@
 ---
-title: "Exploring World Cup Statistics"
+title: "Exploring World Cup Statistics Goographically"
 output: 
   html_document:
     toc: TRUE
@@ -72,8 +72,6 @@ wc_countries <- st_read("data/geofiles/worldcup_countries.shp") %>%
 <br>
 
 The International Federation of Association Football (In French: Fédération Internationale de Football Association), commonly known as FIFA, is the international governing body of association football. FIFA is responsible for the organization and governance of football's major international tournaments, most notably the FIFA World Cup, held since 1930.
-
-## Geographic Exploration
 
 <br>
 
@@ -256,24 +254,3 @@ wc_df %>%
     yaxis = list(title = "Goals"))
 ```
 
-## Bivariable Exploration
-
-<br>
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-  plot_ly(
-    data = wc_df,
-    x = ~w, 
-    y = ~rank,
-    type = "scatter",
-    mode = "markers",
-    color = ~confederation, 
-    text = ~country, 
-    alpha = 0.7, 
-    legendgroup = ~confederation,
-    colors = viridis_pal(option = "D")(3)) %>% 
-  layout(
-    title = "Number of World Cup Games Won vs. 2022 FIFA Ranking", 
-    xaxis = list(title = "Games Won"), 
-    yaxis = list(title = "FIFA Ranking"))
-```

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Exploring World Cup Statistics</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Exploratory Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="exploratory_data_analysis.html">Geographic Analyses</a>
+    </li>
+    <li class="dropdown-header">Bi-variable Analyses</li>
+  </ul>
+</li>
+<li>
+  <a href="modelbuilding.html">Model Building</a>
+</li>
+<li class="dropdown-header">Prediction Tool</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="finalprojectreport.html">Project Report</a>
+</li>
+<li>
+  <a>
+    <span class="fa fa-youtube fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/mcmvp9/p8105_finalproject">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Exploring World Cup Statistics</h1>
+
+</div>
+
+
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+
+</style>
+<div id="bivariable-explorations" class="section level3">
+<h3>Bivariable Explorations</h3>
+<p><br></p>
+<div id="htmlwidget-ec6730c4ca140bc9e139" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ec6730c4ca140bc9e139">{"x":{"visdat":{"498a6b642b92":["function () ","plotlyVisDat"]},"cur_data":"498a6b642b92","attrs":{"498a6b642b92":{"x":{},"y":{},"mode":"markers","text":{},"legendgroup":{},"color":{},"colors":["#440154FF","#21908CFF","#FDE725FF"],"alpha":0.7,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"2022 FIFA Ranking vs. Number of World Cup Games Won","xaxis":{"domain":[0,1],"automargin":true,"title":"FIFA Ranking"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Games Won"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[38,79,152,20,68,24,149,112,50,51,28,30,70],"y":[4,0,0,3,0,7,0,1,0,4,7,3,0],"mode":"markers","text":["Australia","China","Indonesia","Iran","Iraq","Japan","Kuwait","North Korea","Qatar","Saudi Arabia","South Korea","Tunisia","United Arab Emirates"],"legendgroup":"AFC","type":"scatter","name":"AFC","marker":{"color":"rgba(68,1,84,0.7)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.7)"},"error_y":{"color":"rgba(68,1,84,0.7)"},"error_x":{"color":"rgba(68,1,84,0.7)"},"line":{"color":"rgba(68,1,84,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[37,119,43,73,39,61,48,22,32,18,67,127],"y":[3,0,5,0,0,5,3,4,6,5,2,0],"mode":"markers","text":["Algeria","Angola","Cameroon","DR Congo","Egypt","Ghana","Ivory Coast","Morocco","Nigeria","Senegal","South Africa","Togo"],"legendgroup":"CAF","type":"scatter","name":"CAF","marker":{"color":"rgba(73,67,106,0.7)","line":{"color":"rgba(73,67,106,1)"}},"textfont":{"color":"rgba(73,67,106,0.7)"},"error_y":{"color":"rgba(73,67,106,0.7)"},"error_x":{"color":"rgba(73,67,106,0.7)"},"line":{"color":"rgba(73,67,106,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[41,31,167,74,87,80,64,13,60,104,16],"y":[0,6,1,0,0,0,1,17,0,0,9],"mode":"markers","text":["Canada","Costa Rica","Cuba","El Salvador","Haiti","Honduras","Jamaica","Mexico","Panama","Trinidad and Tobago","United States"],"legendgroup":"CONCACAF","type":"scatter","name":"CONCACAF","marker":{"color":"rgba(59,118,129,0.7)","line":{"color":"rgba(59,118,129,1)"}},"textfont":{"color":"rgba(59,118,129,0.7)"},"error_y":{"color":"rgba(59,118,129,0.7)"},"error_x":{"color":"rgba(59,118,129,0.7)"},"line":{"color":"rgba(59,118,129,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[3,82,1,29,17,44,47,23,14],"y":[46,0,76,11,9,5,7,5,25],"mode":"markers","text":["Argentina","Bolivia","Brazil","Chile","Colombia","Ecuador","Paraguay","Peru","Uruguay"],"legendgroup":"CONMEBOL","type":"scatter","name":"CONMEBOL","marker":{"color":"rgba(103,161,127,0.7)","line":{"color":"rgba(103,161,127,1)"}},"textfont":{"color":"rgba(103,161,127,0.7)"},"error_y":{"color":"rgba(103,161,127,0.7)"},"error_x":{"color":"rgba(103,161,127,0.7)"},"line":{"color":"rgba(103,161,127,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[105],"y":[0],"mode":"markers","text":"New Zealand","legendgroup":"OFC","type":"scatter","name":"OFC","marker":{"color":"rgba(184,195,95,0.7)","line":{"color":"rgba(184,195,95,1)"}},"textfont":{"color":"rgba(184,195,95,0.7)"},"error_y":{"color":"rgba(184,195,95,0.7)"},"error_x":{"color":"rgba(184,195,95,0.7)"},"line":{"color":"rgba(184,195,95,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[34,2,58,72,12,35,10,5,4,11,52,36,62,76,6,8,59,42,26,9,49,53,33,40,21,55,63,7,25,15,45,27,19],"y":[12,21,1,3,12,12,9,32,37,68,2,15,0,0,45,30,3,2,17,16,2,8,19,4,18,1,1,31,19,14,5,2,1],"mode":"markers","text":["Austria","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Czech Republic","Denmark","England","France","Germany","Greece","Hungary","Iceland","Israel","Italy","Netherlands","Northern Ireland","Norway","Poland","Portugal","Republic of Ireland","Romania","Russia","Scotland","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Turkey","Ukraine","Wales"],"legendgroup":"UEFA","type":"scatter","name":"UEFA","marker":{"color":"rgba(253,231,37,0.7)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.7)"},"error_y":{"color":"rgba(253,231,37,0.7)"},"error_x":{"color":"rgba(253,231,37,0.7)"},"line":{"color":"rgba(253,231,37,0.7)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><br></p>
+<div id="htmlwidget-c1583d23e52e43eb968f" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c1583d23e52e43eb968f">{"x":{"visdat":{"498a65585ad0":["function () ","plotlyVisDat"]},"cur_data":"498a65585ad0","attrs":{"498a65585ad0":{"x":{},"y":{},"mode":"markers","text":{},"legendgroup":{},"color":{},"colors":["#440154FF","#21908CFF","#FDE725FF"],"alpha":0.7,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Number of Games Played vs. Number of World Cup Games Won in the World Cup","xaxis":{"domain":[0,1],"automargin":true,"title":"Games Played"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Games Won"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[20,3,1,18,3,25,3,7,3,19,38,18,3],"y":[4,0,0,3,0,7,0,1,0,4,7,3,0],"mode":"markers","text":["Australia","China","Indonesia","Iran","Iraq","Japan","Kuwait","North Korea","Qatar","Saudi Arabia","South Korea","Tunisia","United Arab Emirates"],"legendgroup":"AFC","type":"scatter","name":"AFC","marker":{"color":"rgba(68,1,84,0.7)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.7)"},"error_y":{"color":"rgba(68,1,84,0.7)"},"error_x":{"color":"rgba(68,1,84,0.7)"},"line":{"color":"rgba(68,1,84,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[13,3,26,3,7,15,9,19,21,12,9,3],"y":[3,0,5,0,0,5,3,4,6,5,2,0],"mode":"markers","text":["Algeria","Angola","Cameroon","DR Congo","Egypt","Ghana","Ivory Coast","Morocco","Nigeria","Senegal","South Africa","Togo"],"legendgroup":"CAF","type":"scatter","name":"CAF","marker":{"color":"rgba(73,67,106,0.7)","line":{"color":"rgba(73,67,106,1)"}},"textfont":{"color":"rgba(73,67,106,0.7)"},"error_y":{"color":"rgba(73,67,106,0.7)"},"error_x":{"color":"rgba(73,67,106,0.7)"},"line":{"color":"rgba(73,67,106,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[6,21,3,6,3,9,3,60,3,3,37],"y":[0,6,1,0,0,0,1,17,0,0,9],"mode":"markers","text":["Canada","Costa Rica","Cuba","El Salvador","Haiti","Honduras","Jamaica","Mexico","Panama","Trinidad and Tobago","United States"],"legendgroup":"CONCACAF","type":"scatter","name":"CONCACAF","marker":{"color":"rgba(59,118,129,0.7)","line":{"color":"rgba(59,118,129,1)"}},"textfont":{"color":"rgba(59,118,129,0.7)"},"error_y":{"color":"rgba(59,118,129,0.7)"},"error_x":{"color":"rgba(59,118,129,0.7)"},"line":{"color":"rgba(59,118,129,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[85,6,113,33,22,13,27,18,59],"y":[46,0,76,11,9,5,7,5,25],"mode":"markers","text":["Argentina","Bolivia","Brazil","Chile","Colombia","Ecuador","Paraguay","Peru","Uruguay"],"legendgroup":"CONMEBOL","type":"scatter","name":"CONMEBOL","marker":{"color":"rgba(103,161,127,0.7)","line":{"color":"rgba(103,161,127,1)"}},"textfont":{"color":"rgba(103,161,127,0.7)"},"error_y":{"color":"rgba(103,161,127,0.7)"},"error_x":{"color":"rgba(103,161,127,0.7)"},"line":{"color":"rgba(103,161,127,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[6],"y":[0],"mode":"markers","text":"New Zealand","legendgroup":"OFC","type":"scatter","name":"OFC","marker":{"color":"rgba(184,195,95,0.7)","line":{"color":"rgba(184,195,95,1)"}},"textfont":{"color":"rgba(184,195,95,0.7)"},"error_y":{"color":"rgba(184,195,95,0.7)"},"error_x":{"color":"rgba(184,195,95,0.7)"},"line":{"color":"rgba(184,195,95,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[29,51,3,26,27,33,23,73,70,112,10,32,3,3,83,54,13,8,38,33,13,21,45,23,49,4,6,66,51,40,10,5,8],"y":[12,21,1,3,12,12,9,32,37,68,2,15,0,0,45,30,3,2,17,16,2,8,19,4,18,1,1,31,19,14,5,2,1],"mode":"markers","text":["Austria","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Czech Republic","Denmark","England","France","Germany","Greece","Hungary","Iceland","Israel","Italy","Netherlands","Northern Ireland","Norway","Poland","Portugal","Republic of Ireland","Romania","Russia","Scotland","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Turkey","Ukraine","Wales"],"legendgroup":"UEFA","type":"scatter","name":"UEFA","marker":{"color":"rgba(253,231,37,0.7)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.7)"},"error_y":{"color":"rgba(253,231,37,0.7)"},"error_x":{"color":"rgba(253,231,37,0.7)"},"line":{"color":"rgba(253,231,37,0.7)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><br></p>
+<div id="htmlwidget-4943ccf458a0111d96d6" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4943ccf458a0111d96d6">{"x":{"visdat":{"498a63f5478c":["function () ","plotlyVisDat"]},"cur_data":"498a63f5478c","attrs":{"498a63f5478c":{"x":{},"y":{},"mode":"markers","text":{},"legendgroup":{},"color":{},"colors":["#440154FF","#21908CFF","#FDE725FF"],"alpha":0.7,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Number of Goals For vs. Number of World Cup Games Won in the World Cup","xaxis":{"domain":[0,1],"automargin":true,"title":"Goals For"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Games Won"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[17,0,0,13,1,25,2,6,1,14,39,14,2],"y":[4,0,0,3,0,7,0,1,0,4,7,3,0],"mode":"markers","text":["Australia","China","Indonesia","Iran","Iraq","Japan","Kuwait","North Korea","Qatar","Saudi Arabia","South Korea","Tunisia","United Arab Emirates"],"legendgroup":"AFC","type":"scatter","name":"AFC","marker":{"color":"rgba(68,1,84,0.7)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.7)"},"error_y":{"color":"rgba(68,1,84,0.7)"},"error_x":{"color":"rgba(68,1,84,0.7)"},"line":{"color":"rgba(68,1,84,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[13,1,22,0,5,18,13,18,23,16,11,1],"y":[3,0,5,0,0,5,3,4,6,5,2,0],"mode":"markers","text":["Algeria","Angola","Cameroon","DR Congo","Egypt","Ghana","Ivory Coast","Morocco","Nigeria","Senegal","South Africa","Togo"],"legendgroup":"CAF","type":"scatter","name":"CAF","marker":{"color":"rgba(73,67,106,0.7)","line":{"color":"rgba(73,67,106,1)"}},"textfont":{"color":"rgba(73,67,106,0.7)"},"error_y":{"color":"rgba(73,67,106,0.7)"},"error_x":{"color":"rgba(73,67,106,0.7)"},"line":{"color":"rgba(73,67,106,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2,22,5,1,2,3,3,62,2,0,40],"y":[0,6,1,0,0,0,1,17,0,0,9],"mode":"markers","text":["Canada","Costa Rica","Cuba","El Salvador","Haiti","Honduras","Jamaica","Mexico","Panama","Trinidad and Tobago","United States"],"legendgroup":"CONCACAF","type":"scatter","name":"CONCACAF","marker":{"color":"rgba(59,118,129,0.7)","line":{"color":"rgba(59,118,129,1)"}},"textfont":{"color":"rgba(59,118,129,0.7)"},"error_y":{"color":"rgba(59,118,129,0.7)"},"error_x":{"color":"rgba(59,118,129,0.7)"},"line":{"color":"rgba(59,118,129,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[144,1,236,40,32,14,30,21,89],"y":[46,0,76,11,9,5,7,5,25],"mode":"markers","text":["Argentina","Bolivia","Brazil","Chile","Colombia","Ecuador","Paraguay","Peru","Uruguay"],"legendgroup":"CONMEBOL","type":"scatter","name":"CONMEBOL","marker":{"color":"rgba(103,161,127,0.7)","line":{"color":"rgba(103,161,127,1)"}},"textfont":{"color":"rgba(103,161,127,0.7)"},"error_y":{"color":"rgba(103,161,127,0.7)"},"error_x":{"color":"rgba(103,161,127,0.7)"},"line":{"color":"rgba(103,161,127,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[4],"y":[0],"mode":"markers","text":"New Zealand","legendgroup":"OFC","type":"scatter","name":"OFC","marker":{"color":"rgba(184,195,95,0.7)","line":{"color":"rgba(184,195,95,1)"}},"textfont":{"color":"rgba(184,195,95,0.7)"},"error_y":{"color":"rgba(184,195,95,0.7)"},"error_x":{"color":"rgba(184,195,95,0.7)"},"line":{"color":"rgba(184,195,95,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[43,69,4,22,40,47,31,103,129,232,5,87,2,1,128,94,13,7,49,55,10,30,77,25,71,5,5,108,80,54,20,5,5],"y":[12,21,1,3,12,12,9,32,37,68,2,15,0,0,45,30,3,2,17,16,2,8,19,4,18,1,1,31,19,14,5,2,1],"mode":"markers","text":["Austria","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Czech Republic","Denmark","England","France","Germany","Greece","Hungary","Iceland","Israel","Italy","Netherlands","Northern Ireland","Norway","Poland","Portugal","Republic of Ireland","Romania","Russia","Scotland","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Turkey","Ukraine","Wales"],"legendgroup":"UEFA","type":"scatter","name":"UEFA","marker":{"color":"rgba(253,231,37,0.7)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.7)"},"error_y":{"color":"rgba(253,231,37,0.7)"},"error_x":{"color":"rgba(253,231,37,0.7)"},"line":{"color":"rgba(253,231,37,0.7)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><br></p>
+<div id="htmlwidget-44979fefd9c9451c53ab" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-44979fefd9c9451c53ab">{"x":{"visdat":{"498a484c07d8":["function () ","plotlyVisDat"]},"cur_data":"498a484c07d8","attrs":{"498a484c07d8":{"x":{},"y":{},"mode":"markers","text":{},"legendgroup":{},"color":{},"colors":["#440154FF","#21908CFF","#FDE725FF"],"alpha":0.7,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Number of Goals Against vs. Number of World Cup Games Won in the World Cup","xaxis":{"domain":[0,1],"automargin":true,"title":"Goals Against"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Games Won"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[37,9,6,31,4,33,6,21,7,44,78,26,11],"y":[4,0,0,3,0,7,0,1,0,4,7,3,0],"mode":"markers","text":["Australia","China","Indonesia","Iran","Iraq","Japan","Kuwait","North Korea","Qatar","Saudi Arabia","South Korea","Tunisia","United Arab Emirates"],"legendgroup":"AFC","type":"scatter","name":"AFC","marker":{"color":"rgba(68,1,84,0.7)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.7)"},"error_y":{"color":"rgba(68,1,84,0.7)"},"error_x":{"color":"rgba(68,1,84,0.7)"},"line":{"color":"rgba(68,1,84,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[19,2,47,14,12,23,14,23,30,17,16,6],"y":[3,0,5,0,0,5,3,4,6,5,2,0],"mode":"markers","text":["Algeria","Angola","Cameroon","DR Congo","Egypt","Ghana","Ivory Coast","Morocco","Nigeria","Senegal","South Africa","Togo"],"legendgroup":"CAF","type":"scatter","name":"CAF","marker":{"color":"rgba(73,67,106,0.7)","line":{"color":"rgba(73,67,106,1)"}},"textfont":{"color":"rgba(73,67,106,0.7)"},"error_y":{"color":"rgba(73,67,106,0.7)"},"error_x":{"color":"rgba(73,67,106,0.7)"},"line":{"color":"rgba(73,67,106,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[12,39,12,22,14,14,9,101,11,4,66],"y":[0,6,1,0,0,0,1,17,0,0,9],"mode":"markers","text":["Canada","Costa Rica","Cuba","El Salvador","Haiti","Honduras","Jamaica","Mexico","Panama","Trinidad and Tobago","United States"],"legendgroup":"CONCACAF","type":"scatter","name":"CONCACAF","marker":{"color":"rgba(59,118,129,0.7)","line":{"color":"rgba(59,118,129,1)"}},"textfont":{"color":"rgba(59,118,129,0.7)"},"error_y":{"color":"rgba(59,118,129,0.7)"},"error_x":{"color":"rgba(59,118,129,0.7)"},"line":{"color":"rgba(59,118,129,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[96,20,107,49,30,14,38,33,76],"y":[46,0,76,11,9,5,7,5,25],"mode":"markers","text":["Argentina","Bolivia","Brazil","Chile","Colombia","Ecuador","Paraguay","Peru","Uruguay"],"legendgroup":"CONMEBOL","type":"scatter","name":"CONMEBOL","marker":{"color":"rgba(103,161,127,0.7)","line":{"color":"rgba(103,161,127,1)"}},"textfont":{"color":"rgba(103,161,127,0.7)"},"error_y":{"color":"rgba(103,161,127,0.7)"},"error_x":{"color":"rgba(103,161,127,0.7)"},"line":{"color":"rgba(103,161,127,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[14],"y":[0],"mode":"markers","text":"New Zealand","legendgroup":"OFC","type":"scatter","name":"OFC","marker":{"color":"rgba(184,195,95,0.7)","line":{"color":"rgba(184,195,95,1)"}},"textfont":{"color":"rgba(184,195,95,0.7)"},"error_y":{"color":"rgba(184,195,95,0.7)"},"error_x":{"color":"rgba(184,195,95,0.7)"},"line":{"color":"rgba(184,195,95,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[47,74,4,53,28,49,29,66,81,130,20,57,5,3,77,50,23,8,50,39,10,32,54,41,71,7,10,75,73,67,17,7,10],"y":[12,21,1,3,12,12,9,32,37,68,2,15,0,0,45,30,3,2,17,16,2,8,19,4,18,1,1,31,19,14,5,2,1],"mode":"markers","text":["Austria","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Czech Republic","Denmark","England","France","Germany","Greece","Hungary","Iceland","Israel","Italy","Netherlands","Northern Ireland","Norway","Poland","Portugal","Republic of Ireland","Romania","Russia","Scotland","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Turkey","Ukraine","Wales"],"legendgroup":"UEFA","type":"scatter","name":"UEFA","marker":{"color":"rgba(253,231,37,0.7)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.7)"},"error_y":{"color":"rgba(253,231,37,0.7)"},"error_x":{"color":"rgba(253,231,37,0.7)"},"line":{"color":"rgba(253,231,37,0.7)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><br></p>
+<div id="htmlwidget-b1cb316f9a12db8fa055" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b1cb316f9a12db8fa055">{"x":{"visdat":{"498a616cd3ba":["function () ","plotlyVisDat"]},"cur_data":"498a616cd3ba","attrs":{"498a616cd3ba":{"x":{},"y":{},"mode":"markers","text":{},"legendgroup":{},"color":{},"colors":["#440154FF","#21908CFF","#FDE725FF"],"alpha":0.7,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Number of Games Drawn vs. Number of World Cup Games Won in the World Cup","xaxis":{"domain":[0,1],"automargin":true,"title":"Number of Draws"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Games Won"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[4,0,0,4,0,6,1,1,0,2,10,5,0],"y":[4,0,0,3,0,7,0,1,0,4,7,3,0],"mode":"markers","text":["Australia","China","Indonesia","Iran","Iraq","Japan","Kuwait","North Korea","Qatar","Saudi Arabia","South Korea","Tunisia","United Arab Emirates"],"legendgroup":"AFC","type":"scatter","name":"AFC","marker":{"color":"rgba(68,1,84,0.7)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.7)"},"error_y":{"color":"rgba(68,1,84,0.7)"},"error_x":{"color":"rgba(68,1,84,0.7)"},"line":{"color":"rgba(68,1,84,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[3,2,8,0,2,3,1,6,3,3,4,0],"y":[3,0,5,0,0,5,3,4,6,5,2,0],"mode":"markers","text":["Algeria","Angola","Cameroon","DR Congo","Egypt","Ghana","Ivory Coast","Morocco","Nigeria","Senegal","South Africa","Togo"],"legendgroup":"CAF","type":"scatter","name":"CAF","marker":{"color":"rgba(73,67,106,0.7)","line":{"color":"rgba(73,67,106,1)"}},"textfont":{"color":"rgba(73,67,106,0.7)"},"error_y":{"color":"rgba(73,67,106,0.7)"},"error_x":{"color":"rgba(73,67,106,0.7)"},"line":{"color":"rgba(73,67,106,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,5,1,0,0,3,0,15,0,1,8],"y":[0,6,1,0,0,0,1,17,0,0,9],"mode":"markers","text":["Canada","Costa Rica","Cuba","El Salvador","Haiti","Honduras","Jamaica","Mexico","Panama","Trinidad and Tobago","United States"],"legendgroup":"CONCACAF","type":"scatter","name":"CONCACAF","marker":{"color":"rgba(59,118,129,0.7)","line":{"color":"rgba(59,118,129,1)"}},"textfont":{"color":"rgba(59,118,129,0.7)"},"error_y":{"color":"rgba(59,118,129,0.7)"},"error_x":{"color":"rgba(59,118,129,0.7)"},"line":{"color":"rgba(59,118,129,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[15,1,18,7,3,2,10,3,13],"y":[46,0,76,11,9,5,7,5,25],"mode":"markers","text":["Argentina","Bolivia","Brazil","Chile","Colombia","Ecuador","Paraguay","Peru","Uruguay"],"legendgroup":"CONMEBOL","type":"scatter","name":"CONMEBOL","marker":{"color":"rgba(103,161,127,0.7)","line":{"color":"rgba(103,161,127,1)"}},"textfont":{"color":"rgba(103,161,127,0.7)"},"error_y":{"color":"rgba(103,161,127,0.7)"},"error_x":{"color":"rgba(103,161,127,0.7)"},"line":{"color":"rgba(103,161,127,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[3],"y":[0],"mode":"markers","text":"New Zealand","legendgroup":"OFC","type":"scatter","name":"OFC","marker":{"color":"rgba(184,195,95,0.7)","line":{"color":"rgba(184,195,95,1)"}},"textfont":{"color":"rgba(184,195,95,0.7)"},"error_y":{"color":"rgba(184,195,95,0.7)"},"error_x":{"color":"rgba(184,195,95,0.7)"},"line":{"color":"rgba(184,195,95,0.7)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[4,10,0,8,7,5,6,22,13,21,2,3,1,2,21,13,5,3,6,6,8,5,10,7,9,1,1,16,13,8,1,1,4],"y":[12,21,1,3,12,12,9,32,37,68,2,15,0,0,45,30,3,2,17,16,2,8,19,4,18,1,1,31,19,14,5,2,1],"mode":"markers","text":["Austria","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Czech Republic","Denmark","England","France","Germany","Greece","Hungary","Iceland","Israel","Italy","Netherlands","Northern Ireland","Norway","Poland","Portugal","Republic of Ireland","Romania","Russia","Scotland","Serbia","Slovakia","Slovenia","Spain","Sweden","Switzerland","Turkey","Ukraine","Wales"],"legendgroup":"UEFA","type":"scatter","name":"UEFA","marker":{"color":"rgba(253,231,37,0.7)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.7)"},"error_y":{"color":"rgba(253,231,37,0.7)"},"error_x":{"color":"rgba(253,231,37,0.7)"},"line":{"color":"rgba(253,231,37,0.7)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
