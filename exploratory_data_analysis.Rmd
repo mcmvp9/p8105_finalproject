@@ -1,5 +1,5 @@
 ---
-title: "Exploring World Cup Statistics Goographically"
+title: "Exploring World Cup Statistics Geographically"
 output: 
   html_document:
     toc: TRUE
@@ -69,26 +69,27 @@ wc_countries <- st_read("data/geofiles/worldcup_countries.shp") %>%
     goals = as.numeric(goals),
     land_area = as.numeric(land_area))
 ```
+
 <br>
 
 The International Federation of Association Football (In French: Fédération Internationale de Football Association), commonly known as FIFA, is the international governing body of association football. FIFA is responsible for the organization and governance of football's major international tournaments, most notably the FIFA World Cup, held since 1930.
 
 <br>
 
-### Data by Confederation
+## Data by Confederation
 In international soccer, the world is broken up into six regions and the countries in each region are grouped together. These groups, which are called Confederations, are responsible for overseeing the game in their section of the world.
 
-The six Confederations recogized by FIFA include: <br>
-  1. AFC - Asian Football Confederation in **Asia and Australia** <br>
-  2. CAF - Confédération Africaine de Football in **Africa** <br>
-  3. CONCACAF - Confederation of **North, Central American and Caribbean** Association Football <br>
-  4. CONMEBOL - Confederación Sudamericana de Fútbol in **South America** <br>
-  5. OFC - Oceania Football Confederation in **Oceania** <br>
-  6. UEFA - Union of European Football Associations in **Europe** <br>
+The six Confederations recogized by FIFA include:
+* AFC - Asian Football Confederation in **Asia and Australia** <br>
+* CAF - Confédération Africaine de Football in **Africa** <br>
+* CONCACAF - Confederation of **North, Central American and Caribbean** Association Football <br>
+* CONMEBOL - Confederación Sudamericana de Fútbol in **South America** <br>
+* OFC - Oceania Football Confederation in **Oceania** <br>
+* UEFA - Union of European Football Associations in **Europe** <br>
 
 <br>
 
-#### National Teams That Have Participated in the World Cup by FIFA Confederation
+### National Teams That Have Participated in the World Cup by FIFA Confederation
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 tm_shape(wc_countries) + 
   tm_polygons(
@@ -126,7 +127,7 @@ Most of the national teams that have participated in the World Cup have been fro
 
 <br>
 
-#### Number of Games Won in the World Cup
+### Number of Games Won in the World Cup
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 worldmap_conf +
     tm_bubbles("w",
@@ -142,7 +143,7 @@ worldmap_conf +
       id = "country")
 ```
 
-#### Number of Participations in the World Cup
+### Number of Participations in the World Cup
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 worldmap_conf +
     tm_bubbles("part",
@@ -164,11 +165,11 @@ The national teams that have both participated and won the most games in World C
 
 <br>
 
-### Data by Country
+## Data by Country
 
 <br>
 
-#### Number of Participations in the World Cup by Country
+### Number of Participations in the World Cup by Country
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 tm_shape(wc_countries) + 
   tm_polygons(
@@ -186,7 +187,7 @@ Brazil is an international powerhouse when it comes to soccer. Brazil is the onl
 
 <br>
 
-#### FIFA Ranking
+### FIFA Ranking
 FIFA rankings are a unique way to measure how national teams compare to each other and can prove important when it comes to tournaments like a World Cup. National teams are ranked by FIFA based on their game results with the most successful teams being ranked highest (top team ranked as #1).
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
@@ -209,12 +210,10 @@ tm_shape(wc_countries) +
 wc_df %>%
   mutate(
     country = fct_reorder(country, -rank),
-    text_label = str_c("Country: ", country, "\nFIFA Rank: ", rank, "\nConfederation: ", confederation)) %>%
+    text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nFIFA Rank: ", rank)) %>%
   plot_ly(
     x = ~country, 
     y = ~rank, 
-    # type = "scatter",
-    # mode = "markers",
     color = ~confederation,
     text = ~text_label, 
     alpha = 0.7, 
@@ -231,7 +230,7 @@ The highest ranked national teams appear to be spatially clustered in the CONMEB
 
 <br>
 
-#### Goals Scored by Top Player
+### Goals Scored by Top Player
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 wc_df %>%
@@ -241,8 +240,6 @@ wc_df %>%
   plot_ly(
     x = ~country, 
     y = ~goals, 
-    # type = "scatter",
-    # mode = "markers",
     color = ~confederation,
     text = ~text_label, 
     alpha = 0.7, 
