@@ -9,11 +9,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Melvin Coleman" />
 
 
-<title>construct_dataset</title>
+<title>Dataset Creation</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -32,6 +33,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -178,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -187,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -292,67 +288,47 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Dataset Creation</h1>
+<h4 class="author">Melvin Coleman</h4>
+<h4 class="date">12/2/2022</h4>
 
 </div>
 
 
-<div id="dataset-creation" class="section level1">
-<h1>Dataset Creation</h1>
-<p>Melvin Coleman 12/2/2022</p>
-<p>Let’s create the dataset we will utilize for the final project. Data
-was pulled from the web via scarping and downloaded from websites. The
-“data” folder contains the csv files of data downloaded and intended for
-use.</p>
+<p>Let’s create the dataset we will utilize for the final project. Data was pulled from the web via scarping and downloaded from websites. The “data” folder contains the csv files of data downloaded and intended for use.</p>
 <div id="world-cup-records-statistics" class="section level3">
 <h3>World Cup Records &amp; Statistics</h3>
-<p>This data was loaded data from Wikipedia and contains record and
-statistics of the overall team records of the FIFA World Cup.</p>
+<p>This data was loaded data from Wikipedia and contains record and statistics of the overall team records of the FIFA World Cup.</p>
 <pre class="r"><code>wiki_list =
 records_stats_html = read_html(&quot;https://en.wikipedia.org/wiki/FIFA_World_Cup_records_and_statistics&quot;) %&gt;% 
-  html_table(header = TRUE)
+ html_table(header = TRUE)
 
 wc_stats =
   wiki_list[[2]]
   
 wc_stats = 
   wc_stats %&gt;% 
-  janitor::clean_names() %&gt;%
+ janitor::clean_names() %&gt;%
    rename(country = team) %&gt;% 
   ## Delete rank(data ranked in order of WC winners) &amp; team
-  select(country, everything(), -rank) %&gt;% 
+ select(country, everything(), -rank) %&gt;% 
   
   ## Clean dataset, remove weird characters in names 
-  mutate(
+ mutate(
      country = str_replace(country, &quot;//[c]&quot;, &quot;&quot;)
   ) %&gt;%
   apply(., 2, function(country) as.character(gsub(&quot;\\[|a\\]&quot;,&quot;&quot;,country))) %&gt;%
-  apply(., 2, function(country) as.character(gsub(&quot;\\[|b\\]&quot;,&quot;&quot;,country))) %&gt;%
+ apply(., 2, function(country) as.character(gsub(&quot;\\[|b\\]&quot;,&quot;&quot;,country))) %&gt;%
   apply(., 2, function(country) as.character(gsub(&quot;\\[|c\\]&quot;,&quot;&quot;,country))) %&gt;%
   apply(., 2, function(country) as.character(gsub(&quot;\\[|d\\]&quot;,&quot;&quot;,country))) %&gt;%
   apply(., 2, function(country) as.character(gsub(&quot;\\[|e\\]&quot;,&quot;&quot;,country))) %&gt;%
   apply(., 2, function(country) as.character(gsub(&quot;\\[|f\\]&quot;,&quot;&quot;,country))) %&gt;%
-  as_tibble()
+ as_tibble()
   
 wc_stats</code></pre>
-<pre><code>## # A tibble: 80 × 10
-##    country     part  pld   w     d     l     gf    ga    gd    pts  
-##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 Brazil      22    &quot;113&quot; 76    18    19    &quot;236&quot; &quot;107&quot; +129  &quot;246&quot;
-##  2 Germany     20    &quot;112&quot; 68    21    23    &quot;232&quot; &quot;130&quot; +102  &quot;225&quot;
-##  3 Italy       18    &quot; 83&quot; 45    21    17    &quot;128&quot; &quot; 77&quot; +51   &quot;156&quot;
-##  4 Argentina   18    &quot; 85&quot; 46    15    24    &quot;144&quot; &quot; 96&quot; +48   &quot;153&quot;
-##  5 France      16    &quot; 70&quot; 37    13    20    &quot;129&quot; &quot; 81&quot; +48   &quot;124&quot;
-##  6 England     16    &quot; 73&quot; 32    22    19    &quot;103&quot; &quot; 66&quot; +37   &quot;118&quot;
-##  7 Spain       16    &quot; 66&quot; 31    16    19    &quot;108&quot; &quot; 75&quot; +33   &quot;109&quot;
-##  8 Netherlands 11    &quot; 54&quot; 30    13    11    &quot; 94&quot; &quot; 50&quot; +44   &quot;103&quot;
-##  9 Uruguay     14    &quot; 59&quot; 25    13    21    &quot; 89&quot; &quot; 76&quot; +13   &quot; 88&quot;
-## 10 Belgium     14    &quot; 51&quot; 21    10    20    &quot; 69&quot; &quot; 74&quot; −5    &quot; 73&quot;
-## # … with 70 more rows</code></pre>
 </div>
 <div id="fifa-rankings-2022-fifa-rankings" class="section level3">
-<h3>Fifa Rankings 2022 <a
-href="https://www.2026worldcupnorthamerica.com/fifa-ranking/">Fifa
-Rankings</a></h3>
+<h3>Fifa Rankings 2022 <a href="https://www.2026worldcupnorthamerica.com/fifa-ranking/">Fifa Rankings</a></h3>
 <p>This dataset was created via web scraping.</p>
 <pre class="r"><code>wc_rank_html =
    read_html(&quot;https://www.2026worldcupnorthamerica.com/fifa-ranking/&quot;) 
@@ -362,138 +338,16 @@ rank_text =
   html_elements(&quot;.grippy-host , td:nth-child(1), td:nth-child(1)&quot;) %&gt;% 
   html_text() 
 
-rank_text</code></pre>
-<pre><code>##   [1] &quot;1&quot;   &quot;2&quot;   &quot;3&quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot;7&quot;   &quot;8&quot;   &quot;9&quot;   &quot;10&quot;  &quot;11&quot;  &quot;12&quot; 
-##  [13] &quot;13&quot;  &quot;14&quot;  &quot;15&quot;  &quot;16&quot;  &quot;17&quot;  &quot;18&quot;  &quot;19&quot;  &quot;20&quot;  &quot;21&quot;  &quot;22&quot;  &quot;23&quot;  &quot;24&quot; 
-##  [25] &quot;25&quot;  &quot;26&quot;  &quot;27&quot;  &quot;28&quot;  &quot;29&quot;  &quot;30&quot;  &quot;31&quot;  &quot;32&quot;  &quot;33&quot;  &quot;34&quot;  &quot;35&quot;  &quot;36&quot; 
-##  [37] &quot;37&quot;  &quot;38&quot;  &quot;39&quot;  &quot;40&quot;  &quot;41&quot;  &quot;42&quot;  &quot;43&quot;  &quot;44&quot;  &quot;45&quot;  &quot;46&quot;  &quot;47&quot;  &quot;48&quot; 
-##  [49] &quot;49&quot;  &quot;50&quot;  &quot;51&quot;  &quot;52&quot;  &quot;53&quot;  &quot;54&quot;  &quot;55&quot;  &quot;56&quot;  &quot;57&quot;  &quot;58&quot;  &quot;59&quot;  &quot;60&quot; 
-##  [61] &quot;61&quot;  &quot;62&quot;  &quot;63&quot;  &quot;64&quot;  &quot;65&quot;  &quot;66&quot;  &quot;67&quot;  &quot;68&quot;  &quot;69&quot;  &quot;70&quot;  &quot;71&quot;  &quot;72&quot; 
-##  [73] &quot;73&quot;  &quot;74&quot;  &quot;75&quot;  &quot;76&quot;  &quot;77&quot;  &quot;78&quot;  &quot;79&quot;  &quot;80&quot;  &quot;81&quot;  &quot;82&quot;  &quot;83&quot;  &quot;84&quot; 
-##  [85] &quot;85&quot;  &quot;86&quot;  &quot;87&quot;  &quot;88&quot;  &quot;89&quot;  &quot;90&quot;  &quot;91&quot;  &quot;92&quot;  &quot;93&quot;  &quot;94&quot;  &quot;95&quot;  &quot;96&quot; 
-##  [97] &quot;97&quot;  &quot;98&quot;  &quot;99&quot;  &quot;100&quot; &quot;101&quot; &quot;102&quot; &quot;103&quot; &quot;104&quot; &quot;105&quot; &quot;106&quot; &quot;107&quot; &quot;108&quot;
-## [109] &quot;109&quot; &quot;110&quot; &quot;111&quot; &quot;112&quot; &quot;113&quot; &quot;114&quot; &quot;115&quot; &quot;116&quot; &quot;117&quot; &quot;118&quot; &quot;119&quot; &quot;120&quot;
-## [121] &quot;121&quot; &quot;122&quot; &quot;123&quot; &quot;124&quot; &quot;125&quot; &quot;126&quot; &quot;127&quot; &quot;128&quot; &quot;129&quot; &quot;130&quot; &quot;131&quot; &quot;132&quot;
-## [133] &quot;133&quot; &quot;134&quot; &quot;135&quot; &quot;136&quot; &quot;137&quot; &quot;138&quot; &quot;139&quot; &quot;140&quot; &quot;141&quot; &quot;142&quot; &quot;143&quot; &quot;144&quot;
-## [145] &quot;145&quot; &quot;146&quot; &quot;147&quot; &quot;148&quot; &quot;149&quot; &quot;150&quot; &quot;151&quot; &quot;152&quot; &quot;153&quot; &quot;154&quot; &quot;155&quot; &quot;156&quot;
-## [157] &quot;157&quot; &quot;158&quot; &quot;159&quot; &quot;160&quot; &quot;161&quot; &quot;162&quot; &quot;163&quot; &quot;164&quot; &quot;165&quot; &quot;166&quot; &quot;167&quot; &quot;168&quot;
-## [169] &quot;169&quot; &quot;170&quot; &quot;171&quot; &quot;172&quot; &quot;173&quot; &quot;174&quot; &quot;175&quot; &quot;176&quot; &quot;177&quot; &quot;178&quot; &quot;179&quot; &quot;180&quot;
-## [181] &quot;181&quot; &quot;182&quot; &quot;183&quot; &quot;184&quot; &quot;185&quot; &quot;186&quot; &quot;187&quot; &quot;188&quot; &quot;189&quot; &quot;190&quot; &quot;191&quot; &quot;192&quot;
-## [193] &quot;193&quot; &quot;194&quot; &quot;195&quot; &quot;196&quot; &quot;197&quot; &quot;198&quot; &quot;199&quot; &quot;200&quot; &quot;201&quot; &quot;202&quot; &quot;203&quot; &quot;204&quot;
-## [205] &quot;205&quot; &quot;206&quot; &quot;207&quot; &quot;208&quot; &quot;209&quot; &quot;210&quot; &quot;211&quot;</code></pre>
-<pre class="r"><code>country_text =
+rank_text
+
+country_text =
   wc_rank_html %&gt;% 
   html_elements(&quot;td:nth-child(2)&quot;) %&gt;% 
   html_text() 
   
-country_text</code></pre>
-<pre><code>##   [1] &quot;Brazil&quot;                        &quot;Belgium&quot;                      
-##   [3] &quot;Argentina&quot;                     &quot;France&quot;                       
-##   [5] &quot;England&quot;                       &quot;Italy&quot;                        
-##   [7] &quot;Spain&quot;                         &quot;Netherlands&quot;                  
-##   [9] &quot;Portugal&quot;                      &quot;Denmark&quot;                      
-##  [11] &quot;Germany&quot;                       &quot;Croatia&quot;                      
-##  [13] &quot;Mexico&quot;                        &quot;Uruguay&quot;                      
-##  [15] &quot;Switzerland&quot;                   &quot;USA&quot;                          
-##  [17] &quot;Colombia&quot;                      &quot;Senegal&quot;                      
-##  [19] &quot;Wales&quot;                         &quot;IR Iran&quot;                      
-##  [21] &quot;Serbia&quot;                        &quot;Morocco&quot;                      
-##  [23] &quot;Peru&quot;                          &quot;Japan&quot;                        
-##  [25] &quot;Sweden&quot;                        &quot;Poland&quot;                       
-##  [27] &quot;Ukraine&quot;                       &quot;Korea Republic&quot;               
-##  [29] &quot;Chile&quot;                         &quot;Tunisia&quot;                      
-##  [31] &quot;Costa Rica&quot;                    &quot;Nigeria&quot;                      
-##  [33] &quot;Russia&quot;                        &quot;Austria&quot;                      
-##  [35] &quot;Czechia&quot;                       &quot;Hungary&quot;                      
-##  [37] &quot;Algeria&quot;                       &quot;Australia&quot;                    
-##  [39] &quot;Egypt&quot;                         &quot;Scotland&quot;                     
-##  [41] &quot;Canada&quot;                        &quot;Norway&quot;                       
-##  [43] &quot;Cameroon&quot;                      &quot;Ecuador&quot;                      
-##  [45] &quot;Türkiye&quot;                       &quot;Mali&quot;                         
-##  [47] &quot;Paraguay&quot;                      &quot;Côte d’Ivoire&quot;                
-##  [49] &quot;Republic of Ireland&quot;           &quot;Qatar&quot;                        
-##  [51] &quot;Saudi Arabia&quot;                  &quot;Greece&quot;                       
-##  [53] &quot;Romania&quot;                       &quot;Burkina Faso&quot;                 
-##  [55] &quot;Slovakia&quot;                      &quot;Finland&quot;                      
-##  [57] &quot;Venezuela&quot;                     &quot;Bosnia and Herzegovina&quot;       
-##  [59] &quot;Northern Ireland&quot;              &quot;Panama&quot;                       
-##  [61] &quot;Ghana&quot;                         &quot;Iceland&quot;                      
-##  [63] &quot;Slovenia&quot;                      &quot;Jamaica&quot;                      
-##  [65] &quot;North Macedonia&quot;               &quot;Albania&quot;                      
-##  [67] &quot;South Africa&quot;                  &quot;Iraq&quot;                         
-##  [69] &quot;Montenegro&quot;                    &quot;United Arab Emirates&quot;         
-##  [71] &quot;Cabo Verde&quot;                    &quot;Bulgaria&quot;                     
-##  [73] &quot;Congo DR&quot;                      &quot;El Salvador&quot;                  
-##  [75] &quot;Oman&quot;                          &quot;Israel&quot;                       
-##  [77] &quot;Uzbekistan&quot;                    &quot;Georgia&quot;                      
-##  [79] &quot;China PR&quot;                      &quot;Honduras&quot;                     
-##  [81] &quot;Gabon&quot;                         &quot;Bolivia&quot;                      
-##  [83] &quot;Guinea&quot;                        &quot;Jordan&quot;                       
-##  [85] &quot;Bahrain&quot;                       &quot;Curaçao&quot;                      
-##  [87] &quot;Haiti&quot;                         &quot;Zambia&quot;                       
-##  [89] &quot;Uganda&quot;                        &quot;Syria&quot;                        
-##  [91] &quot;Benin&quot;                         &quot;Luxembourg&quot;                   
-##  [93] &quot;Armenia&quot;                       &quot;Palestine&quot;                    
-##  [95] &quot;Kyrgyz Republic&quot;               &quot;Vietnam&quot;                      
-##  [97] &quot;Belarus&quot;                       &quot;Equatorial Guinea&quot;            
-##  [99] &quot;Lebanon&quot;                       &quot;Congo&quot;                        
-## [101] &quot;Kenya&quot;                         &quot;Madagascar&quot;                   
-## [103] &quot;Mauritania&quot;                    &quot;Trinidad and Tobago&quot;          
-## [105] &quot;New Zealand&quot;                   &quot;India&quot;                        
-## [107] &quot;Kosovo&quot;                        &quot;Tajikistan&quot;                   
-## [109] &quot;Estonia&quot;                       &quot;Cyprus&quot;                       
-## [111] &quot;Thailand&quot;                      &quot;Korea DPR&quot;                    
-## [113] &quot;Kazakhstan&quot;                    &quot;Mozambique&quot;                   
-## [115] &quot;Namibia&quot;                       &quot;Guinea-Bissau&quot;                
-## [117] &quot;Sierra Leone&quot;                  &quot;Guatemala&quot;                    
-## [119] &quot;Angola&quot;                        &quot;Libya&quot;                        
-## [121] &quot;Niger&quot;                         &quot;Faroe Islands&quot;                
-## [123] &quot;Azerbaijan&quot;                    &quot;Malawi&quot;                       
-## [125] &quot;Zimbabwe&quot;                      &quot;The Gambia&quot;                   
-## [127] &quot;Togo&quot;                          &quot;Sudan&quot;                        
-## [129] &quot;Comoros&quot;                       &quot;Tanzania&quot;                     
-## [131] &quot;Antigua and Barbuda&quot;           &quot;Central African Republic&quot;     
-## [133] &quot;Philippines&quot;                   &quot;Latvia&quot;                       
-## [135] &quot;Turkmenistan&quot;                  &quot;Solomon Islands&quot;              
-## [137] &quot;Rwanda&quot;                        &quot;Ethiopia&quot;                     
-## [139] &quot;Suriname&quot;                      &quot;St Kitts and Nevis&quot;           
-## [141] &quot;Burundi&quot;                       &quot;Nicaragua&quot;                    
-## [143] &quot;Eswatini&quot;                      &quot;Lithuania&quot;                    
-## [145] &quot;Hong Kong&quot;                     &quot;Malaysia&quot;                     
-## [147] &quot;Lesotho&quot;                       &quot;Botswana&quot;                     
-## [149] &quot;Kuwait&quot;                        &quot;Liberia&quot;                      
-## [151] &quot;Andorra&quot;                       &quot;Indonesia&quot;                    
-## [153] &quot;Dominican Republic&quot;            &quot;Maldives&quot;                     
-## [155] &quot;Yemen&quot;                         &quot;Afghanistan&quot;                  
-## [157] &quot;Chinese Taipei&quot;                &quot;Myanmar&quot;                      
-## [159] &quot;Papua New Guinea&quot;              &quot;Singapore&quot;                    
-## [161] &quot;New Caledonia&quot;                 &quot;Tahiti&quot;                       
-## [163] &quot;Fiji&quot;                          &quot;Vanuatu&quot;                      
-## [165] &quot;South Sudan&quot;                   &quot;Barbados&quot;                     
-## [167] &quot;Cuba&quot;                          &quot;Malta&quot;                        
-## [169] &quot;Bermuda&quot;                       &quot;Puerto Rico&quot;                  
-## [171] &quot;Guyana&quot;                        &quot;St Lucia&quot;                     
-## [173] &quot;Grenada&quot;                       &quot;Moldova&quot;                      
-## [175] &quot;Nepal&quot;                         &quot;Belize&quot;                       
-## [177] &quot;Cambodia&quot;                      &quot;St Vincent and the Grenadines&quot;
-## [179] &quot;Montserrat&quot;                    &quot;Mauritius&quot;                    
-## [181] &quot;Chad&quot;                          &quot;Macau&quot;                        
-## [183] &quot;Mongolia&quot;                      &quot;Dominica&quot;                     
-## [185] &quot;Bhutan&quot;                        &quot;São Tomé and Príncipe&quot;        
-## [187] &quot;Laos&quot;                          &quot;American Samoa&quot;               
-## [189] &quot;Cook Islands&quot;                  &quot;Brunei Darussalam&quot;            
-## [191] &quot;Samoa&quot;                         &quot;Bangladesh&quot;                   
-## [193] &quot;Djibouti&quot;                      &quot;Pakistan&quot;                     
-## [195] &quot;Cayman Islands&quot;                &quot;Liechtenstein&quot;                
-## [197] &quot;Tonga&quot;                         &quot;Timor-Leste&quot;                  
-## [199] &quot;Seychelles&quot;                    &quot;Eritrea&quot;                      
-## [201] &quot;Aruba&quot;                         &quot;Bahamas&quot;                      
-## [203] &quot;Somalia&quot;                       &quot;Gibraltar&quot;                    
-## [205] &quot;Guam&quot;                          &quot;Turks and Caicos Islands&quot;     
-## [207] &quot;Sri Lanka&quot;                     &quot;US Virgin Islands&quot;            
-## [209] &quot;British Virgin Islands&quot;        &quot;Anguilla&quot;                     
-## [211] &quot;San Marino&quot;</code></pre>
-<pre class="r"><code>fifa_rankings = 
+country_text
+
+fifa_rankings = 
 tibble(
   rank = rank_text,
   country = country_text
@@ -515,8 +369,7 @@ tibble(
 </div>
 <div id="confederations-dataset" class="section level3">
 <h3>Confederations Dataset</h3>
-<p>This dataset was downloaded as a csv file and limited to variables of
-interest.</p>
+<p>This dataset was downloaded as a csv file and limited to variables of interest.</p>
 <pre class="r"><code>confederations_data = 
   read_csv(file = &quot;data/fifa_countries_audience.csv&quot;, col_names = TRUE) %&gt;% 
   janitor::clean_names() %&gt;% 
@@ -525,14 +378,6 @@ interest.</p>
   mutate(
      country = str_replace(country,  &quot;Congo DR&quot;, &quot;DR Congo&quot;)
   )</code></pre>
-<pre><code>## Rows: 191 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (2): country, confederation
-## dbl (3): population_share, tv_audience_share, gdp_weighted_share
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 <div id="top-goal-scorers-per-country" class="section level3">
 <h3>Top goal scorers per country</h3>
@@ -568,430 +413,6 @@ goals_country_df =
 ## Scotland, U.S. Virgin Islands, United States
 
 goals_country_df</code></pre>
-<pre><code>##                              country
-## 1                        Afghanistan
-## 2                            Albania
-## 3                            Algeria
-## 4                     American Samoa
-## 5                            Andorra
-## 6                             Angola
-## 7                           Anguilla
-## 8                Antigua and Barbuda
-## 9                          Argentina
-## 10                           Armenia
-## 11                             Aruba
-## 12                         Australia
-## 13                           Austria
-## 14                        Azerbaijan
-## 15                           Bahamas
-## 16                           Bahrain
-## 17                        Bangladesh
-## 18                          Barbados
-## 19                           Belarus
-## 20                           Belgium
-## 21                            Belize
-## 22                             Benin
-## 23                           Bermuda
-## 24                            Bhutan
-## 25                           Bolivia
-## 26            Bosnia and Herzegovina
-## 27                          Botswana
-## 28                            Brazil
-## 29            British Virgin Islands
-## 30                            Brunei
-## 31                          Bulgaria
-## 32                      Burkina Faso
-## 33                           Burundi
-## 34                          Cambodia
-## 35                          Cameroon
-## 36                            Canada
-## 37                        Cape Verde
-## 38                    Cayman Islands
-## 39          Central African Republic
-## 40                              Chad
-## 41                             Chile
-## 42                             China
-## 43                    Chinese Taipei
-## 44                          Colombia
-## 45                           Comoros
-## 46                             Congo
-## 47                      Cook Islands
-## 48                        Costa Rica
-## 49                           Croatia
-## 50                              Cuba
-## 51                           Curaçao
-## 52                            Cyprus
-## 53                    Czech Republic
-## 54                           Denmark
-## 55                          Djibouti
-## 56                          Dominica
-## 57                Dominican Republic
-## 58                          DR Congo
-## 59                           Ecuador
-## 60                             Egypt
-## 61                       El Salvador
-## 62                           England
-## 63                 Equatorial Guinea
-## 64                           Eritrea
-## 65                           Estonia
-## 66                          Eswatini
-## 67                          Ethiopia
-## 68                     Faroe Islands
-## 69                              Fiji
-## 70                           Finland
-## 71                            France
-## 72                             Gabon
-## 73                            Gambia
-## 74                           Georgia
-## 75                           Germany
-## 76                             Ghana
-## 77                         Gibraltar
-## 78                            Greece
-## 79                           Grenada
-## 80                              Guam
-## 81                         Guatemala
-## 82                            Guinea
-## 83                     Guinea-Bissau
-## 84                            Guyana
-## 85                             Haiti
-## 86                          Honduras
-## 87                         Hong Kong
-## 88                           Hungary
-## 89                           Iceland
-## 90                             India
-## 91                         Indonesia
-## 92                              Iran
-## 93                              Iraq
-## 94                            Israel
-## 95                             Italy
-## 96                       Ivory Coast
-## 97                           Jamaica
-## 98                             Japan
-## 99                            Jordan
-## 100                       Kazakhstan
-## 101                            Kenya
-## 102                           Kosovo
-## 103                           Kuwait
-## 104                       Kyrgyzstan
-## 105                             Laos
-## 106                           Latvia
-## 107                          Lebanon
-## 108                          Lesotho
-## 109                          Liberia
-## 110                            Libya
-## 111                    Liechtenstein
-## 112                        Lithuania
-## 113                       Luxembourg
-## 114                            Macau
-## 115                       Madagascar
-## 116                           Malawi
-## 117                         Malaysia
-## 118                         Maldives
-## 119                             Mali
-## 120                            Malta
-## 121                       Mauritania
-## 122                        Mauritius
-## 123                           Mexico
-## 124                          Moldova
-## 125                         Mongolia
-## 126                       Montenegro
-## 127                       Montserrat
-## 128                          Morocco
-## 129                       Mozambique
-## 130                          Myanmar
-## 131                          Namibia
-## 132                            Nepal
-## 133                      Netherlands
-## 134                    New Caledonia
-## 135                      New Zealand
-## 136                        Nicaragua
-## 137                            Niger
-## 138                          Nigeria
-## 139                      North Korea
-## 140                  North Macedonia
-## 141                 Northern Ireland
-## 142                           Norway
-## 143                             Oman
-## 144                         Pakistan
-## 145                        Palestine
-## 146                           Panama
-## 147                 Papua New Guinea
-## 148                         Paraguay
-## 149                             Peru
-## 150                      Philippines
-## 151                           Poland
-## 152                         Portugal
-## 153                      Puerto Rico
-## 154                            Qatar
-## 155              Republic of Ireland
-## 156                          Romania
-## 157                           Rwanda
-## 158            Saint Kitts and Nevis
-## 159                      Saint Lucia
-## 160 Saint Vincent and the Grenadines
-## 161                            Samoa
-## 162                       San Marino
-## 163            São Tomé and Príncipe
-## 164                     Saudi Arabia
-## 165                         Scotland
-## 166                          Senegal
-## 167                           Serbia
-## 168                       Seychelles
-## 169                     Sierra Leone
-## 170                        Singapore
-## 171                         Slovakia
-## 172                         Slovenia
-## 173                  Solomon Islands
-## 174                          Somalia
-## 175                     South Africa
-## 176                      South Korea
-## 177                      South Sudan
-## 178                           Russia
-## 179                            Spain
-## 180                        Sri Lanka
-## 181                            Sudan
-## 182                         Suriname
-## 183                           Sweden
-## 184                      Switzerland
-## 185                            Syria
-## 186                           Tahiti
-## 187                       Tajikistan
-## 188                         Tanzania
-## 189                         Thailand
-## 190                      Timor-Leste
-## 191                             Togo
-## 192                            Tonga
-## 193              Trinidad and Tobago
-## 194                          Tunisia
-## 195                           Turkey
-## 196                     Turkmenistan
-## 197         Turks and Caicos Islands
-## 198              U.S. Virgin Islands
-## 199                           Uganda
-## 200                          Ukraine
-## 201             United Arab Emirates
-## 202                    United States
-## 203                          Uruguay
-## 204                       Uzbekistan
-## 205                          Vanuatu
-## 206                        Venezuela
-## 207                          Vietnam
-## 208                            Wales
-## 209                            Yemen
-## 210                           Zambia
-## 211                         Zimbabwe
-##                                                      player goals
-## 1                                          Faysal Shayesteh    10
-## 2                                             Erjon Bogdani    18
-## 3                                             Islam Slimani    41
-## 4                                                 Ramin Ott     3
-## 5                                             Ildefons Lima    11
-## 6                                                      Akwá    39
-## 7        Richard O&#39;Connor &amp; Terrence Rogers &amp; Girdon Connor     5
-## 8                                               Peter Byers    44
-## 9                                              Lionel Messi    94
-## 10                                       Henrikh Mkhitaryan    32
-## 11                                             Ronald Gómez     6
-## 12                                               Tim Cahill    50
-## 13                                             Toni Polster    44
-## 14                                          Gurban Gurbanov    14
-## 15                                          Lesly St. Fleur    12
-## 16                                        Ismail Abdullatif    47
-## 17                             Ashraf Uddin Ahmed Chunnu[c]    17
-## 18                                       Llewellyn Riley[c]    23
-## 19                                       Maksim Romaschenko    20
-## 20                                            Romelu Lukaku    68
-## 21                                            Deon McCaulay    28
-## 22                                       Stéphane Sessègnon    24
-## 23                                             Shaun Goater    20
-## 24                                        Chencho Gyeltshen    10
-## 25                                           Marcelo Moreno    30
-## 26                                               Edin Džeko    64
-## 27                                     Jerome Ramatlhakwane    24
-## 28                                                     Pelé    77
-## 29                                        Avondale Williams     5
-## 30                                           Shahrazen Said     8
-## 31                          Dimitar Berbatov &amp; Hristo Bonev    48
-## 32                                          Moumouni Dagano    34
-## 33                                       Fiston Abdul Razak    19
-## 34                                             Hok Sochetra    20
-## 35                                             Samuel Eto&#39;o    56
-## 36                                               Cyle Larin    25
-## 37                                             Héldon Ramos    15
-## 38                                         Lee Ramoon[f][c]    12
-## 39                                             Hilaire Momi    10
-## 40                                      Ezechiel N&#39;Douassel    15
-## 41                                           Alexis Sánchez    50
-## 42                                              Hao Haidong    41
-## 43                                            Chen Po-liang    25
-## 44                                           Radamel Falcao    36
-## 45                                  El Fardou Ben Nabouhane    17
-## 46                                           Thievy Bifouma    15
-## 47                                           Taylor Saghabi     6
-## 48                                          Rolando Fonseca    47
-## 49                                              Davor Šuker    45
-## 50                                              Lester Moré    30
-## 51                           Rangelo Janga &amp; Leandro Bacuna    14
-## 52                                    Michalis Konstantinou    32
-## 53                                               Jan Koller    55
-## 54                         Poul Nielsen &amp; Jon Dahl Tomasson    52
-## 55                                   Mahdi Houssein Mahabeh     6
-## 56                                              Julian Wade    20
-## 57                                            Jonathan Faña    24
-## 58                                        Dieumerci Mbokani    22
-## 59                                           Enner Valencia    38
-## 60                                            Hossam Hassan    68
-## 61                                           Raúl Díaz Arce    39
-## 62                                             Wayne Rooney    53
-## 63                                              Emilio Nsue    13
-## 64  Berhane Aregai &amp; Yonas Fesehaye &amp; Yidnekachew Shimangus     5
-## 65                                              Andres Oper    38
-## 66                       Felix Badenhorst &amp; Sabelo Ndzinisa    15
-## 67                                           Getaneh Kebede    33
-## 68                           Klæmint Olsen &amp; Rógvi Jacobsen    10
-## 69                                              Roy Krishna    32
-## 70                                              Teemu Pukki    37
-## 71                                           Olivier Giroud    52
-## 72                                Pierre-Emerick Aubameyang    30
-## 73                                             Assan Ceesay    13
-## 74                                          Shota Arveladze    26
-## 75                                           Miroslav Klose    71
-## 76                                             Asamoah Gyan    51
-## 77                        Roy Chipolina[g] &amp; Liam Walker[h]     5
-## 78                                       Nikos Anastopoulos    29
-## 79                                            Ricky Charles    37
-## 80                                           Jason Cunliffe    25
-## 81                                              Carlos Ruiz    68
-## 82                                   Ibrahima Kandia Diallo    33
-## 83                                                 Nando Có     9
-## 84                                         Nigel Codrington    18
-## 85                                           Emmanuel Sanon    37
-## 86                                             Carlos Pavón    57
-## 87                                              Chan Siu Ki    40
-## 88                                            Ferenc Puskás    84
-## 89                   Kolbeinn Sigþórsson &amp; Eiður Guðjohnsen    26
-## 90                                            Sunil Chhetri    84
-## 91                                              Abdul Kadir    70
-## 92                                                 Ali Daei   109
-## 93                                            Hussein Saeed    78
-## 94                                              Eran Zahavi    33
-## 95                                                Gigi Riva    35
-## 96                                            Didier Drogba    65
-## 97                                            Luton Shelton    35
-## 98                                       Kunishige Kamamoto    75
-## 99                                         Hamza Al-Dardour    33
-## 100                                          Ruslan Baltiev    13
-## 101                                            William Ouma    35
-## 102                                            Vedat Muriqi    23
-## 103                                         Bashar Abdullah    75
-## 104                                         Mirlan Murzayev    15
-## 105                                      Visay Phaphouvanin    18
-## 106                                      Māris Verpakovskis    29
-## 107                       Vardan Ghazaryan &amp; Hassan Maatouk    21
-## 108                          Sera Motebang &amp; Jane Thabantso    10
-## 109                                             George Weah    18
-## 110                                         Ali Al-Biski[c]    40
-## 111                                             Mario Frick    16
-## 112                                      Tomas Danilevičius    19
-## 113                                               Leon Mart    16
-## 114                                           Chan Kin Seng    17
-## 115                                            Paulin Voavy    15
-## 116                                            Kinnah Phiri    71
-## 117                                          Mokhtar Dahari    89
-## 118                                              Ali Ashfaq    57
-## 119                                            Seydou Keita    25
-## 120                                          Michael Mifsud    42
-## 121                                                  Bessam    13
-## 122                                           Daniel Imbert    17
-## 123                                        Javier Hernández    52
-## 124                                       Serghei Cleșcenco    11
-## 125             Naranbold Nyam-Osor &amp; Lümbengarav Donorovyn     8
-## 126                                          Stevan Jovetić    31
-## 127                                             Lyle Taylor    10
-## 128                                             Ahmed Faras    36
-## 129                                               Tico-Tico    30
-## 130                                          Myo Hlaing Win    36
-## 131                         Rudolf Bester &amp; Peter Shalulile    13
-## 132                         Nirajan Rayamajhi &amp; Hari Khadka    13
-## 133                                        Robin van Persie    50
-## 134                                            Bertrand Kaï    23
-## 135                                              Chris Wood    33
-## 136                                            Juan Barrera    23
-## 137                                      Victorien Adebayor    17
-## 138                                          Rashidi Yekini    37
-## 139                                            Jong Il-gwan    26
-## 140                                            Goran Pandev    38
-## 141                                             David Healy    36
-## 142                                             Jørgen Juve    33
-## 143                                          Hani Al-Dhabit    43
-## 144                                           Muhammad Essa    11
-## 145                             Fahed Attal &amp; Ashraf Nu&#39;man    14
-## 146                                             Luis Tejada    43
-## 147                                        Reggie Davani[e]    13
-## 148                                        Roque Santa Cruz    32
-## 149                                          Paolo Guerrero    38
-## 150                                       Phil Younghusband    52
-## 151                                      Robert Lewandowski    78
-## 152                                       Cristiano Ronaldo   118
-## 153                                            Héctor Ramos    18
-## 154                                          Mansour Muftah    42
-## 155                                            Robbie Keane    68
-## 156                             Adrian Mutu &amp; Gheorghe Hagi    35
-## 157                                        Olivier Karekezi    24
-## 158                                             Keith Gumbs    24
-## 159                                            Earl Jean[c]    20
-## 160                                          Shandel Samuel    32
-## 161                                       Desmond Fa&#39;aiuaso     9
-## 162                                              Andy Selva     8
-## 163                                               Luís Leal     8
-## 164                                          Majed Abdullah    72
-## 165                              Denis Law &amp; Kenny Dalglish    30
-## 166                                              Sadio Mané    34
-## 167                                     Aleksandar Mitrović    52
-## 168                                           Philip Zialor    14
-## 169                                          Mohamed Kallon     8
-## 170                                             Fandi Ahmad    55
-## 171                                            Marek Hamšík    26
-## 172                                          Zlatko Zahovič    35
-## 173                                          Commins Menapi    34
-## 174                                Abdullahi Sheikh Mohamed     3
-## 175                                          Benni McCarthy    31
-## 176                                             Cha Bum-kun    58
-## 177                                              James Moga     6
-## 178                      Alexander Kerzhakov &amp; Artem Dzyuba    42
-## 179                                             David Villa    59
-## 180                                        Kasun Jayasuriya    27
-## 181                                     Nasr Eddin Abbas[c]    27
-## 182                                         Stefano Rijssel    14
-## 183                                      Zlatan Ibrahimović    62
-## 184                                          Alexander Frei    42
-## 185                                         Firas Al-Khatib    36
-## 186                                           Teaonui Tehau    24
-## 187                                    Manuchekhr Dzhalilov    20
-## 188                                            Mrisho Ngasa    25
-## 189                                      Kiatisuk Senamuang    71
-## 190                                             Rufino Gama     7
-## 191                                       Emmanuel Adebayor    32
-## 192                                            Unaloto Feao     7
-## 193                                              Stern John    70
-## 194                                             Issam Jemâa    36
-## 195                                             Hakan Şükür    51
-## 196                                       Wladimir Baýramow    16
-## 197                                            Billy Forbes    11
-## 198                               Jamie Browne &amp; J. C. Mack     3
-## 199                                           Emmanuel Okwi    28
-## 200                                       Andriy Shevchenko    48
-## 201                                            Ali Mabkhout    80
-## 202                          Clint Dempsey &amp; Landon Donovan    57
-## 203                                             Luis Suárez    68
-## 204                                        Maksim Shatskikh    34
-## 205                                            Richard Iwai    20
-## 206                                          Salomón Rondón    38
-## 207                                            Lê Công Vinh    51
-## 208                                             Gareth Bale    41
-## 209                                             Ali Al-Nono    29
-## 210                                         Godfrey Chitalu    79
-## 211                                            Peter Ndlovu    37</code></pre>
 </div>
 <div id="population-data-2021-population" class="section level3">
 <h3>Population Data 2021 Population</h3>
@@ -999,23 +420,9 @@ goals_country_df</code></pre>
 read_csv(file = &quot;data/pop.csv&quot;, col_names = TRUE) %&gt;% 
   janitor::clean_names() %&gt;% 
   select(country,land_area_km)</code></pre>
-<pre><code>## Rows: 205 Columns: 19
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): cca2, country
-## dbl (17): pop2022, pop2021, pop2020, pop2050, pop2030, pop2015, pop2010, pop...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>Now let’s combine all of our datasets to create our final
-dataset.</p>
-<p>The datasets we have currently are: <br> - wc_stats (contains world
-cup statistics &amp; records) - fifa_rankings (official Fifa rankings
-2022) - goals_country_df (top goal scorers per country) - pop_df(land
-area of countries) - confederations_data(what confederations each
-country is in)</p>
-<p>We will combine these datasets by the <code>country</code> variable,
-perform some wrangling and output final dataset as .csv file.</p>
+<p>Now let’s combine all of our datasets to create our final dataset.</p>
+<p>The datasets we have currently are: <br> - wc_stats (contains world cup statistics &amp; records) - fifa_rankings (official Fifa rankings 2022) - goals_country_df (top goal scorers per country) - pop_df(land area of countries) - confederations_data(what confederations each country is in)</p>
+<p>We will combine these datasets by the <code>country</code> variable, perform some wrangling and output final dataset as .csv file.</p>
 <pre class="r"><code>### Put all dataframes into a list &amp; merge by country
 
 merged_df = 
@@ -1028,7 +435,7 @@ merged_df2 =
   arrange(country)
  
 final_merge = 
-  merge(wc_stats,merged_df2,by= &quot;country&quot;)  %&gt;% 
+  merge(wc_stats, merged_df2,by= &quot;country&quot;)  %&gt;% 
   
   ## Replace missing data with correct info pulled from the web (sources listed below)
   
@@ -1071,10 +478,8 @@ final_merge =
      land_area_km = case_when(country %in% c(&#39;Wales&#39;) ~ 20780,
                              TRUE ~ as.numeric(land_area_km))
   )</code></pre>
-<p>Output final dataset as <code>.csv</code> file for final project
-use.</p>
+<p>Output final dataset as <code>.csv</code> file for final project use.</p>
 <pre class="r"><code>write.csv(final_merge, &quot;./data/12_4_dataset.csv&quot;)</code></pre>
-</div>
 </div>
 
 

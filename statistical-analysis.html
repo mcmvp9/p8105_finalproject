@@ -252,9 +252,10 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Name</li>
-    <li class="dropdown-header">Name</li>
-    <li class="dropdown-header">Name</li>
+    <li>
+      <a href="exploratory_data_analysis.html">Geographic Analyses</a>
+    </li>
+    <li class="dropdown-header">Bi-variable Analyses</li>
   </ul>
 </li>
 <li>
@@ -273,7 +274,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="https://github.com/TaylorBays/p8105FinalProject.github.io">
+  <a href="https://github.com/mcmvp9/p8105_finalproject">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -302,20 +303,20 @@ $(document).ready(function () {
 num = data[2:11] %&gt;% 
   select(-gd)
 summary(num)</code></pre>
-<pre><code>##       part             pld            w                d         
-##  Min.   : 1.000   Min.   :  1   Min.   : 0.000   Min.   : 0.000  
-##  1st Qu.: 2.000   1st Qu.:  6   1st Qu.: 0.500   1st Qu.: 1.000  
-##  Median : 5.000   Median : 18   Median : 4.000   Median : 3.000  
-##  Mean   : 6.177   Mean   : 24   Mean   : 9.367   Mean   : 5.266  
-##  3rd Qu.: 9.000   3rd Qu.: 33   3rd Qu.:12.000   3rd Qu.: 8.000  
-##  Max.   :22.000   Max.   :112   Max.   :75.000   Max.   :22.000  
+<pre><code>##       part             pld               w                d         
+##  Min.   : 1.000   Min.   :  1.00   Min.   : 0.000   Min.   : 0.000  
+##  1st Qu.: 2.000   1st Qu.:  6.00   1st Qu.: 0.500   1st Qu.: 1.000  
+##  Median : 5.000   Median : 18.00   Median : 4.000   Median : 3.000  
+##  Mean   : 6.177   Mean   : 24.08   Mean   : 9.392   Mean   : 5.291  
+##  3rd Qu.: 9.000   3rd Qu.: 33.00   3rd Qu.:12.000   3rd Qu.: 8.000  
+##  Max.   :22.000   Max.   :113.00   Max.   :76.000   Max.   :22.000  
 ##        l                gf               ga              pts        
 ##  Min.   : 1.000   Min.   :  0.00   Min.   :  2.00   Min.   :  0.00  
 ##  1st Qu.: 3.000   1st Qu.:  4.00   1st Qu.: 11.50   1st Qu.:  3.00  
 ##  Median : 8.000   Median : 16.00   Median : 23.00   Median : 16.00  
-##  Mean   : 9.367   Mean   : 33.85   Mean   : 33.85   Mean   : 33.37  
+##  Mean   : 9.392   Mean   : 33.97   Mean   : 33.97   Mean   : 33.47  
 ##  3rd Qu.:14.500   3rd Qu.: 41.50   3rd Qu.: 49.50   3rd Qu.: 40.50  
-##  Max.   :28.000   Max.   :232.00   Max.   :130.00   Max.   :243.00  
+##  Max.   :28.000   Max.   :236.00   Max.   :130.00   Max.   :246.00  
 ##       rank       
 ##  Min.   :  1.00  
 ##  1st Qu.: 20.50  
@@ -328,265 +329,270 @@ summary(num)</code></pre>
 <p>Model selection: stepwise method</p>
 <p>Model selection that didn’t work.</p>
 <pre class="r"><code>model_step_wise = step(glm(w ~ ., data = data), direction = &quot;both&quot;)</code></pre>
-<pre><code>## Start:  AIC=-4531.67
+<pre><code>## Start:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals + land_area_km + confederation
 ## 
 ## 
-## Step:  AIC=-4531.67
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals + land_area_km
 ## 
 ## 
-## Step:  AIC=-4531.67
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals
 ## 
 ## 
-## Step:  AIC=-4531.67
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player
 ## 
 ## 
-## Step:  AIC=-4544.9
+## Step:  AIC=-4654.34
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + player
 ## 
 ## 
-## Step:  AIC=-4544.9
+## Step:  AIC=-4654.34
 ## w ~ X + part + pld + d + l + gf + ga + gd + player
 ## 
 ## 
-## Step:  AIC=-4528.35
-## w ~ X + part + pld + d + l + gf + ga + player</code></pre>
+## Step:  AIC=-4663.26
+## w ~ X + part + pld + d + l + gf + ga + player
+## 
+## 
+## Step:  AIC=-4652.39
+## w ~ X + part + pld + d + l + gf + player</code></pre>
 <pre class="r"><code>model_forward = step(glm(w ~ 1, data = data), direction = &quot;forward&quot;, scope = formula(lm(gf ~ ., data = data)), test = &quot;F&quot;)</code></pre>
-<pre><code>## Start:  AIC=649.66
+<pre><code>## Start:  AIC=650.5
 ## w ~ 1</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts): the
 ## response appeared on the right-hand side and was dropped</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts):
 ## problem with term 4 in model.matrix: no columns are assigned</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
-<pre><code>##                 Df Deviance     AIC    F value    Pr(&gt;F)    
-## + player        78      0.0 -4509.0     0.0000       NaN    
-## + pts            1     55.5   202.3 22673.5708 &lt; 2.2e-16 ***
-## + pld            1   1219.6   446.4   957.8225 &lt; 2.2e-16 ***
-## + gd            42   1079.8   518.8    12.1534 5.070e-12 ***
-## + part           1   3374.5   526.8   297.0019 &lt; 2.2e-16 ***
-## + d              1   4348.7   546.8   213.2153 &lt; 2.2e-16 ***
-## + ga             1   4503.9   549.6   203.2144 &lt; 2.2e-16 ***
-## + l              1   7988.6   594.9    80.9825 1.204e-13 ***
-## + rank           1  11335.1   622.5    34.3406 1.084e-07 ***
-## + confederation  5  12900.4   640.7     3.9497  0.003170 ** 
-## + goals          1  14526.3   642.1     9.8811  0.002372 ** 
-## + land_area_km   1  15941.0   649.5     2.1705  0.144755    
-## &lt;none&gt;              16390.4   649.7                         
-## + X              1  16111.1   650.3     1.3346  0.251553    
+<pre><code>##                 Df Deviance     AIC    F value                Pr(&gt;F)    
+## + player        78      0.0 -4506.5     0.0000                   NaN    
+## + pts            1     55.7   202.6 22819.5964 &lt; 0.00000000000000022 ***
+## + pld            1   1239.9   447.7   951.8644 &lt; 0.00000000000000022 ***
+## + gd            42   1119.1   521.6    11.8313     0.000000000007697 ***
+## + part           1   3427.4   528.0   295.1918 &lt; 0.00000000000000022 ***
+## + d              1   4404.6   547.8   212.6190 &lt; 0.00000000000000022 ***
+## + ga             1   4618.6   551.6   199.1985 &lt; 0.00000000000000022 ***
+## + l              1   8151.2   596.5    79.4979     0.000000000000174 ***
+## + rank           1  11472.2   623.5    34.1943     0.000000114141983 ***
+## + confederation  5  13045.7   641.6     3.9407              0.003219 ** 
+## + goals          1  14688.0   643.0     9.8496              0.002408 ** 
+## + land_area_km   1  16106.7   650.3     2.1997              0.142115    
+## &lt;none&gt;              16566.8   650.5                                     
+## + X              1  16279.9   651.1     1.3569              0.247668    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Step:  AIC=-4508.96
+## Step:  AIC=-4506.5
 ## w ~ player</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts): the
 ## response appeared on the right-hand side and was dropped</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts):
 ## problem with term 5 in model.matrix: no columns are assigned</code></pre>
-<pre><code>##        Df  Deviance   AIC F value Pr(&gt;F)
-## &lt;none&gt;    9.954e-26 -4509</code></pre>
+<pre><code>##        Df                       Deviance     AIC F value Pr(&gt;F)
+## &lt;none&gt;    0.0000000000000000000000001027 -4506.5</code></pre>
 <pre class="r"><code>model_backward = step(glm(w ~ ., data = data), direction = &quot;backward&quot;, test = &quot;F&quot;)</code></pre>
-<pre><code>## Start:  AIC=-4531.67
+<pre><code>## Start:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals + land_area_km + confederation</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4531.67
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals + land_area_km</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4531.67
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4531.67
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4544.9
+## Step:  AIC=-4654.34
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + player</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4544.9
+## Step:  AIC=-4654.34
 ## w ~ X + part + pld + d + l + gf + ga + gd + player</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4528.35
+## Step:  AIC=-4663.26
 ## w ~ X + part + pld + d + l + gf + ga + player</code></pre>
+<pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
+<pre><code>## 
+## Step:  AIC=-4652.39
+## w ~ X + part + pld + d + l + gf + player</code></pre>
 <pre class="r"><code>model_step_wise</code></pre>
 <pre><code>## 
-## Call:  glm(formula = w ~ X + part + pld + d + l + gf + ga + player, 
-##     data = data)
+## Call:  glm(formula = w ~ X + part + pld + d + l + gf + player, data = data)
 ## 
 ## Coefficients:
 ##                                  (Intercept)  
-##                                   -1.521e-14  
+##                      0.000000000000003317553  
 ##                                            X  
-##                                   -2.729e-17  
+##                      0.000000000000000005827  
 ##                                         part  
-##                                   -7.197e-15  
+##                      0.000000000000003558492  
 ##                                          pld  
-##                                    1.000e+00  
+##                      1.000000000000000666134  
 ##                                            d  
-##                                   -1.000e+00  
+##                     -1.000000000000001554312  
 ##                                            l  
-##                                   -1.000e+00  
+##                     -1.000000000000002220446  
 ##                                           gf  
-##                                    4.301e-16  
-##                                           ga  
-##                                   -2.481e-16  
+##                     -0.000000000000000469822  
 ##            playerAdrian Mutu &amp; Gheorghe Hagi  
-##                                    2.748e-14  
+##                     -0.000000000000009176844  
 ##                            playerAhmed Faras  
-##                                    2.640e-15  
+##                     -0.000000000000004204329  
 ##                                   playerAkwá  
-##                                   -3.499e-14  
+##                      0.000000000000015453996  
 ##                    playerAleksandar Mitrović  
-##                                    2.306e-14  
+##                     -0.000000000000009624876  
 ##                         playerAlexander Frei  
-##                                    3.876e-14  
+##                     -0.000000000000015308220  
 ##     playerAlexander Kerzhakov &amp; Artem Dzyuba  
-##                                    9.501e-15  
+##                      0.000000000000001429757  
 ##                         playerAlexis Sánchez  
-##                                    8.018e-15  
+##                      0.000000000000000146968  
 ##                               playerAli Daei  
-##                                    6.343e-15  
+##                     -0.000000000000006326644  
 ##                           playerAli Mabkhout  
-##                                   -2.196e-15  
+##                      0.000000000000002576100  
 ##                      playerAndriy Shevchenko  
-##                                   -1.759e-15  
+##                      0.000000000000002230515  
 ##                           playerAsamoah Gyan  
-##                                   -4.259e-15  
+##                      0.000000000000002861470  
 ##                        playerBashar Abdullah  
-##                                   -8.327e-15  
+##                      0.000000000000004944712  
 ##                         playerBenni McCarthy  
-##                                    2.574e-15  
+##                     -0.000000000000000793568  
 ##                           playerCarlos Pavón  
-##                                   -9.338e-15  
+##                      0.000000000000005134091  
 ##                            playerCha Bum-kun  
-##                                    9.592e-15  
+##                     -0.000000000000004703298  
 ##                             playerChris Wood  
-##                                   -6.372e-15  
+##                      0.000000000000003829468  
 ##         playerClint Dempsey &amp; Landon Donovan  
-##                                    1.760e-14  
+##                     -0.000000000000011564751  
 ##                      playerCristiano Ronaldo  
-##                                    1.666e-14  
+##                     -0.000000000000001155825  
 ##                             playerCyle Larin  
-##                                   -1.135e-14  
+##                      0.000000000000005125209  
 ##                            playerDavid Healy  
-##                                   -1.457e-14  
+##                      0.000000000000006288681  
 ##                            playerDavid Villa  
-##                                    3.601e-14  
+##                     -0.000000000000003830009  
 ##                            playerDavor Šuker  
-##                                   -2.706e-15  
+##                      0.000000000000005585810  
 ##             playerDenis Law &amp; Kenny Dalglish  
-##                                    1.562e-14  
+##                     -0.000000000000008783445  
 ##                          playerDidier Drogba  
-##                                    3.267e-15  
+##                      0.000000000000002885946  
 ##                      playerDieumerci Mbokani  
-##                                   -7.983e-15  
+##                      0.000000000000006741831  
 ##        playerDimitar Berbatov &amp; Hristo Bonev  
-##                                   -2.121e-14  
+##                      0.000000000000005925500  
 ##                             playerEdin Džeko  
-##                                   -9.350e-15  
+##                      0.000000000000007859558  
 ##                      playerEmmanuel Adebayor  
-##                                   -1.731e-15  
+##                      0.000000000000002636528  
 ##                         playerEmmanuel Sanon  
-##                                   -6.455e-15  
+##                      0.000000000000006789805  
 ##                         playerEnner Valencia  
-##                                    5.340e-15  
+##                      0.000000000000000682606  
 ##                            playerEran Zahavi  
-##                                   -1.310e-14  
+##                      0.000000000000005994224  
 ##                          playerFerenc Puskás  
-##                                    1.517e-14  
+##                      0.000000000000011453668  
 ##                            playerGareth Bale  
-##                                   -5.518e-15  
+##                      0.000000000000001478233  
 ##                              playerGigi Riva  
-##                                    2.817e-14  
+##                     -0.000000000000012804155  
 ##                            playerHakan Şükür  
-##                                   -1.455e-16  
+##                      0.000000000000005920016  
 ##                            playerHao Haidong  
-##                                   -1.372e-14  
+##                      0.000000000000007292873  
 ##                          playerHossam Hassan  
-##                                   -1.472e-15  
+##                      0.000000000000002250850  
 ##                          playerHussein Saeed  
-##                                   -9.615e-15  
+##                      0.000000000000004621002  
 ##                          playerIslam Slimani  
-##                                   -4.460e-14  
+##                     -0.000000000000009279842  
 ##                            playerIssam Jemâa  
-##                                    1.193e-14  
+##                     -0.000000000000007984199  
 ##                             playerJan Koller  
-##                                    9.913e-15  
+##                      0.000000000000000649933  
 ##                       playerJavier Hernández  
-##                                    3.602e-14  
+##                     -0.000000000000016079576  
 ##                           playerJong Il-gwan  
-##                                   -4.491e-15  
+##                      0.000000000000003966012  
 ##                            playerJørgen Juve  
-##                                    6.243e-15  
+##                     -0.000000000000001012471  
 ## playerKolbeinn Sigþórsson &amp; Eiður Guðjohnsen  
-##                                   -1.053e-14  
+##                      0.000000000000004294121  
 ##                     playerKunishige Kamamoto  
-##                                    9.202e-15  
+##                     -0.000000000000003769754  
 ##                            playerLester Moré  
-##                                   -7.164e-15  
+##                      0.000000000000003490341  
 ##                           playerLionel Messi  
-##                                    1.601e-13  
+##                     -0.000000000000059059206  
 ##                            playerLuis Suárez  
-##                                    2.800e-14  
+##                     -0.000000000000004455562  
 ##                            playerLuis Tejada  
-##                                   -4.587e-15  
+##                      0.000000000000004595503  
 ##                          playerLuton Shelton  
-##                                   -1.569e-15  
+##                      0.000000000000002354095  
 ##                         playerMajed Abdullah  
-##                                    1.493e-14  
+##                     -0.000000000000007689238  
 ##                         playerMansour Muftah  
-##                                   -4.982e-15  
+##                      0.000000000000001501668  
 ##                         playerMarcelo Moreno  
-##                                    5.278e-15  
+##                     -0.000000000000000829578  
 ##                           playerMarek Hamšík  
-##                                   -3.721e-15  
+##                      0.000000000000003037628  
 ##                         playerMiroslav Klose  
-##                                    5.061e-15  
+##                      0.000000000000020305305  
 ##                     playerNikos Anastopoulos  
-##                                   -4.239e-15  
+##                      0.000000000000002032608  
 ##                         playerOlivier Giroud  
-##                                    3.115e-14  
+##                     -0.000000000000002720165  
 ##                         playerPaolo Guerrero  
-##                                    2.700e-15  
+##                     -0.000000000000000202683  
 ##                                   playerPelé  
-##                                    6.215e-14  
+##                      0.000000000000000689892  
 ##       playerPoul Nielsen &amp; Jon Dahl Tomasson  
-##                                    4.420e-16  
+##                      0.000000000000001849150  
 ##                         playerRadamel Falcao  
-##                                    5.431e-15  
+##                      0.000000000000002346630  
 ##                         playerRashidi Yekini  
-##                                    5.311e-15  
+##                     -0.000000000000002001767  
 ##                         playerRaúl Díaz Arce  
-##                                   -3.105e-15  
+##                      0.000000000000004853985  
 ##                           playerRobbie Keane  
-##                                   -1.906e-14  
+##                      0.000000000000004627833  
 ##                     playerRobert Lewandowski  
-##                                    1.488e-14  
+##                     -0.000000000000004583794  
 ##                       playerRobin van Persie  
-##                                    1.089e-14  
+##                     -0.000000000000002946748  
 ##                        playerRolando Fonseca  
-##                                    1.903e-15  
+##                      0.000000000000001222628  
 ##                          playerRomelu Lukaku  
-##                                    3.696e-14  
+##                     -0.000000000000003879220  
 ##                       playerRoque Santa Cruz  
-##                                    7.746e-15  
+##                     -0.000000000000006243413  
 ##                             playerSadio Mané  
-##                                    7.163e-15  
+##                      0.000000000000001468102  
 ##                           playerSamuel Eto&#39;o  
-##                                           NA  
+##                     -0.000000000000003223951  
 ##                             playerStern John  
 ##                                           NA  
 ##                             playerTim Cahill  
@@ -601,341 +607,338 @@ summary(num)</code></pre>
 ##                                           NA  
 ## 
 ## Degrees of Freedom: 78 Total (i.e. Null);  0 Residual
-## Null Deviance:       16390 
-## Residual Deviance: 7.788e-26     AIC: -4528</code></pre>
+## Null Deviance:       16570 
+## Residual Deviance: 0.0000000000000000000000000162    AIC: -4652</code></pre>
 <pre class="r"><code>model_forward</code></pre>
 <pre><code>## 
 ## Call:  glm(formula = w ~ player, data = data)
 ## 
 ## Coefficients:
 ##                                  (Intercept)  
-##                                    1.349e-14  
+##                         0.000000000000006016  
 ##            playerAdrian Mutu &amp; Gheorghe Hagi  
-##                                    8.000e+00  
+##                         7.999999999999987566  
 ##                            playerAhmed Faras  
-##                                    4.000e+00  
+##                         3.999999999999939604  
 ##                                   playerAkwá  
-##                                    1.858e-14  
+##                         0.000000000000021529  
 ##                    playerAleksandar Mitrović  
-##                                    1.800e+01  
+##                        18.000000000000000000  
 ##                         playerAlexander Frei  
-##                                    1.400e+01  
+##                        14.000000000000012434  
 ##     playerAlexander Kerzhakov &amp; Artem Dzyuba  
-##                                    1.900e+01  
+##                        19.000000000000003553  
 ##                         playerAlexis Sánchez  
-##                                    1.100e+01  
+##                        11.000000000000065725  
 ##                               playerAli Daei  
-##                                    3.000e+00  
+##                         2.999999999999909850  
 ##                           playerAli Mabkhout  
-##                                   -1.465e-14  
+##                        -0.000000000000018290  
 ##                      playerAndriy Shevchenko  
-##                                    2.000e+00  
+##                         2.000000000000020428  
 ##                           playerAsamoah Gyan  
-##                                    5.000e+00  
+##                         5.000000000000013323  
 ##                        playerBashar Abdullah  
-##                                   -1.445e-14  
+##                        -0.000000000000004410  
 ##                         playerBenni McCarthy  
-##                                    2.000e+00  
+##                         1.999999999999994671  
 ##                           playerCarlos Pavón  
-##                                    5.090e-15  
+##                         0.000000000000026614  
 ##                            playerCha Bum-kun  
-##                                    7.000e+00  
+##                         7.000000000000002665  
 ##                             playerChris Wood  
-##                                    1.748e-14  
+##                         0.000000000000012074  
 ##         playerClint Dempsey &amp; Landon Donovan  
-##                                    9.000e+00  
+##                         8.999999999999996447  
 ##                      playerCristiano Ronaldo  
-##                                    1.600e+01  
+##                        16.000000000000007105  
 ##                             playerCyle Larin  
-##                                   -1.851e-14  
+##                        -0.000000000000019516  
 ##                            playerDavid Healy  
-##                                    3.000e+00  
+##                         2.999999999999996447  
 ##                            playerDavid Villa  
-##                                    3.100e+01  
+##                        31.000000000000007105  
 ##                            playerDavor Šuker  
-##                                    1.200e+01  
+##                        12.000000000000014211  
 ##             playerDenis Law &amp; Kenny Dalglish  
-##                                    4.000e+00  
+##                         4.000000000000003553  
 ##                          playerDidier Drogba  
-##                                    3.000e+00  
+##                         2.999999999999924061  
 ##                      playerDieumerci Mbokani  
-##                                    1.079e-13  
+##                         0.000000000000116023  
 ##        playerDimitar Berbatov &amp; Hristo Bonev  
-##                                    3.000e+00  
+##                         3.000000000000068834  
 ##                             playerEdin Džeko  
-##                                    1.000e+00  
+##                         0.999999999999935496  
 ##                      playerEmmanuel Adebayor  
-##                                    4.361e-15  
+##                        -0.000000000000001435  
 ##                         playerEmmanuel Sanon  
-##                                   -2.056e-14  
+##                        -0.000000000000026382  
 ##                         playerEnner Valencia  
-##                                    5.000e+00  
+##                         4.999999999999999112  
 ##                            playerEran Zahavi  
-##                                   -2.630e-14  
+##                        -0.000000000000018547  
 ##                          playerFerenc Puskás  
-##                                    1.500e+01  
+##                        15.000000000000003553  
 ##                            playerGareth Bale  
-##                                    1.000e+00  
+##                         0.999999999999992339  
 ##                              playerGigi Riva  
-##                                    4.500e+01  
+##                        44.999999999999957367  
 ##                            playerHakan Şükür  
-##                                    5.000e+00  
+##                         4.999999999999999112  
 ##                            playerHao Haidong  
-##                                   -1.375e-14  
+##                        -0.000000000000001819  
 ##                          playerHossam Hassan  
-##                                    4.363e-14  
+##                         0.000000000000048957  
 ##                          playerHussein Saeed  
-##                                   -3.596e-15  
+##                        -0.000000000000015372  
 ##                          playerIslam Slimani  
-##                                    3.000e+00  
+##                         3.000000000000038192  
 ##                            playerIssam Jemâa  
-##                                    3.000e+00  
+##                         2.999999999999996891  
 ##                             playerJan Koller  
-##                                    1.200e+01  
+##                        11.999999999999991118  
 ##                       playerJavier Hernández  
-##                                    1.700e+01  
+##                        17.000000000000028422  
 ##                           playerJong Il-gwan  
-##                                    1.000e+00  
+##                         0.999999999999992784  
 ##                            playerJørgen Juve  
-##                                    2.000e+00  
+##                         1.999999999999994227  
 ## playerKolbeinn Sigþórsson &amp; Eiður Guðjohnsen  
-##                                   -4.858e-14  
+##                        -0.000000000000016027  
 ##                     playerKunishige Kamamoto  
-##                                    7.000e+00  
+##                         7.000000000000010658  
 ##                            playerLester Moré  
-##                                    1.000e+00  
+##                         0.999999999999976574  
 ##                           playerLionel Messi  
-##                                    4.600e+01  
+##                        46.000000000000056843  
 ##                            playerLuis Suárez  
-##                                    2.500e+01  
+##                        25.000000000000028422  
 ##                            playerLuis Tejada  
-##                                    1.092e-14  
+##                        -0.000000000000009927  
 ##                          playerLuton Shelton  
-##                                    1.000e+00  
+##                         0.999999999999966915  
 ##                         playerMajed Abdullah  
-##                                    4.000e+00  
+##                         3.999999999999994671  
 ##                         playerMansour Muftah  
-##                                    4.016e-15  
+##                        -0.000000000000018550  
 ##                         playerMarcelo Moreno  
-##                                   -3.034e-14  
+##                        -0.000000000000019104  
 ##                           playerMarek Hamšík  
-##                                    1.000e+00  
+##                         0.999999999999988898  
 ##                         playerMiroslav Klose  
-##                                    6.800e+01  
+##                        67.999999999999943157  
 ##                     playerNikos Anastopoulos  
-##                                    2.000e+00  
+##                         2.000000000000000444  
 ##                         playerOlivier Giroud  
-##                                    3.700e+01  
+##                        36.999999999999907629  
 ##                         playerPaolo Guerrero  
-##                                    5.000e+00  
+##                         4.999999999999988454  
 ##                                   playerPelé  
-##                                    7.500e+01  
+##                        76.000000000000071054  
 ##       playerPoul Nielsen &amp; Jon Dahl Tomasson  
-##                                    9.000e+00  
+##                         8.999999999999996447  
 ##                         playerRadamel Falcao  
-##                                    9.000e+00  
+##                         8.999999999999950262  
 ##                         playerRashidi Yekini  
-##                                    6.000e+00  
+##                         5.999999999999997335  
 ##                         playerRaúl Díaz Arce  
-##                                    1.826e-14  
+##                        -0.000000000000012336  
 ##                           playerRobbie Keane  
-##                                    2.000e+00  
+##                         2.000000000000008882  
 ##                     playerRobert Lewandowski  
-##                                    1.700e+01  
+##                        17.000000000000021316  
 ##                       playerRobin van Persie  
-##                                    3.000e+01  
+##                        29.999999999999971578  
 ##                        playerRolando Fonseca  
-##                                    6.000e+00  
+##                         5.999999999999988454  
 ##                          playerRomelu Lukaku  
-##                                    2.100e+01  
+##                        20.999999999999971578  
 ##                       playerRoque Santa Cruz  
-##                                    7.000e+00  
+##                         7.000000000000000888  
 ##                             playerSadio Mané  
-##                                    5.000e+00  
+##                         5.000000000000003553  
 ##                           playerSamuel Eto&#39;o  
-##                                    5.000e+00  
+##                         4.999999999999982236  
 ##                             playerStern John  
-##                                    3.598e-15  
+##                        -0.000000000000025973  
 ##                             playerTim Cahill  
-##                                    4.000e+00  
+##                         3.999999999999969358  
 ##                           playerToni Polster  
-##                                    1.200e+01  
+##                        12.000000000000007105  
 ##                           playerWayne Rooney  
-##                                    3.100e+01  
+##                        32.000000000000120792  
 ##                     playerZlatan Ibrahimović  
-##                                    1.900e+01  
+##                        19.000000000000021316  
 ##                         playerZlatko Zahovič  
-##                                    1.000e+00  
+##                         0.999999999999990230  
 ## 
 ## Degrees of Freedom: 78 Total (i.e. Null);  0 Residual
-## Null Deviance:       16390 
-## Residual Deviance: 9.954e-26     AIC: -4509</code></pre>
+## Null Deviance:       16570 
+## Residual Deviance: 0.0000000000000000000000001027    AIC: -4506</code></pre>
 <pre class="r"><code>model_backward</code></pre>
 <pre><code>## 
-## Call:  glm(formula = w ~ X + part + pld + d + l + gf + ga + player, 
-##     data = data)
+## Call:  glm(formula = w ~ X + part + pld + d + l + gf + player, data = data)
 ## 
 ## Coefficients:
 ##                                  (Intercept)  
-##                                   -1.521e-14  
+##                      0.000000000000003317553  
 ##                                            X  
-##                                   -2.729e-17  
+##                      0.000000000000000005827  
 ##                                         part  
-##                                   -7.197e-15  
+##                      0.000000000000003558492  
 ##                                          pld  
-##                                    1.000e+00  
+##                      1.000000000000000666134  
 ##                                            d  
-##                                   -1.000e+00  
+##                     -1.000000000000001554312  
 ##                                            l  
-##                                   -1.000e+00  
+##                     -1.000000000000002220446  
 ##                                           gf  
-##                                    4.301e-16  
-##                                           ga  
-##                                   -2.481e-16  
+##                     -0.000000000000000469822  
 ##            playerAdrian Mutu &amp; Gheorghe Hagi  
-##                                    2.748e-14  
+##                     -0.000000000000009176844  
 ##                            playerAhmed Faras  
-##                                    2.640e-15  
+##                     -0.000000000000004204329  
 ##                                   playerAkwá  
-##                                   -3.499e-14  
+##                      0.000000000000015453996  
 ##                    playerAleksandar Mitrović  
-##                                    2.306e-14  
+##                     -0.000000000000009624876  
 ##                         playerAlexander Frei  
-##                                    3.876e-14  
+##                     -0.000000000000015308220  
 ##     playerAlexander Kerzhakov &amp; Artem Dzyuba  
-##                                    9.501e-15  
+##                      0.000000000000001429757  
 ##                         playerAlexis Sánchez  
-##                                    8.018e-15  
+##                      0.000000000000000146968  
 ##                               playerAli Daei  
-##                                    6.343e-15  
+##                     -0.000000000000006326644  
 ##                           playerAli Mabkhout  
-##                                   -2.196e-15  
+##                      0.000000000000002576100  
 ##                      playerAndriy Shevchenko  
-##                                   -1.759e-15  
+##                      0.000000000000002230515  
 ##                           playerAsamoah Gyan  
-##                                   -4.259e-15  
+##                      0.000000000000002861470  
 ##                        playerBashar Abdullah  
-##                                   -8.327e-15  
+##                      0.000000000000004944712  
 ##                         playerBenni McCarthy  
-##                                    2.574e-15  
+##                     -0.000000000000000793568  
 ##                           playerCarlos Pavón  
-##                                   -9.338e-15  
+##                      0.000000000000005134091  
 ##                            playerCha Bum-kun  
-##                                    9.592e-15  
+##                     -0.000000000000004703298  
 ##                             playerChris Wood  
-##                                   -6.372e-15  
+##                      0.000000000000003829468  
 ##         playerClint Dempsey &amp; Landon Donovan  
-##                                    1.760e-14  
+##                     -0.000000000000011564751  
 ##                      playerCristiano Ronaldo  
-##                                    1.666e-14  
+##                     -0.000000000000001155825  
 ##                             playerCyle Larin  
-##                                   -1.135e-14  
+##                      0.000000000000005125209  
 ##                            playerDavid Healy  
-##                                   -1.457e-14  
+##                      0.000000000000006288681  
 ##                            playerDavid Villa  
-##                                    3.601e-14  
+##                     -0.000000000000003830009  
 ##                            playerDavor Šuker  
-##                                   -2.706e-15  
+##                      0.000000000000005585810  
 ##             playerDenis Law &amp; Kenny Dalglish  
-##                                    1.562e-14  
+##                     -0.000000000000008783445  
 ##                          playerDidier Drogba  
-##                                    3.267e-15  
+##                      0.000000000000002885946  
 ##                      playerDieumerci Mbokani  
-##                                   -7.983e-15  
+##                      0.000000000000006741831  
 ##        playerDimitar Berbatov &amp; Hristo Bonev  
-##                                   -2.121e-14  
+##                      0.000000000000005925500  
 ##                             playerEdin Džeko  
-##                                   -9.350e-15  
+##                      0.000000000000007859558  
 ##                      playerEmmanuel Adebayor  
-##                                   -1.731e-15  
+##                      0.000000000000002636528  
 ##                         playerEmmanuel Sanon  
-##                                   -6.455e-15  
+##                      0.000000000000006789805  
 ##                         playerEnner Valencia  
-##                                    5.340e-15  
+##                      0.000000000000000682606  
 ##                            playerEran Zahavi  
-##                                   -1.310e-14  
+##                      0.000000000000005994224  
 ##                          playerFerenc Puskás  
-##                                    1.517e-14  
+##                      0.000000000000011453668  
 ##                            playerGareth Bale  
-##                                   -5.518e-15  
+##                      0.000000000000001478233  
 ##                              playerGigi Riva  
-##                                    2.817e-14  
+##                     -0.000000000000012804155  
 ##                            playerHakan Şükür  
-##                                   -1.455e-16  
+##                      0.000000000000005920016  
 ##                            playerHao Haidong  
-##                                   -1.372e-14  
+##                      0.000000000000007292873  
 ##                          playerHossam Hassan  
-##                                   -1.472e-15  
+##                      0.000000000000002250850  
 ##                          playerHussein Saeed  
-##                                   -9.615e-15  
+##                      0.000000000000004621002  
 ##                          playerIslam Slimani  
-##                                   -4.460e-14  
+##                     -0.000000000000009279842  
 ##                            playerIssam Jemâa  
-##                                    1.193e-14  
+##                     -0.000000000000007984199  
 ##                             playerJan Koller  
-##                                    9.913e-15  
+##                      0.000000000000000649933  
 ##                       playerJavier Hernández  
-##                                    3.602e-14  
+##                     -0.000000000000016079576  
 ##                           playerJong Il-gwan  
-##                                   -4.491e-15  
+##                      0.000000000000003966012  
 ##                            playerJørgen Juve  
-##                                    6.243e-15  
+##                     -0.000000000000001012471  
 ## playerKolbeinn Sigþórsson &amp; Eiður Guðjohnsen  
-##                                   -1.053e-14  
+##                      0.000000000000004294121  
 ##                     playerKunishige Kamamoto  
-##                                    9.202e-15  
+##                     -0.000000000000003769754  
 ##                            playerLester Moré  
-##                                   -7.164e-15  
+##                      0.000000000000003490341  
 ##                           playerLionel Messi  
-##                                    1.601e-13  
+##                     -0.000000000000059059206  
 ##                            playerLuis Suárez  
-##                                    2.800e-14  
+##                     -0.000000000000004455562  
 ##                            playerLuis Tejada  
-##                                   -4.587e-15  
+##                      0.000000000000004595503  
 ##                          playerLuton Shelton  
-##                                   -1.569e-15  
+##                      0.000000000000002354095  
 ##                         playerMajed Abdullah  
-##                                    1.493e-14  
+##                     -0.000000000000007689238  
 ##                         playerMansour Muftah  
-##                                   -4.982e-15  
+##                      0.000000000000001501668  
 ##                         playerMarcelo Moreno  
-##                                    5.278e-15  
+##                     -0.000000000000000829578  
 ##                           playerMarek Hamšík  
-##                                   -3.721e-15  
+##                      0.000000000000003037628  
 ##                         playerMiroslav Klose  
-##                                    5.061e-15  
+##                      0.000000000000020305305  
 ##                     playerNikos Anastopoulos  
-##                                   -4.239e-15  
+##                      0.000000000000002032608  
 ##                         playerOlivier Giroud  
-##                                    3.115e-14  
+##                     -0.000000000000002720165  
 ##                         playerPaolo Guerrero  
-##                                    2.700e-15  
+##                     -0.000000000000000202683  
 ##                                   playerPelé  
-##                                    6.215e-14  
+##                      0.000000000000000689892  
 ##       playerPoul Nielsen &amp; Jon Dahl Tomasson  
-##                                    4.420e-16  
+##                      0.000000000000001849150  
 ##                         playerRadamel Falcao  
-##                                    5.431e-15  
+##                      0.000000000000002346630  
 ##                         playerRashidi Yekini  
-##                                    5.311e-15  
+##                     -0.000000000000002001767  
 ##                         playerRaúl Díaz Arce  
-##                                   -3.105e-15  
+##                      0.000000000000004853985  
 ##                           playerRobbie Keane  
-##                                   -1.906e-14  
+##                      0.000000000000004627833  
 ##                     playerRobert Lewandowski  
-##                                    1.488e-14  
+##                     -0.000000000000004583794  
 ##                       playerRobin van Persie  
-##                                    1.089e-14  
+##                     -0.000000000000002946748  
 ##                        playerRolando Fonseca  
-##                                    1.903e-15  
+##                      0.000000000000001222628  
 ##                          playerRomelu Lukaku  
-##                                    3.696e-14  
+##                     -0.000000000000003879220  
 ##                       playerRoque Santa Cruz  
-##                                    7.746e-15  
+##                     -0.000000000000006243413  
 ##                             playerSadio Mané  
-##                                    7.163e-15  
+##                      0.000000000000001468102  
 ##                           playerSamuel Eto&#39;o  
-##                                           NA  
+##                     -0.000000000000003223951  
 ##                             playerStern John  
 ##                                           NA  
 ##                             playerTim Cahill  
@@ -950,8 +953,8 @@ summary(num)</code></pre>
 ##                                           NA  
 ## 
 ## Degrees of Freedom: 78 Total (i.e. Null);  0 Residual
-## Null Deviance:       16390 
-## Residual Deviance: 7.788e-26     AIC: -4528</code></pre>
+## Null Deviance:       16570 
+## Residual Deviance: 0.0000000000000000000000000162    AIC: -4652</code></pre>
 <pre class="r"><code>predictor_state = num%&gt;%
   select(-w)
 
@@ -967,8 +970,8 @@ cv_object</code></pre>
 ## Measure: Mean-Squared Error 
 ## 
 ##       Lambda Index  Measure       SE Nonzero
-## min 0.001000    31 0.003370 0.001686       6
-## 1se 0.003981    25 0.004825 0.002102       4</code></pre>
+## min 0.001000    31 0.003497 0.001744       6
+## 1se 0.003981    25 0.004964 0.002145       4</code></pre>
 <pre class="r"><code>tibble(lambda = cv_object$lambda,
 mean_cv_error = cv_object$cvm) %&gt;%
 ggplot(aes(x = lambda, y = mean_cv_error)) +
@@ -980,15 +983,15 @@ fit_bestcv &lt;- glmnet(as.matrix(predictor_state), num$gf, lambda = cv_object$l
 coef(fit_bestcv)</code></pre>
 <pre><code>## 9 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
 ##                        s0
-## (Intercept) -0.0943922965
-## part         0.1859304605
-## pld          1.5104550872
-## d           -1.0535906943
-## l           -1.5663968642
-## gf           0.9933023297
-## ga          -0.0032945723
-## pts         -0.5031641623
-## rank         0.0009081711</code></pre>
+## (Intercept) -0.0923735865
+## part         0.1871854458
+## pld          1.5171032748
+## d           -1.0608383827
+## l           -1.5712816668
+## gf           0.9909772639
+## ga          -0.0034295885
+## pts         -0.5030752209
+## rank         0.0008833649</code></pre>
 <pre class="r"><code>lambda</code></pre>
 <pre><code>## [1] 0.001</code></pre>
 <p>Cross-validation of models</p>
@@ -1007,7 +1010,7 @@ coef(fit_bestcv)</code></pre>
 models &lt;- map(cv_df$train, ~ glm(w ~ pld + d + rank+ gf, data = .))
 summary(map2_dbl(models, cv_df$test, modelr::rmse))</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.7009  1.2226  1.4807  2.0650  2.1541  4.8146</code></pre>
+##  0.7077  1.2168  1.4786  2.0658  2.2156  4.7490</code></pre>
 <pre class="r"><code>cv_df %&gt;%
   ggplot(aes(x = rmse)) +
   geom_density()</code></pre>
@@ -1026,7 +1029,7 @@ summary(map2_dbl(models, cv_df$test, modelr::rmse))</code></pre>
 models &lt;- map(cv_df2$train, ~ glm(w ~ pld + d + rank + gf+ ga, data = .))
 summary(map2_dbl(models, cv_df2$test, modelr::rmse))</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.5322  1.0725  1.2184  1.3121  1.6691  2.1832</code></pre>
+##  0.5419  1.0605  1.2192  1.3113  1.6606  2.1945</code></pre>
 <pre class="r"><code>cv_df2 %&gt;%
   ggplot(aes(x = rmse)) +
   geom_density()</code></pre>
@@ -1076,24 +1079,24 @@ cv_df %&gt;%
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -3.8447  -0.5589   0.1259   0.7433   2.3126  
+## -3.8861  -0.5576   0.1279   0.7624   2.3776  
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -1.554369   0.446600  -3.480 0.000849 ***
-## pld          0.661219   0.063220  10.459 3.64e-16 ***
-## d           -0.622216   0.096916  -6.420 1.21e-08 ***
-## rank         0.015920   0.005073   3.138 0.002452 ** 
-## gf           0.153794   0.017994   8.547 1.32e-12 ***
-## ga          -0.225378   0.018039 -12.494  &lt; 2e-16 ***
+##              Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept) -1.560889   0.449031  -3.476              0.00086 ***
+## pld          0.660468   0.063756  10.359 0.000000000000000554 ***
+## d           -0.627753   0.098018  -6.404 0.000000012967977027 ***
+## rank         0.015883   0.005092   3.119              0.00259 ** 
+## gf           0.153686   0.018105   8.489 0.000000000001697567 ***
+## ga          -0.223635   0.017953 -12.456 &lt; 0.0000000000000002 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 1.388325)
+## (Dispersion parameter for gaussian family taken to be 1.393484)
 ## 
-##     Null deviance: 16390.35  on 78  degrees of freedom
-## Residual deviance:   101.35  on 73  degrees of freedom
-## AIC: 257.87
+##     Null deviance: 16566.84  on 78  degrees of freedom
+## Residual deviance:   101.72  on 73  degrees of freedom
+## AIC: 258.16
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <p>Results/output from regression model</p>
@@ -1110,20 +1113,20 @@ summary(m)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -9.9147 -1.8252  0.3091  1.8212 10.0370 
+## -9.9168 -1.8090  0.3404  1.8513 10.1195 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -6.16188    1.08263  -5.692 2.31e-07 ***
-## pld          0.79926    0.04521  17.678  &lt; 2e-16 ***
-## d           -1.02384    0.20247  -5.057 2.93e-06 ***
-## rank         0.03681    0.01358   2.711  0.00831 ** 
+##             Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept) -6.23478    1.09234  -5.708          0.000000216 ***
+## pld          0.80197    0.04533  17.692 &lt; 0.0000000000000002 ***
+## d           -1.03027    0.20393  -5.052          0.000002986 ***
+## rank         0.03749    0.01368   2.740              0.00768 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.341 on 75 degrees of freedom
-## Multiple R-squared:  0.9489, Adjusted R-squared:  0.9469 
-## F-statistic: 464.6 on 3 and 75 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 3.362 on 75 degrees of freedom
+## Multiple R-squared:  0.9488, Adjusted R-squared:  0.9468 
+## F-statistic: 463.6 on 3 and 75 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 
 
 

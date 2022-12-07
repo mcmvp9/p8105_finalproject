@@ -22,32 +22,32 @@ contains the csv files of data downloaded and intended for use.
 This data was loaded data from Wikipedia and contains record and statistics of
 the overall team records of the FIFA World Cup.
 
-```{r}
+```{r, eval=FALSE}
 wiki_list =
 records_stats_html = read_html("https://en.wikipedia.org/wiki/FIFA_World_Cup_records_and_statistics") %>% 
-  html_table(header = TRUE)
+ html_table(header = TRUE)
 
 wc_stats =
   wiki_list[[2]]
   
 wc_stats = 
   wc_stats %>% 
-  janitor::clean_names() %>%
+ janitor::clean_names() %>%
    rename(country = team) %>% 
   ## Delete rank(data ranked in order of WC winners) & team
-  select(country, everything(), -rank) %>% 
+ select(country, everything(), -rank) %>% 
   
   ## Clean dataset, remove weird characters in names 
-  mutate(
+ mutate(
      country = str_replace(country, "//[c]", "")
   ) %>%
   apply(., 2, function(country) as.character(gsub("\\[|a\\]","",country))) %>%
-  apply(., 2, function(country) as.character(gsub("\\[|b\\]","",country))) %>%
+ apply(., 2, function(country) as.character(gsub("\\[|b\\]","",country))) %>%
   apply(., 2, function(country) as.character(gsub("\\[|c\\]","",country))) %>%
   apply(., 2, function(country) as.character(gsub("\\[|d\\]","",country))) %>%
   apply(., 2, function(country) as.character(gsub("\\[|e\\]","",country))) %>%
   apply(., 2, function(country) as.character(gsub("\\[|f\\]","",country))) %>%
-  as_tibble()
+ as_tibble()
   
 wc_stats
 ```
@@ -56,7 +56,7 @@ wc_stats
 ### Fifa Rankings 2022 [Fifa Rankings](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
 
 This dataset was created via web scraping. 
-```{r}
+```{r, eval = FALSE}
 wc_rank_html =
    read_html("https://www.2026worldcupnorthamerica.com/fifa-ranking/") 
 
@@ -100,7 +100,7 @@ tibble(
 
 This dataset was downloaded as a csv file and limited to variables of interest.
 
-```{r}
+```{r, eval=FALSE}
 confederations_data = 
   read_csv(file = "data/fifa_countries_audience.csv", col_names = TRUE) %>% 
   janitor::clean_names() %>% 
@@ -116,7 +116,7 @@ confederations_data =
 ### Top goal scorers per country 
 
 This dataset was pulled from Wikipedia via web scraping. 
-```{r}
+```{r, eval=FALSE}
 goals_text_html =
    read_html("https://en.wikipedia.org/wiki/List_of_top_international_men%27s_football_goal_scorers_by_country")  %>% 
   html_table(header = TRUE)
@@ -152,7 +152,7 @@ goals_country_df
 
 ### Population Data 2021 Population 
 
-```{r}
+```{r, eval=FALSE}
 pop_df = 
 read_csv(file = "data/pop.csv", col_names = TRUE) %>% 
   janitor::clean_names() %>% 
@@ -171,7 +171,7 @@ The datasets we have currently are: <br>
 We will combine these datasets by the `country` variable, perform some wrangling 
 and output final dataset as .csv file. 
 
-```{r}
+```{r, eval=FALSE}
 ### Put all dataframes into a list & merge by country
 
 merged_df = 
@@ -184,7 +184,7 @@ merged_df2 =
   arrange(country)
  
 final_merge = 
-  merge(wc_stats,merged_df2,by= "country")  %>% 
+  merge(wc_stats, merged_df2,by= "country")  %>% 
   
   ## Replace missing data with correct info pulled from the web (sources listed below)
   
@@ -206,7 +206,7 @@ final_merge =
                               TRUE ~as.character(confederation)))
 ```
 
-```{r}
+```{r, eval=FALSE}
 
 ## Add missing land area by km squared
 final_merge = 
@@ -236,7 +236,7 @@ final_merge =
 
 Output final dataset as `.csv` file for final project use. 
 
-```{r}
+```{r, eval=FALSE}
 write.csv(final_merge, "./data/12_4_dataset.csv")
 ```
 
