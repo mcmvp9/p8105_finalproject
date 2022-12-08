@@ -1,5 +1,5 @@
 ---
-title: "Exploring Predictors of World Cup Wins"
+title: "Exploring World Cup Statistics Geographically By Country"
 output: 
   html_document:
     toc: TRUE
@@ -16,7 +16,10 @@ h1.title {
 
 ```{r setup, include=FALSE}
 # Load packages
+library(sf)
 library(tidyverse)
+library(tmap)
+library(tmaptools)
 library(viridis)
 library(plotly)
 
@@ -28,6 +31,16 @@ knitr::opts_chunk$set(
   fig.asp = .6,
   out.width = "90%"
 )
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+# Set tmap mode to interactive
+tmap_mode("view")
 ```
 
 ```{r import df, include=FALSE, warning=FALSE, message=FALSE}
@@ -37,157 +50,233 @@ wc_df <- read_csv("data/12_4_dataset.csv") %>%
   mutate(
     gd = gsub("\\+","",gd),
     gd = gsub("\\−","-",gd),
-    gd = as.numeric(gd)
-    ) %>%
+    part = as.numeric(part),
+    pld = as.numeric(pld),
+    w = as.numeric(w),
+    d = as.numeric(d),
+    l = as.numeric(l),
+    gf = as.numeric(gf),
+    ga = as.numeric(ga),
+    gd = as.numeric(gd),
+    pts = as.numeric(pts),
+    rank = as.numeric(rank),
+    goals = as.numeric(goals),
+    land_area = as.numeric(land_area_km))
+```
+
+```{r import shapefile, include=FALSE, warning=FALSE, message=FALSE}
+# Read in shapefile and convert values to numeric
+wc_countries <- st_read("data/geofiles/worldcup_countries.shp") %>%
+  janitor::clean_names() %>%
   mutate(
-    prop_w = w / pld,
-    prop_d = d / pld,
-    prop_l = l / pld,
-    gf_per_game = gf / pld,
-    ga_per_game = ga / pld) %>%
-  mutate_if(is.numeric, round, digits = 2)
+    gd = gsub("\\+","",gd),
+    gd = gsub("\\−","-",gd),
+    part = as.numeric(part),
+    pld = as.numeric(pld),
+    w = as.numeric(w),
+    d = as.numeric(d),
+    l = as.numeric(l),
+    gf = as.numeric(gf),
+    ga = as.numeric(ga),
+    gd = as.numeric(gd),
+    pts = as.numeric(pts),
+    rank = as.numeric(rank),
+    goals = as.numeric(goals),
+    land_area = as.numeric(land_area))
 ```
 
 <br>
 
-This page contains bivariable explorations between the proportion of games won and various predictors for each country that has participated in the FIFA World Cup. 
+<br>
+
+## Data by Country
 
 <br>
 
-### Codebook
-
-For the purpose of this exploratory analysis, the following variables were created:
-
-* `prop_w`. Proportion of games a country has won in the World Cup. Calculated as the number of games a country has won in the World Cup divided by the number of games a country has played in the World Cup (`w` / `pld`) <br>
-* `gf_per_game`. Average number of goals a country has scored against opponents (i.e. "goals for") per game. Calculated as the total number of goals a country has scored against opponents in the World Cup divided by the number of games a country has played in the World Cup (`gf` / `pld`) <br>
-* `ga_per_game`. Average number of goals scored against a country per game. Calculated as the total number of goals scored against a country in the World Cup divided by the number of games a country has played in the World Cup (`ga` / `pld`) <br>
-
-<br>
-
-### 2022 FIFA Ranking
-
-<br>
-
+### Number of Participations in the World Cup by Country
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
-wc_df %>%
-   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nFIFA Rank: ", rank)) %>%
-  plot_ly(
-    x = ~rank, 
-    y = ~prop_w,
-    type = "scatter",
-    mode = "markers",
-    color = ~confederation, 
-    alpha = 0.7, 
-    text = ~text_label, 
-    legendgroup = ~confederation,
-    colors = viridis_pal(option = "D")(3)) %>% 
-  layout(
-    title = "2022 FIFA Ranking vs. Proportion of Games Won", 
-    xaxis = list(title = "FIFA Ranking (2022)"), 
-    yaxis = list(title = "Proportion of Games Won"))
+tm_shape(wc_countries) + 
+  tm_polygons(
+    col = "part",
+    style = "cont",
+    palette = "-viridis",
+    id = "country",
+    alpha = .7,
+    border.col = "white",
+    lwd = .5, 
+    breaks = seq(0, 22, by = 2),
+    title = "Participations (part)")
 ```
-There is a negative  association between FIFA Ranking and the proportion of games won in the World Cup. As a team's FIFA Ranking increases (i.e. moves further away from the #1 slot), the proportion of games won in the World Cup decreases. This is expected due to the FIFA ranking scheme that assigns the #1 slot to the top performing team.
+Brazil is an international powerhouse when it comes to soccer. Brazil is the only country to make an appearance at every World Cup in history from 1930-2022. Brazil's national team has appeared in all 22 tournaments to date, with Germany having participated in 20, Italy and Argentina in 18 and Mexico in 17.
 
 <br>
 
-### World Cup Participations
-
-<br>
+### FIFA Ranking
+FIFA rankings are a unique way to measure how national teams compare to each other and can prove important when it comes to tournaments like a World Cup. National teams are ranked by FIFA based on their game results with the most successful teams being ranked highest (top team ranked as #1).
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
-wc_df %>%
-   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nWorld Cup Participations: ", part)) %>%
-  plot_ly(
-    x = ~part, 
-    y = ~prop_w,
-    type = "scatter",
-    mode = "markers",
-    color = ~confederation, 
-    text = ~text_label, 
-    alpha = 0.7, 
-    legendgroup = ~confederation,
-    colors = viridis_pal(option = "D")(3)) %>% 
-  layout(
-    title = "Number of World Cup Participations vs. Proportion of Games Won",
-    xaxis = list(title = "World Cup Participations"), 
-    yaxis = list(title = "Proportion of Games Won"))
+tm_shape(wc_countries) + 
+  tm_polygons(
+    col = "rank",
+    style = "cont",
+    palette = "viridis",
+    id = "country",
+    alpha = .7,
+    border.col = "white",
+    lwd = .5, 
+    breaks = seq(0, 170, by = 20),
+    title = "FIFA Rank (rank)") 
 ```
-There is a positive association between number of times a country has participated in the World Cup and the proportion of games won. This is expected, as teams that that win a high proportion of the games are likely some of the best teams and make it to more World Cup tournaments as a result.
 
 <br>
-
-### Games Played
-
-<br>
-
+  
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 wc_df %>%
-   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nNumber of Games Played: ", pld)) %>%
+  mutate(
+    country = fct_reorder(country, -rank),
+    text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nFIFA Rank: ", rank)) %>%
   plot_ly(
-    x = ~pld, 
-    y = ~prop_w,
-    type = "scatter",
-    mode = "markers",
-    color = ~confederation, 
+    x = ~country, 
+    y = ~rank, 
+    color = ~confederation,
     text = ~text_label, 
     alpha = 0.7, 
     legendgroup = ~confederation,
     colors = viridis_pal(option = "D")(3)) %>% 
   layout(
-    title = "Number of Games Played vs. Proportion of Games Won", 
-    xaxis = list(title = "Number of Games Played"), 
-    yaxis = list(title = "Proportion of Games Won"))
+    title = "FIFA Rank By Country", 
+    xaxis = list(title = "Country"), 
+    yaxis = list(title = "FIFA Rank"))
 ```
-There is a positive association between the number of games played and the proportion of games won in the World Cup. This is expected, as teams that that are doing well and winning a high proportion of games have the opportunity to advance further in the tournament and play a higher number of games.
-
-<br>
-
-### Average Goals For Per Game
 
 <br>
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 wc_df %>%
-   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nAvg Goals For Per Game: ", gf_per_game)) %>%
-  plot_ly(
-    x = ~gf_per_game, 
-    y = ~prop_w,
-    type = "scatter",
-    mode = "markers",
-    color = ~confederation, 
-    text = ~text_label, 
-    alpha = 0.7, 
-    legendgroup = ~confederation,
-    colors = viridis_pal(option = "D")(3)) %>% 
-  layout(
-    title = "Average Goals Scored Against Opponent vs. Proportion of Games Won", 
-    xaxis = list(title = "Avg Goals For (per game)"), 
-    yaxis = list(title = "Proportion of Games Won"))
+  group_by(confederation) %>%
+  ggplot(aes(x = confederation, y = rank, fill = confederation)) + geom_boxplot(alpha = .7) + 
+  labs(
+    title = "FIFA Rank for Each FIFA Confederation",
+    x = "Confederation",
+    y = "FIFA Rank") + 
+  scale_fill_viridis_d(name = "Confederation") + 
+  theme(legend.position = "none")
 ```
-There is a positive association between the average number of goals a country has scored against opponents (i.e. "goals for") per game and the proportion of games a country has won in the World Cup. This is expected, as teams that that are doing well and winning a high proportion of the games are scoring more goals per game than teams that are not doing as well. 
+<br>
+As of the 2022 FIFA world cup, Brazil is the highest ranked national team, followed by Belgium, Argentina, France, and England. <br>
+
+The highest ranked national teams appear to be spatially clustered in the CONMEBOL (South America) and UEFA (Europe) Confederations.
 
 <br>
 
-### Average Goals Against Per Game
+### Goals Scored by Top Player
+The plot below shows the number of goals scored by top record goal scorer in each country, including both currently active and inactive players.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+tm_shape(wc_countries) + 
+  tm_polygons(
+    col = "goals",
+    style = "cont",
+    palette = "viridis",
+    id = "country",
+    alpha = .7,
+    border.col = "white",
+    lwd = .5, 
+    breaks = seq(0, 120, by = 20),
+    title = "Top Player Goals Scored (goals)") 
+```
 
 <br>
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 wc_df %>%
-   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nAvg Goals Against Per Game: ", ga_per_game)) %>%
+  mutate(
+    country = fct_reorder(country, goals),
+    text_label = str_c("Country: ", country, "\nGoals Scored: ", goals, "\nPlayer: ", player, "\nConfederation: ", confederation)) %>%
   plot_ly(
-    x = ~ga_per_game, 
-    y = ~prop_w,
-    type = "scatter",
-    mode = "markers",
-    color = ~confederation, 
+    x = ~country, 
+    y = ~goals, 
+    color = ~confederation,
     text = ~text_label, 
     alpha = 0.7, 
     legendgroup = ~confederation,
     colors = viridis_pal(option = "D")(3)) %>% 
   layout(
-    title = "Average Goals Scored Against vs. Proportion of Games Won",
-    xaxis = list(title = "Avg Goals Against (per game)"), 
-    yaxis = list(title = "Proportion of Games Won"))
+    title = "Number Goals Scored By Top Player In Each Country", 
+    xaxis = list(title = "Country"), 
+    yaxis = list(title = "Goals"))
 ```
-There is a negative association between the average number of goals scored against a country (i.e. "goals against") per game and the proportion of games a country has won in the World Cup. This is expected, as teams that that are doing well and winning a high proportion of the games are receiving less goals scored against them than teams that are not doing as well. 
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+  group_by(confederation) %>%
+  ggplot(aes(x = confederation, y = goals, fill = confederation)) + geom_boxplot(alpha = .7) + 
+  labs(
+    title = "Distribution of Top Goals Scored for Each FIFA Confederation",
+    x = "Confederation",
+    y = "Goals") + 
+  scale_fill_viridis_d(name = "Confederation") + 
+  theme(legend.position = "none")
+```
+<br>
+
+Interestingly, even though Brazil ranks the highest for most of the predictor variables in the dataset, Brazil does not hold one of the top slots for the most goals scored by top record goal scorer. Portugal, Iran, and Argentina hold the top three positions and represent three different Confederations. The highest ranked national teams for record goal scorers appear to be spatially clustered in the UEFA (Europe), AFC (Asia and Australia), and CONMEBOL (South America) Confederations.
+
+<br>
+
+### Goal Difference
+The plot below shows the total number of goals scored by country minus the total goals scored against country throughout all World Cup tournaments.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+tm_shape(wc_countries) + 
+  tm_polygons(
+    col = "gd",
+    palette = "viridis",
+    style = "cont",
+    id = "country",
+    alpha = .7,
+    border.col = "white",
+    lwd = .5, 
+    breaks = seq(-40, 140, by = 10),
+    title = "Goal Difference (gd)")
+```
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+  mutate(
+    country = fct_reorder(country, gd),
+    text_label = str_c("Country: ", country, "\nGoal Difference: ", gd, "\nConfederation: ", confederation)) %>%
+  plot_ly(
+    x = ~country, 
+    y = ~gd, 
+    color = ~confederation,
+    text = ~text_label, 
+    alpha = 0.7, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "Goal Difference In Each Country", 
+    xaxis = list(title = "Country"), 
+    yaxis = list(title = "Goal Difference"))
+```
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+  group_by(confederation) %>%
+  ggplot(aes(x = confederation, y = gd, fill = confederation)) + geom_boxplot(alpha = .7) + 
+  labs(
+    title = "Distribution of Goal Difference for Each FIFA Confederation",
+    x = "Confederation",
+    y = "Goal Difference") + 
+  scale_fill_viridis_d(name = "Confederation") + 
+  theme(legend.position = "none")
+```
+<br>
+
+Brazil has the highest positive goal difference, followed by Germany, Italy, France, and Argentina. Mexico, South Korea, and Bulgaria have the most negative goal differences. The national teams with the highest positive goal difference appear to be spatially clustered in the UEFA (Europe) and CONMEBOL (South America) Confederations.

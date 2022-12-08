@@ -11,9 +11,9 @@
 
 
 
-<title>Predicting Goals Scored in the 2018 World Cup</title>
+<title>Predicting Goals Scored in the World Cup Since 1990</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -180,8 +180,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -189,9 +189,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -252,9 +259,14 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="exploratory_data_analysis.html">Geographic Analyses</a>
+      <a href="exploratory_data_analysis.html">Geographic Analyses by Confederation</a>
     </li>
-    <li class="dropdown-header">Bi-variable Analyses</li>
+    <li>
+      <a href="exploratory_data_analysis_2.html">Geographic Analses by Country</a>
+    </li>
+    <li>
+      <a href="exploratory_data_analysis_3.html">Predictors of World Cup Wins</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -287,7 +299,8 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Predicting Goals Scored in the 2018 World Cup</h1>
+<h1 class="title toc-ignore">Predicting Goals Scored in the World Cup
+Since 1990</h1>
 
 </div>
 
@@ -302,7 +315,11 @@ h1.title {
 <p>   </p>
 <center>
 <p><img src="images/worldcup_2022_maroon.jpg" style="width: 45%" class="center"></p>
-<p><font size = "5"><em>As the world watches some of their favorite players play in the World Cup– maybe for the first time or even the last– a possible question on people’s minds is how much of this is luck? Well let’s try to put it to the test. There are many factors that could lead a team to make it to the World Cup.</em></font></p>
+<p><font size = "5"><em>As the world watches some of their favorite
+players play in the World Cup– maybe for the first time or even the
+last– a possible question on people’s minds is how much of this is luck?
+Well let’s try to put it to the test. There are many factors that could
+lead a team to make it to the World Cup.</em></font></p>
 </center>
 <div style="margin-bottom:50px;">
 
