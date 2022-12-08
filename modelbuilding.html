@@ -309,8 +309,8 @@ $(document).ready(function () {
 <div id="we-summarize-the-statistics-of-world-cups-from-1990-to-2018-for-all-the-countries-that-made-to-the-world-cup." class="section level5">
 <h5>We summarize the statistics of world cups from 1990 to 2018 for all the countries that made to the World Cup.</h5>
 </div>
-<div id="we-tried-different-ways-for-model-selection-inclusing-step-wise-selection-foward-and-backward-selection-and-lasso-with-different-selecting-criterias-such-as-aic-bic-and-p-values.-after-comparing-the-rmse-r-square-and-p-values-we-decide-to-use-the-model-from-foward-selection.-our-final-model-is-w--1.554369-0.661219pld---0.622216d-0.015920rank-0.153794gf--0.225378ga." class="section level5">
-<h5>We tried different ways for model selection, inclusing step-wise selection, foward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from foward selection. Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</h5>
+<div id="we-tried-different-ways-for-model-selection-inclusing-step-wise-selection-foward-and-backward-selection-and-lasso-with-different-selecting-criterias-such-as-aic-bic-and-p-values.-after-comparing-the-rmse-r-square-and-p-values-we-decide-to-use-the-model-from-foward-selection.-while-there-are-two-variables-that-are-on-the-obrderline-of-our-threshold-alpha-0.05-we-created-three-models-and-used-cross-validation-to-compare-them.-after-comparing-their-rmse-we-get-the-final-model---w--1.554369-0.661219pld---0.622216d-0.015920rank-0.153794gf--0.225378ga." class="section level5">
+<h5>We tried different ways for model selection, inclusing step-wise selection, foward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from foward selection. While there are two variables that are on the obrderline of our threshold, alpha = 0.05, we created three models and used cross validation to compare them. After comparing their rmse, we get the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</h5>
 <p><br></p>
 </div>
 </div>
@@ -369,8 +369,8 @@ $(document).ready(function () {
 </div>
 <div id="correlation-plot" class="section level1">
 <h1>Correlation Plot</h1>
-<div id="to-check-for-colinearity-we-use-correlation-plot-to-explore-the-relationship-between-each-pair-of-numereic-predictors.-to-only-include-the-numeric-variables-we-use-select-function-to-exclude-variables-player-country-and-gd." class="section level3">
-<h3>To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors. To only include the numeric variables, we use select function to exclude variables, player, country, and gd.</h3>
+<div id="to-check-for-colinearity-we-use-correlation-plot-to-explore-the-relationship-between-each-pair-of-numereic-predictors.-to-only-include-the-numeric-variables-we-use-select-function-to-exclude-variables-player-country-and-gd." class="section level4">
+<h4>To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors. To only include the numeric variables, we use select function to exclude variables, player, country, and gd.</h4>
 <pre class="r"><code>data &lt;- read.csv(&quot;./data/12_4_dataset.csv&quot;) %&gt;% 
   na.omit() %&gt;% 
   select(-country)
@@ -421,7 +421,12 @@ cv_df %&gt;%
   labs(title = &quot;Violin Plot of rmse Values for Three Models&quot;)</code></pre>
 <p><img src="modelbuilding_files/figure-html/unnamed-chunk-2-1.png" width="1152" /></p>
 <p>These three models are the results from forward selection, but gf and ga are two variables on the border line. Therefore, we use cross validation to check is these two variables need to be included in the model and which model is the best. From the violin plot, we can see that model 3 has the lowest rmse, which is the model chosen by forward selection. The first model has only three variables, pld, d, and rank. The second model has four variables, pld, d, rank, and gf. The third model has five variables, pld, d, rank, gf, and ga.</p>
-<p><br> # Model <br> Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.</p>
+<p><br></p>
+</div>
+<div id="models" class="section level1">
+<h1>Models</h1>
+<p><br></p>
+<p>Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.</p>
 <pre class="r"><code>model1=lm(w~pld + d + rank , data = num)
 model2=lm(w~pld + d + rank + gf, data = num)
 model3=lm(w~pld + d + rank + gf + ga, data = num)
@@ -491,7 +496,15 @@ summary(model1)</code></pre>
 ## Residual standard error: 1.18 on 73 degrees of freedom
 ## Multiple R-squared:  0.9939, Adjusted R-squared:  0.9934 
 ## F-statistic:  2363 on 5 and 73 DF,  p-value: &lt; 0.00000000000000022</code></pre>
-<p><br> By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins)</p>
+<p><br></p>
+<p>By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins)</p>
+<p><br></p>
+</div>
+<div id="resultsoutput-from-regression-model" class="section level1">
+<h1>Results/output from regression model</h1>
+<p>Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</p>
+<p>The most significant variable in the model is ga with coefficient of -0.225378. That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would decrease the number of winning by 0.225378, while holding other variables constant.</p>
+<p>With R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins).</p>
 </div>
 
 

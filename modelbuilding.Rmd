@@ -28,7 +28,7 @@ library(modelr)
 # Overview
 
 ##### We summarize the statistics of world cups from 1990 to 2018 for all the countries that made to the World Cup.
-##### We tried different ways for model selection, inclusing step-wise selection, foward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from foward selection. Our final model is  w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.
+##### We tried different ways for model selection, inclusing step-wise selection, foward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from foward selection. While there are two variables that are on the obrderline of our threshold, alpha = 0.05, we created three models and used cross validation to compare them. After comparing their rmse, we get the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.
 
 <br>
 
@@ -71,7 +71,7 @@ library(modelr)
 
 # Correlation Plot
 
-### To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors. To only include the numeric variables, we use select function to exclude variables, player, country, and gd.
+#### To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors. To only include the numeric variables, we use select function to exclude variables, player, country, and gd.
 
 ```{r}
 data <- read.csv("./data/12_4_dataset.csv") %>% 
@@ -156,7 +156,8 @@ By looking at the summary, we can see that model 3 has the highest adj. R^2 of 9
 
 
 Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.
-That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would increase the number of winning by 0.225378, while holding other variables constant    .
+
+The most significant variable in the model is ga with coefficient of -0.225378. That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would decrease the number of winning by 0.225378, while holding other variables constant.
 
 With R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins).
 
