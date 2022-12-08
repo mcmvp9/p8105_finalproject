@@ -109,7 +109,7 @@ cv_df %>%
 ```
 
 
-From the violin plot, we can see that model 3 has the lowest rmse.
+These three models are the results from forward selection, but gf and ga are two variables on the border line. Therefore, we use cross validation to check is these two variables need to be included in the model and which model is the best. From the violin plot, we can see that model 3 has the lowest rmse, which is the model chosen by forward selection. The first model has only three variables, pld, d, and rank. The second model has four variables, pld, d, rank, and gf. The third model has five variables, pld, d, rank, gf, and ga.
 
 <br>
 # Model

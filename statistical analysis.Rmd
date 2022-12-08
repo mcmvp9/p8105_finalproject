@@ -23,9 +23,9 @@ data <- read.csv("./data/12_4_dataset.csv") %>%
   na.omit() %>% 
   select(-country)
 #hist.data.frame(data, nclass = 8)
-num = data[2:11] %>% 
-  select(-gd)
-summary(num)
+num = data[2:14] %>% 
+  select(-gd, -player)
+#summary(num)
 corrplot(cor(num),  diag = FALSE)
 ```
 
