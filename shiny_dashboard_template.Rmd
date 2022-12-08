@@ -15,12 +15,31 @@ library(readr)
 library(shiny)
 library(plotly)
 library(viridis)
+library(modelr)
+
+
 ```
 
 ```{r import_data, include=FALSE}
 world_cup = read_csv("./data/12_4_dataset.csv") %>%
   janitor::clean_names() %>%
-  select(country,w, pld, d, rank, gf, ga)
+  select(country,w, pld, d, rank, gf, ga) %>%
+  filter(country %in% c("Argentina", "Brazil", "England", "France"))
+  
+##   
+min_w = world_cup %>% distinct(w) %>% min()
+min_pld = world_cup %>% distinct(pld) %>% min()
+min_d = world_cup %>% distinct(d) %>% min()
+min_rank = world_cup %>% distinct(rank) %>% min()
+min_gf = world_cup %>% distinct(gf) %>% min()
+min_ga = world_cup %>% distinct(ga) %>% min()
+
+max_w = world_cup %>% distinct(w) %>% max()
+max_pld = world_cup %>% distinct(pld) %>% max()
+max_d = world_cup %>% distinct(d) %>% max()
+max_rank = world_cup %>% distinct(rank) %>% max()
+max_gf = world_cup %>% distinct(gf) %>% max()
+max_ga = world_cup %>% distinct(ga) %>% max()
 ```
 
 Column {.sidebar}
@@ -36,6 +55,7 @@ selectInput(
   "country_choice", 
   label = h3("Select country"),
   choices = country)
+
 ```
 
 ```{r}
@@ -45,45 +65,43 @@ renderPrint({
 
 ```
 
-
-
-# min 
-
-```{r}
-##   for latter what our predictors are -> w = map(train, ~lm(w ~ pld + d + rank + gf + ga, data = .x)))
-min_w = world_cup %>% distinct(w) %>% min()
-min_pld = world_cup %>% distinct(pld) %>% min()
-min_d = world_cup %>% distinct(d) %>% min()
-min_rank = world_cup %>% distinct(rank) %>% min()
-min_gf = world_cup %>% distinct(gf) %>% min()
-min_ga = world_cup %>% distinct(ga) %>% min()
-```
-
-# max
-
-```{r}
-max_w = world_cup %>% distinct(w) %>% max()
-max_pld = world_cup %>% distinct(pld) %>% max()
-max_d = world_cup %>% distinct(d) %>% max()
-max_rank = world_cup %>% distinct(rank) %>% max()
-max_gf = world_cup %>% distinct(gf) %>% max()
-max_ga = world_cup %>% distinct(ga) %>% max()
-```
-
-Column {data-width=650}
+Column {.sidebar}
 -----------------------------------------------------------------------
 
 ### Chart A
 
 ```{r}
-max_w = 76
-min_w = world_cup %>% distinct(w) %>% min()
 
-# sliderInput widget
+# sliderInput widget for pld
 sliderInput(
-  "win_range", 
-  label = h3("Choose win range"), 
-  min = min_w, max = max_w, value = c(0, 76))
+  "number_games_range", 
+  label = h3("Choose number games range"), 
+  min = 0, max = max_pld, value = c(113))
+
+# sliderInput widget for d 
+sliderInput(
+  "draw_games_range", 
+  label = h3("Choose draw games range"), 
+  min = min_d, max = max_d, value = c(22))
+
+# sliderInput widget for rank
+sliderInput(
+  "rank_range", 
+  label = h3("Choose rank range"), 
+  min = min_rank, max = max_rank, value = c(167))
+
+# sliderInput widget for gf
+sliderInput(
+  "goals_for_range", 
+  label = h3("Choose goals for range"), 
+  min = min_gf, max = max_gf, value = c(236))
+
+# sliderInput widget for ga 
+sliderInput(
+  "goals_against_range", 
+  label = h3("Choose goals against range"), 
+  min = min_ga, max = max_ga, value = c(130))
+
 ```
 
 Column {data-width=350}
@@ -92,12 +110,44 @@ Column {data-width=350}
 ### Chart B
 
 ```{r}
+fit3  = 
+  world_cup %>%
+  lm(w ~ pld + d + rank + gf + ga, data = .) %>%
+  broom::tidy() %>%
+  as_tibble() %>%
+  select(term, estimate) %>%
+  pivot_wider(
+    names_from = "term", 
+    values_from = "estimate") 
 
+fit3
 ```
-
-### Chart C
 
 ```{r}
 
+what = 
+  world_cup %>%
+  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) 
+  
 ```
+
+In our dataset, made it to the world cup 
+
+```{r}
+renderPrint({
+ 
+  world_cup %>%
+    filter(
+      country == input$country_choice) %>%
+    mutate(pld = input$number_games_range[1],
+           d = input$draw_games_range[1], 
+           rank = input$rank_range[1], 
+           gf = input$goals_for_range[1], 
+           ga = input$goals_against_range[1], 
+           results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %>%
+    select(results)
+}) 
+
+```
+
 
