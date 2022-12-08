@@ -1,0 +1,193 @@
+---
+title: "Exploring Predictors of World Cup Wins"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+
+</style>
+
+```{r setup, include=FALSE}
+# Load packages
+library(tidyverse)
+library(viridis)
+library(plotly)
+
+# Set ggplot theme
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+```
+
+```{r import df, include=FALSE, warning=FALSE, message=FALSE}
+# Read in csv datafile
+wc_df <- read_csv("data/12_4_dataset.csv") %>%
+  janitor::clean_names() %>%
+  mutate(
+    gd = gsub("\\+","",gd),
+    gd = gsub("\\−","-",gd),
+    gd = as.numeric(gd)
+    ) %>%
+  mutate(
+    prop_w = w / pld,
+    prop_d = d / pld,
+    prop_l = l / pld,
+    gf_per_game = gf / pld,
+    ga_per_game = ga / pld) %>%
+  mutate_if(is.numeric, round, digits = 2)
+```
+
+<br>
+
+This page contains bivariable explorations between the proportion of games won and various predictors for each country that has participated in the FIFA World Cup. 
+
+<br>
+
+### Codebook
+
+To ensure comparability between countries in this exploratory analysis, the following additional variables were created:
+
+* `prop_w`. Proportion of games a country has won in the World Cup. Calculated as the number of games a country has won in the World Cup divided by the number of games a country has played in the World Cup (`w` / `pld`) <br>
+* `gf_per_game`. Average number of goals a country has scored against opponents (i.e. "goals for") per game. Calculated as the total number of goals a country has scored against opponents in the World Cup divided by the number of games a country has played in the World Cup (`gf` / `pld`) <br>
+* `ga_per_game`. Average number of goals scored against a country per game. Calculated as the total number of goals scored against a country in the World Cup divided by the number of games a country has played in the World Cup (`ga` / `pld`) <br>
+
+<br>
+
+### 2022 FIFA Ranking
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nFIFA Rank: ", rank)) %>%
+  plot_ly(
+    x = ~rank, 
+    y = ~prop_w,
+    type = "scatter",
+    mode = "markers",
+    color = ~confederation, 
+    alpha = 0.7, 
+    text = ~text_label, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "2022 FIFA Ranking vs. Proportion of Games Won", 
+    xaxis = list(title = "FIFA Ranking (2022)"), 
+    yaxis = list(title = "Proportion of Games Won"))
+```
+There is a negative  association between FIFA Ranking and the proportion of games won in the World Cup. As a team's FIFA Ranking increases (i.e. moves further away from the #1 slot), the proportion of games won in the World Cup decreases. This is expected due to the FIFA ranking scheme that assigns the #1 slot to the top performing team.
+
+<br>
+
+### World Cup Participations
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nWorld Cup Participations: ", part)) %>%
+  plot_ly(
+    x = ~part, 
+    y = ~prop_w,
+    type = "scatter",
+    mode = "markers",
+    color = ~confederation, 
+    text = ~text_label, 
+    alpha = 0.7, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "Number of World Cup Participations vs. Proportion of Games Won",
+    xaxis = list(title = "World Cup Participations"), 
+    yaxis = list(title = "Proportion of Games Won"))
+```
+There is a positive association between number of times a country has participated in the World Cup and the proportion of games won. This is expected, as teams that that win a high proportion of the games are likely some of the best teams and make it to more World Cup tournaments as a result.
+
+<br>
+
+### Games Played
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nNumber of Games Played: ", pld)) %>%
+  plot_ly(
+    x = ~pld, 
+    y = ~prop_w,
+    type = "scatter",
+    mode = "markers",
+    color = ~confederation, 
+    text = ~text_label, 
+    alpha = 0.7, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "Number of Games Played vs. Proportion of Games Won", 
+    xaxis = list(title = "Number of Games Played"), 
+    yaxis = list(title = "Proportion of Games Won"))
+```
+There is a positive association between the number of games played and the proportion of games won in the World Cup. This is expected, as teams that that are doing well and winning a high proportion of games have the opportunity to advance further in the tournament and play a higher number of games.
+
+<br>
+
+### Average Goals For Per Game
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nAvg Goals For Per Game: ", gf_per_game)) %>%
+  plot_ly(
+    x = ~gf_per_game, 
+    y = ~prop_w,
+    type = "scatter",
+    mode = "markers",
+    color = ~confederation, 
+    text = ~text_label, 
+    alpha = 0.7, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "Average Goals Scored Against Opponent vs. Proportion of Games Won", 
+    xaxis = list(title = "Avg Goals For (per game)"), 
+    yaxis = list(title = "Proportion of Games Won"))
+```
+There is a positive association between the average number of goals a country has scored against opponents (i.e. "goals for") per game and the proportion of games a country has won in the World Cup. This is expected, as teams that that are doing well and winning a high proportion of the games are scoring more goals per game than teams that are not doing as well. 
+
+<br>
+
+### Average Goals Against Per Game
+
+<br>
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+wc_df %>%
+   mutate(text_label = str_c("Country: ", country, "\nConfederation: ", confederation, "\nProportion of Games Won: ", prop_w, "\nAvg Goals Against Per Game: ", ga_per_game)) %>%
+  plot_ly(
+    x = ~ga_per_game, 
+    y = ~prop_w,
+    type = "scatter",
+    mode = "markers",
+    color = ~confederation, 
+    text = ~text_label, 
+    alpha = 0.7, 
+    legendgroup = ~confederation,
+    colors = viridis_pal(option = "D")(3)) %>% 
+  layout(
+    title = "Average Goals Scored Against vs. Proportion of Games Won",
+    xaxis = list(title = "Avg Goals Against (per game)"), 
+    yaxis = list(title = "Proportion of Games Won"))
+```
+There is a negative association between the average number of goals scored against a country (i.e. "goals against") per game and the proportion of games a country has won in the World Cup. This is expected, as teams that that are doing well and winning a high proportion of the games are receiving less goals scored against them than teams that are not doing as well. 
