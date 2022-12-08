@@ -24,7 +24,7 @@ library(modelr)
 world_cup = read_csv("./data/12_4_dataset.csv") %>%
   janitor::clean_names() %>%
   select(country,w, pld, d, rank, gf, ga) %>%
-  filter(country %in% c("Ecuador", "Argentina", "Brazil", "England", "France", "Spain", "Belgium", "Portugal", "Germany", "Netherlands", "Uruguay", "Croatia", "Denmark", "Mexico", "United States", "Senegal", "Wales", "Poland", "Australia", "Japan", "Morocco", "Switzerland", "Ghana", "South Korea","Cameroon", "Serbia", "Canada", "Costa Rica", "Tunisia", "Saudi Arabia", "Iran", "Ecuador"))
+  filter(country %in% c("Ecuador", "Argentina", "Brazil", "England", "France", "Spain", "Belgium", "Portugal", "Germany", "Netherlands", "Uruguay",  "Croatia", "Denmark", "Mexico", "United States", "Senegal", "Wales", "Poland", "Australia", "Japan", "Morocco", "Switzerland", "Ghana", "South   Korea","Cameroon", "Serbia", "Canada", "Costa Rica", "Tunisia", "Saudi Arabia", "Iran", "Ecuador")) 
 
 ## Even though there are currently 32 countries who made it to World Cup 2022, since this is Qatar's first time at the World Cup it is not in our original data set therefore we only have 31 countries. 
   
@@ -120,24 +120,18 @@ fit3  =
   select(term, estimate) %>%
   pivot_wider(
     names_from = "term", 
-    values_from = "estimate") 
+    values_from = "estimate")
 
-fit3
+world_cup = 
+  world_cup%>%
+  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %>%
+  select(results)
+
 ```
 
 ```{r}
-
-what = 
-  world_cup %>%
-  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) 
-  
-```
-
-In our dataset, made it to the world cup 
-
-```{r}
-renderPrint({
  
+renderText({
   world_cup %>%
     filter(
       country == input$country_choice) %>%
@@ -145,11 +139,24 @@ renderPrint({
            d = input$draw_games_range[1], 
            rank = input$rank_range[1], 
            gf = input$goals_for_range[1], 
-           ga = input$goals_against_range[1], 
-           results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %>%
-    select(results)
+           ga = input$goals_against_range[1]) 
 }) 
 
 ```
 
+Column {data-width=350}
+-----------------------------------------------------------------------
 
+### Chart C
+
+```{r}
+
+renderPrint({ 
+  input[["country_choice"]]
+})
+
+
+```
+
+
+In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["country_choice"]]})`

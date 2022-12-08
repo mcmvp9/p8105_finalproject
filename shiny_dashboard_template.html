@@ -1914,7 +1914,6 @@ for number of wins in the Wold Cup.</p>
 <option value="Saudi Arabia">Saudi Arabia</option>
 <option value="Senegal">Senegal</option>
 <option value="Serbia">Serbia</option>
-<option value="South Korea">South Korea</option>
 <option value="Spain">Spain</option>
 <option value="Switzerland">Switzerland</option>
 <option value="Tunisia">Tunisia</option>
@@ -1927,7 +1926,7 @@ for number of wins in the Wold Cup.</p>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<pre class="shiny-text-output noplaceholder" id="outb4ec74920c9c2694"></pre>
+<pre class="shiny-text-output noplaceholder" id="out7528ee11935e569d"></pre>
 </div>
 <div id="section-column-1" class="section level2 sidebar">
 <h2 class="sidebar">Column</h2>
@@ -1975,18 +1974,22 @@ for number of wins in the Wold Cup.</p>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<pre><code># A tibble: 1 × 6
-  `(Intercept)`   pld      d   rank    gf     ga
-          &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-1        -0.943 0.474 -0.568 0.0103 0.212 -0.165</code></pre>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<p>In our dataset, made it to the world cup</p>
+<div id="out8be6345edad811df" class="shiny-text-output"></div>
+</div>
+</div>
+<div id="section-column-3" class="section level2" data-width="350">
+<h2>Column</h2>
+<div id="section-chart-c" class="section level3">
+<h3>Chart C</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<pre class="shiny-text-output noplaceholder" id="outed60939246e1f421"></pre>
+<pre class="shiny-text-output noplaceholder" id="outf17a9b76572c1e70"></pre>
+<p>In our dataset, for those that made it into the world cup, the
+<pre class="shiny-text-output noplaceholder" id="outb3b7bc49f18a0247"></pre></p>
 </div>
 </div>
 
@@ -2033,7 +2036,7 @@ library(modelr)
 world_cup = read_csv("./data/12_4_dataset.csv") %&gt;%
   janitor::clean_names() %&gt;%
   select(country,w, pld, d, rank, gf, ga) %&gt;%
-  filter(country %in% c("Ecuador", "Argentina", "Brazil", "England", "France", "Spain", "Belgium", "Portugal", "Germany", "Netherlands", "Uruguay", "Croatia", "Denmark", "Mexico", "United States", "Senegal", "Wales", "Poland", "Australia", "Japan", "Morocco", "Switzerland", "Ghana", "South Korea","Cameroon", "Serbia", "Canada", "Costa Rica", "Tunisia", "Saudi Arabia", "Iran", "Ecuador"))
+  filter(country %in% c("Ecuador", "Argentina", "Brazil", "England", "France", "Spain", "Belgium", "Portugal", "Germany", "Netherlands", "Uruguay",  "Croatia", "Denmark", "Mexico", "United States", "Senegal", "Wales", "Poland", "Australia", "Japan", "Morocco", "Switzerland", "Ghana", "South   Korea","Cameroon", "Serbia", "Canada", "Costa Rica", "Tunisia", "Saudi Arabia", "Iran", "Ecuador")) 
 
 ## Even though there are currently 32 countries who made it to World Cup 2022, since this is Qatar's first time at the World Cup it is not in our original data set therefore we only have 31 countries. 
   
@@ -2129,24 +2132,18 @@ fit3  =
   select(term, estimate) %&gt;%
   pivot_wider(
     names_from = "term", 
-    values_from = "estimate") 
+    values_from = "estimate")
 
-fit3
+world_cup = 
+  world_cup%&gt;%
+  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %&gt;%
+  select(results)
+
 ```
 
 ```{r}
-
-what = 
-  world_cup %&gt;%
-  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) 
-  
-```
-
-In our dataset, made it to the world cup 
-
-```{r}
-renderPrint({
  
+renderText({
   world_cup %&gt;%
     filter(
       country == input$country_choice) %&gt;%
@@ -2154,14 +2151,27 @@ renderPrint({
            d = input$draw_games_range[1], 
            rank = input$rank_range[1], 
            gf = input$goals_for_range[1], 
-           ga = input$goals_against_range[1], 
-           results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %&gt;%
-    select(results)
+           ga = input$goals_against_range[1]) 
 }) 
 
 ```
 
+Column {data-width=350}
+-----------------------------------------------------------------------
 
+### Chart C
+
+```{r}
+
+renderPrint({ 
+  input[["country_choice"]]
+})
+
+
+```
+
+
+In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["country_choice"]]})`
 </code></pre>
 </div>
 <script type="text/javascript">
