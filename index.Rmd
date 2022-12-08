@@ -28,18 +28,17 @@ h1.title {
 
 ## Project Motivation
 
+The Fédération Internationale de Football Association (FIFA) Men's World Cup is an international soccer competition that takes place every 4 years and is contested by 32 national soccer teams of member nations. 
+
+This year, the tournament takes place in Qatar between Nov. 20th and Dec. 18 and thousands will be watching their favorite teams/ nations play. The tournament boasts of some of the world's best soccer athletes and nations. 
 
 
-&nbsp;
+## Questions
 
-## What You'll Discover in Our Project
-
-We used data from the 
-
-In the Exploratory Analyses tab, you can observe:
-
-  * Geographic Analyses
-  * Bi-variable Analyses
+To better understand this year’s World Cup, we're interested in understanding the factors that predicted the number of games won by each nation that has participated in previous World Cup. We conduct exploratory analysis to examine the factors that influence winning games in the World Cup. Does the amount of times a country has participated in the World Cup influence the amount of games won? How does FIFA rankings for 2022 factor into the amount of games won overall in the World Cup? How does participation affect the amount of games won overall in the World Cup? Winning games is the key to success in soccer. In the World Cup, this ultimately leads to arguably, the biggest sports trophy in the world.
 
 
-[project report](finalprojectreport.html)
+
+## Link
+
+You can find the link to our [Project Report](finalprojectreport.html) right here.
