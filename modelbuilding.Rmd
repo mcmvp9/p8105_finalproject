@@ -94,6 +94,7 @@ corrplot(cor(num),  diag = FALSE)
 
 # Cross-validation
 
+We decided to use forward selection for our final model, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.
 While there are two variables that are on the borderline of our threshold, alpha = 0.05, we created three different models to include either or both of these two variables. Then, we used cross validation to check which model has the best performance.
 
 ```{r}
@@ -141,10 +142,10 @@ From the violin plot, we can see that model 3 has the lowest rmse, which is the 
 
 <br>
 
-# Models
+# Compare the summary of the Models
 <br>
 
-Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.
+We use the `summary` function to compare the R^2 and p-values of the predictors.
 
 ```{r}
 model1=lm(w~pld + d + rank , data = num)
@@ -157,7 +158,7 @@ summary(model3)
 ```
 <br>
 
-By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins).
+By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins). This result consists with the result we got from the cross-validation. Therefore, we decide our final model to include 5 variables, pld, d, rank, gf, and ga.
 
 <br>
 
