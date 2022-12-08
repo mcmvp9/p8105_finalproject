@@ -260,9 +260,14 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="exploratory_data_analysis.html">Geographic Analyses</a>
+      <a href="exploratory_data_analysis.html">Geographic Analyses by Confederation</a>
     </li>
-    <li class="dropdown-header">Bi-variable Analyses</li>
+    <li>
+      <a href="exploratory_data_analysis_2.html">Geographic Analses by Country</a>
+    </li>
+    <li>
+      <a href="exploratory_data_analysis_3.html">Predictors of World Cup Wins</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -307,31 +312,10 @@ $(document).ready(function () {
   na.omit() %&gt;% 
   select(-country)
 #hist.data.frame(data, nclass = 8)
-num = data[2:11] %&gt;% 
-  select(-gd)
-summary(num)</code></pre>
-<pre><code>##       part             pld               w                d         
-##  Min.   : 1.000   Min.   :  1.00   Min.   : 0.000   Min.   : 0.000  
-##  1st Qu.: 2.000   1st Qu.:  6.00   1st Qu.: 0.500   1st Qu.: 1.000  
-##  Median : 5.000   Median : 18.00   Median : 4.000   Median : 3.000  
-##  Mean   : 6.177   Mean   : 24.08   Mean   : 9.392   Mean   : 5.291  
-##  3rd Qu.: 9.000   3rd Qu.: 33.00   3rd Qu.:12.000   3rd Qu.: 8.000  
-##  Max.   :22.000   Max.   :113.00   Max.   :76.000   Max.   :22.000  
-##        l                gf               ga              pts        
-##  Min.   : 1.000   Min.   :  0.00   Min.   :  2.00   Min.   :  0.00  
-##  1st Qu.: 3.000   1st Qu.:  4.00   1st Qu.: 11.50   1st Qu.:  3.00  
-##  Median : 8.000   Median : 16.00   Median : 23.00   Median : 16.00  
-##  Mean   : 9.392   Mean   : 33.97   Mean   : 33.97   Mean   : 33.47  
-##  3rd Qu.:14.500   3rd Qu.: 41.50   3rd Qu.: 49.50   3rd Qu.: 40.50  
-##  Max.   :28.000   Max.   :236.00   Max.   :130.00   Max.   :246.00  
-##       rank       
-##  Min.   :  1.00  
-##  1st Qu.: 20.50  
-##  Median : 40.00  
-##  Mean   : 47.22  
-##  3rd Qu.: 63.50  
-##  Max.   :167.00</code></pre>
-<pre class="r"><code>corrplot(cor(num),  diag = FALSE)</code></pre>
+num = data[2:14] %&gt;% 
+  select(-gd, -player)
+#summary(num)
+corrplot(cor(num),  diag = FALSE)</code></pre>
 <p><img src="statistical-analysis_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Model selection: stepwise method</p>
 <p>Model selection that didn’t work.</p>
@@ -1131,8 +1115,8 @@ cv_object</code></pre>
 ## Measure: Mean-Squared Error 
 ## 
 ##       Lambda Index  Measure       SE Nonzero
-## min 0.001000    31 0.003497 0.001744       6
-## 1se 0.003981    25 0.004964 0.002145       4</code></pre>
+## min 0.001000    31 0.003785 0.001744       7
+## 1se 0.003981    25 0.005220 0.002135       4</code></pre>
 <pre class="r"><code>tibble(lambda = cv_object$lambda,
 mean_cv_error = cv_object$cvm) %&gt;%
 ggplot(aes(x = lambda, y = mean_cv_error)) +
@@ -1142,17 +1126,19 @@ geom_point()</code></pre>
 
 fit_bestcv &lt;- glmnet(as.matrix(predictor_state), num$gf, lambda = cv_object$lambda.min)
 coef(fit_bestcv)</code></pre>
-<pre><code>## 9 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
-##                        s0
-## (Intercept) -0.0923735865
-## part         0.1871854458
-## pld          1.5171032748
-## d           -1.0608383827
-## l           -1.5712816668
-## gf           0.9909772639
-## ga          -0.0034295885
-## pts         -0.5030752209
-## rank         0.0008833649</code></pre>
+<pre><code>## 11 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                              s0
+## (Intercept)  -0.103961364074486
+## part          0.181695686433521
+## pld           1.518691000579977
+## d            -1.059610254393348
+## l            -1.569098199859771
+## gf            0.991949782106579
+## ga           -0.004199759772878
+## pts          -0.504228220559337
+## rank          0.000915062015064
+## goals         0.000235553056384
+## land_area_km -0.000000001156746</code></pre>
 <pre class="r"><code>lambda</code></pre>
 <pre><code>## [1] 0.001</code></pre>
 <p>Cross-validation of models</p>

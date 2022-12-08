@@ -77,7 +77,7 @@ While there are two variables that are on the borderline of our threshold, alpha
 
 # Correlation Plot
 
-#### In the dataset, we had 14 variables and 79 observations. To check for collinearity, we use correlation plots to explore the relationship between each pair of numeric predictors. To only include the numeric variables, we use the `select` function to exclude the qualitative variables, such as player, country, and gd.
+#### In the dataset, we had 14 variables and 79 observations. To check for collinearity, we use correlation plots to explore the relationship between each pair of numeric predictors. To only include the numeric variables, we use the `select` function to exclude the qualitative variables, such as player, country, and gd. The deeper color in the plot means stronger correlation between the two variables.
 
 ```{r}
 data <- read.csv("./data/12_4_dataset.csv") %>% 
@@ -88,7 +88,7 @@ num = data[2:14] %>%
 corrplot(cor(num),  diag = FALSE)
 ```
 
-The deeper color means stronger correlation between the two variables. For example, the 
+  
 
 <br>
 
