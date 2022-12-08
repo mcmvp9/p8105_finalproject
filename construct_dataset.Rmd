@@ -28,7 +28,7 @@ records_stats_html = read_html("https://en.wikipedia.org/wiki/FIFA_World_Cup_rec
  html_table(header = TRUE)
 
 wc_stats =
-  wiki_list[[2]]
+  wiki_list[[3]]
   
 wc_stats = 
   wc_stats %>% 
