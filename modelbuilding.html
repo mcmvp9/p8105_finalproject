@@ -391,16 +391,10 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
   crossv_mc(data, 100) %&gt;% 
   mutate(
     train = map(train, as_tibble),
-    test = map(test, as_tibble))
-
-cv_df =
-  cv_df %&gt;% 
+    test = map(test, as_tibble))%&gt;% 
   mutate(
     train = map(train, as_tibble),
-    test = map(test, as_tibble))
-
-cv_df = 
-  cv_df %&gt;% 
+    test = map(test, as_tibble))%&gt;% 
   mutate(
     fit1  = map(train, ~lm(w ~ pld + d + rank, data = .x)),
     fit2  = map(train, ~lm(w ~ pld + d + rank + gf, data = .x)),

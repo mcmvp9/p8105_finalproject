@@ -102,16 +102,10 @@ cv_df =
   crossv_mc(data, 100) %>% 
   mutate(
     train = map(train, as_tibble),
-    test = map(test, as_tibble))
-
-cv_df =
-  cv_df %>% 
+    test = map(test, as_tibble))%>% 
   mutate(
     train = map(train, as_tibble),
-    test = map(test, as_tibble))
-
-cv_df = 
-  cv_df %>% 
+    test = map(test, as_tibble))%>% 
   mutate(
     fit1  = map(train, ~lm(w ~ pld + d + rank, data = .x)),
     fit2  = map(train, ~lm(w ~ pld + d + rank + gf, data = .x)),
