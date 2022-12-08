@@ -14,7 +14,7 @@
 
 <title>statistical test</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -181,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -190,9 +190,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -256,7 +263,7 @@ $(document).ready(function () {
       <a href="exploratory_data_analysis.html">Geographic Analyses by Confederation</a>
     </li>
     <li>
-      <a href="exploratory_data_analysis_2.html">Geographic Analses by Country</a>
+      <a href="exploratory_data_analysis_2.html">Geographic Analyses by Country</a>
     </li>
     <li>
       <a href="exploratory_data_analysis_3.html">Predictors of World Cup Wins</a>
@@ -412,36 +419,6 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ##                        0.0000000000000362729  
 ##                                           ga  
 ##                       -0.0000000000000307581  
-##                                       gd+102  
-##                       -0.0000000000036121206  
-##                                        gd+12  
-##                       -0.0000000000003983960  
-##                                       gd+129  
-##                       -0.0000000000044634136  
-##                                        gd+13  
-##                       -0.0000000000005108038  
-##                                        gd+16  
-##                       -0.0000000000005829673  
-##                                         gd+2  
-##                       -0.0000000000000762114  
-##                                        gd+23  
-##                       -0.0000000000008362256  
-##                                         gd+3  
-##                       -0.0000000000001591636  
-##                                        gd+30  
-##                       -0.0000000000011808189  
-##                                        gd+33  
-##                       -0.0000000000011897718  
-##                                        gd+37  
-##                       -0.0000000000012117531  
-##                                        gd+44  
-##                       -0.0000000000015134993  
-##                                        gd+48  
-##                       -0.0000000000017058081  
-##                                        gd+51  
-##                       -0.0000000000017294916  
-##                                         gd+7  
-##                       -0.0000000000003246887  
 ##                                         gd−1  
 ##                        0.0000000000000177528  
 ##                                        gd−10  
@@ -494,6 +471,36 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ##                        0.0000000000002329129  
 ##                                         gd−9  
 ##                        0.0000000000002707476  
+##                                       gd+102  
+##                       -0.0000000000036121206  
+##                                        gd+12  
+##                       -0.0000000000003983960  
+##                                       gd+129  
+##                       -0.0000000000044634136  
+##                                        gd+13  
+##                       -0.0000000000005108038  
+##                                        gd+16  
+##                       -0.0000000000005829673  
+##                                         gd+2  
+##                       -0.0000000000000762114  
+##                                        gd+23  
+##                       -0.0000000000008362256  
+##                                         gd+3  
+##                       -0.0000000000001591636  
+##                                        gd+30  
+##                       -0.0000000000011808189  
+##                                        gd+33  
+##                       -0.0000000000011897718  
+##                                        gd+37  
+##                       -0.0000000000012117531  
+##                                        gd+44  
+##                       -0.0000000000015134993  
+##                                        gd+48  
+##                       -0.0000000000017058081  
+##                                        gd+51  
+##                       -0.0000000000017294916  
+##                                         gd+7  
+##                       -0.0000000000003246887  
 ##                                          gd0  
 ##                                           NA  
 ##                                          pts  
@@ -847,36 +854,6 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ##                        0.0000000000000362729  
 ##                                           ga  
 ##                       -0.0000000000000307581  
-##                                       gd+102  
-##                       -0.0000000000036121206  
-##                                        gd+12  
-##                       -0.0000000000003983960  
-##                                       gd+129  
-##                       -0.0000000000044634136  
-##                                        gd+13  
-##                       -0.0000000000005108038  
-##                                        gd+16  
-##                       -0.0000000000005829673  
-##                                         gd+2  
-##                       -0.0000000000000762114  
-##                                        gd+23  
-##                       -0.0000000000008362256  
-##                                         gd+3  
-##                       -0.0000000000001591636  
-##                                        gd+30  
-##                       -0.0000000000011808189  
-##                                        gd+33  
-##                       -0.0000000000011897718  
-##                                        gd+37  
-##                       -0.0000000000012117531  
-##                                        gd+44  
-##                       -0.0000000000015134993  
-##                                        gd+48  
-##                       -0.0000000000017058081  
-##                                        gd+51  
-##                       -0.0000000000017294916  
-##                                         gd+7  
-##                       -0.0000000000003246887  
 ##                                         gd−1  
 ##                        0.0000000000000177528  
 ##                                        gd−10  
@@ -929,6 +906,36 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ##                        0.0000000000002329129  
 ##                                         gd−9  
 ##                        0.0000000000002707476  
+##                                       gd+102  
+##                       -0.0000000000036121206  
+##                                        gd+12  
+##                       -0.0000000000003983960  
+##                                       gd+129  
+##                       -0.0000000000044634136  
+##                                        gd+13  
+##                       -0.0000000000005108038  
+##                                        gd+16  
+##                       -0.0000000000005829673  
+##                                         gd+2  
+##                       -0.0000000000000762114  
+##                                        gd+23  
+##                       -0.0000000000008362256  
+##                                         gd+3  
+##                       -0.0000000000001591636  
+##                                        gd+30  
+##                       -0.0000000000011808189  
+##                                        gd+33  
+##                       -0.0000000000011897718  
+##                                        gd+37  
+##                       -0.0000000000012117531  
+##                                        gd+44  
+##                       -0.0000000000015134993  
+##                                        gd+48  
+##                       -0.0000000000017058081  
+##                                        gd+51  
+##                       -0.0000000000017294916  
+##                                         gd+7  
+##                       -0.0000000000003246887  
 ##                                          gd0  
 ##                                           NA  
 ##                                          pts  
@@ -1240,7 +1247,10 @@ cv_df %&gt;%
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <p>Results/output from regression model</p>
-<p>This model will be w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga. That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would increase by 2.7789.</p>
+<p>This model will be w = -1.554369 + 0.661219pld - 0.622216d +
+0.015920rank + 0.153794gf -0.225378ga. That means if the number of
+number of goals scored against a country in the World Cup (since 1990)
+increases by 1 goal, the would increase by 2.7789.</p>
 <pre class="r"><code>filter_data = data %&gt;% 
   select( -player) %&gt;%  
   na.omit()

@@ -7,7 +7,7 @@ navbar:
     menu:
     - text: "Geographic Analyses by Confederation"
       href: exploratory_data_analysis.html
-    - text: "Geographic Analses by Country"
+    - text: "Geographic Analyses by Country"
       href: exploratory_data_analysis_2.html
     - text: "Predictors of World Cup Wins"
       href: exploratory_data_analysis_3.html
