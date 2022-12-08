@@ -4,11 +4,11 @@ P8105 Final Project Proposal
 
 ### Project Team
 
-- Hilina Giday (hg2596)
-- Taylor Bays (tab2187)
-- Jiawen Zhao (jz3570)
-- Sarah Forrest (sef2183)
-- Melvin Coleman (mbc2178)
+-   Hilina Giday (hg2596)
+-   Taylor Bays (tab2187)
+-   Jiawen Zhao (jz3570)
+-   Sarah Forrest (sef2183)
+-   Melvin Coleman (mbc2178)
 
 ### Tentative Project Title
 
@@ -41,12 +41,12 @@ Screencast
 
 ### Anticipated Data Source(s)
 
-- [2018 World Cup
-  Data](https://www.kaggle.com/datasets/ahmedelnaggar/fifa-worldcup-2018-dataset)
-- [2018 GDP
-  data](http://data.un.org/Data.aspx?q=GdP&d=SNAAMA&f=grID%3A101%3BcurrID%3AUSD%3BpcFlag%3A1)
-- [The Fjelstul World Cup
-  Database](https://github.com/jfjelstul/worldcup)
+-   [2018 World Cup
+    Data](https://www.kaggle.com/datasets/ahmedelnaggar/fifa-worldcup-2018-dataset)
+-   [2018 GDP
+    data](http://data.un.org/Data.aspx?q=GdP&d=SNAAMA&f=grID%3A101%3BcurrID%3AUSD%3BpcFlag%3A1)
+-   [The Fjelstul World Cup
+    Database](https://github.com/jfjelstul/worldcup)
 
 ### Planned Analyses / Visualizations / Coding Challenges
 
@@ -65,12 +65,12 @@ and availability to meet and/or code as a group.
 
 ### Timeline
 
-- November 11, 2022: Proposal Meeting
-- November 12, 2022: Turn in Proposal to Professor
-- November 14 -18, 2022: Filter through the data and finalize what we
-  would need to do to adequately clean the data
-- November 28, 2022 - December 2: Start project and begin writing a
-  written report giving the detailed project description.
-- December 5-9, 2022: Create a web page overview of the project and
-  create a video detailing the details of the webpage.
-- December 15, 2022: In class discussion of project
+-   November 11, 2022: Proposal Meeting
+-   November 12, 2022: Turn in Proposal to Professor
+-   November 14 -18, 2022: Filter through the data and finalize what we
+    would need to do to adequately clean the data
+-   November 28, 2022 - December 2: Start project and begin writing a
+    written report giving the detailed project description.
+-   December 5-9, 2022: Create a web page overview of the project and
+    create a video detailing the details of the webpage.
+-   December 15, 2022: In class discussion of project

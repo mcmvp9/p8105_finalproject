@@ -4,6 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+    source_code: embed 
 runtime: shiny
 ---
 
@@ -17,14 +18,15 @@ library(plotly)
 library(viridis)
 library(modelr)
 
-
 ```
 
 ```{r import_data, include=FALSE}
 world_cup = read_csv("./data/12_4_dataset.csv") %>%
   janitor::clean_names() %>%
   select(country,w, pld, d, rank, gf, ga) %>%
-  filter(country %in% c("Argentina", "Brazil", "England", "France"))
+  filter(country %in% c("Ecuador", "Argentina", "Brazil", "England", "France", "Spain", "Belgium", "Portugal", "Germany", "Netherlands", "Uruguay", "Croatia", "Denmark", "Mexico", "United States", "Senegal", "Wales", "Poland", "Australia", "Japan", "Morocco", "Switzerland", "Ghana", "South Korea","Cameroon", "Serbia", "Canada", "Costa Rica", "Tunisia", "Saudi Arabia", "Iran", "Ecuador"))
+
+## Even though there are currently 32 countries who made it to World Cup 2022, since this is Qatar's first time at the World Cup it is not in our original data set therefore we only have 31 countries. 
   
 ##   
 min_w = world_cup %>% distinct(w) %>% min()
