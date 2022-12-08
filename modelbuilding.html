@@ -13,7 +13,7 @@
 
 <title>Model Building</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -181,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -190,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -311,7 +304,141 @@ $(document).ready(function () {
 </div>
 
 
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<div id="we-summarize-the-statistics-of-world-cups-from-1990-to-2018-for-all-the-countries-that-made-to-the-world-cup." class="section level5">
+<h5>We summarize the statistics of world cups from 1990 to 2018 for all the countries that made to the World Cup.</h5>
+</div>
+<div id="we-tried-different-ways-for-model-selection-inclusing-step-wise-selection-foward-and-backward-selection-and-lasso-with-different-selecting-criterias-such-as-aic-bic-and-p-values.-after-comparing-the-rmse-r-square-and-p-values-we-decide-to-use-the-model-from-foward-selection.-our-final-model-is-w--1.554369-0.661219pld---0.622216d-0.015920rank-0.153794gf--0.225378ga." class="section level5">
+<h5>We tried different ways for model selection, inclusing step-wise selection, foward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from foward selection. Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</h5>
+<p><br></p>
+</div>
+</div>
+<div id="potential-predictors" class="section level1">
+<h1>Potential predictors</h1>
+<p><br> #### VARIABLES AND DEFINITIONS country: Individual country (represents national soccer team) part: Number of times each country has participated in the World Cup (all time) pld: Number of games played in the World Cup (since 1990) w: Number of soccer games a country has won in the World Cup (since 1990) d: Number of soccer games a country has drawn in the World Cup (since 1990) l: Number of soccer games a country has lost in the World Cup (since 1990) gf: Number of goals a country has scored against opponents in the World Cup (since 1990) ga: Number of goals scored against a country in the World Cup (since 1990) gd: Goal difference of country (goals scored by country minus goals scored against country) pts: Number of points accumulated by country in the World Cup (since 1990) rank: Country Official FIFA ranking (2022 Rankings) player: Name of top record goal scorer goals: Number of goals scored by top record goal scorer land_area_km: Total area of the land-based portions of a country’s geography (measured in square kilometers, km²) confederation: Country FIFA confederation</p>
+<p><br> # To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors.</p>
+<pre class="r"><code>data &lt;- read.csv(&quot;./data/12_4_dataset.csv&quot;) %&gt;% 
+  na.omit() %&gt;% 
+  select(-country)
+num = data[2:14] %&gt;% 
+  select(-gd, -player)
+corrplot(cor(num),  diag = FALSE)</code></pre>
+<p><img src="modelbuilding_files/figure-html/unnamed-chunk-1-1.png" width="1152" /></p>
+<p><br></p>
+</div>
+<div id="cross-validation" class="section level1">
+<h1>Cross-validation</h1>
+<p>By using different selection method, we got three different models, and we want to use cross validation to check which model has the best performance.</p>
+<pre class="r"><code>cv_df =
+  crossv_mc(data, 100) %&gt;% 
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble))
 
+cv_df =
+  cv_df %&gt;% 
+  mutate(
+    train = map(train, as_tibble),
+    test = map(test, as_tibble))
+
+cv_df = 
+  cv_df %&gt;% 
+  mutate(
+    fit1  = map(train, ~lm(w ~ pld + d + rank, data = .x)),
+    fit2  = map(train, ~lm(w ~ pld + d + rank + gf, data = .x)),
+    fit3  = map(train, ~lm(w ~ pld + d + rank + gf + ga, data = .x))) %&gt;% 
+  mutate(
+    rmse_fit1 = map2_dbl(fit1, test, ~rmse(model = .x, data = .y)),
+    rmse_fit2 = map2_dbl(fit2, test, ~rmse(model = .x, data = .y)),
+    rmse_fit3 = map2_dbl(fit3, test, ~rmse(model = .x, data = .y)))
+
+cv_df %&gt;% 
+  select(starts_with(&quot;rmse&quot;)) %&gt;% 
+  pivot_longer(
+    everything(),
+    names_to = &quot;model&quot;, 
+    values_to = &quot;rmse&quot;,
+    names_prefix = &quot;rmse_&quot;) %&gt;% 
+  mutate(model = fct_inorder(model)) %&gt;% 
+  ggplot(aes(x = model, y = rmse)) + geom_violin()+
+  ylab(&quot;rmse Value&quot;) +
+  xlab(&quot;Models&quot;) +
+  labs(title = &quot;Violin Plot of rmse Values for Three Models&quot;)</code></pre>
+<p><img src="modelbuilding_files/figure-html/unnamed-chunk-2-1.png" width="1152" /></p>
+<p>From the violin plot, we can see that model 3 has the lowest rmse.</p>
+<p><br> # Model <br> Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.</p>
+<pre class="r"><code>model1=lm(w~pld + d + rank , data = num)
+model2=lm(w~pld + d + rank + gf, data = num)
+model3=lm(w~pld + d + rank + gf + ga, data = num)
+summary(model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = w ~ pld + d + rank, data = num)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.9168 -1.8090  0.3404  1.8513 10.1195 
+## 
+## Coefficients:
+##             Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept) -6.23478    1.09234  -5.708          0.000000216 ***
+## pld          0.80197    0.04533  17.692 &lt; 0.0000000000000002 ***
+## d           -1.03027    0.20393  -5.052          0.000002986 ***
+## rank         0.03749    0.01368   2.740              0.00768 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.362 on 75 degrees of freedom
+## Multiple R-squared:  0.9488, Adjusted R-squared:  0.9468 
+## F-statistic: 463.6 on 3 and 75 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre class="r"><code>summary(model2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = w ~ pld + d + rank + gf, data = num)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.0701  -0.3172   0.2980   0.8036   6.7306 
+## 
+## Coefficients:
+##              Estimate Std. Error t value            Pr(&gt;|t|)    
+## (Intercept) -1.687024   0.788267  -2.140              0.0356 *  
+## pld          0.056613   0.072714   0.779              0.4387    
+## d           -0.065986   0.152813  -0.432              0.6671    
+## rank         0.007440   0.008861   0.840              0.4038    
+## gf           0.285927   0.025751  11.103 &lt;0.0000000000000002 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.073 on 74 degrees of freedom
+## Multiple R-squared:  0.9808, Adjusted R-squared:  0.9798 
+## F-statistic: 945.5 on 4 and 74 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre class="r"><code>summary(model3)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = w ~ pld + d + rank + gf + ga, data = num)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.8861 -0.5576  0.1279  0.7624  2.3776 
+## 
+## Coefficients:
+##              Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept) -1.560889   0.449031  -3.476              0.00086 ***
+## pld          0.660468   0.063756  10.359 0.000000000000000554 ***
+## d           -0.627753   0.098018  -6.404 0.000000012967977027 ***
+## rank         0.015883   0.005092   3.119              0.00259 ** 
+## gf           0.153686   0.018105   8.489 0.000000000001697567 ***
+## ga          -0.223635   0.017953 -12.456 &lt; 0.0000000000000002 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.18 on 73 degrees of freedom
+## Multiple R-squared:  0.9939, Adjusted R-squared:  0.9934 
+## F-statistic:  2363 on 5 and 73 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<p><br> By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins)</p>
+</div>
 
 
 
