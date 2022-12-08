@@ -15,21 +15,41 @@ library(readr)
 library(shiny)
 library(plotly)
 library(viridis)
+```
 
+```{r import_data, include=FALSE}
+world_cup = read_csv("./data/12_4_dataset.csv") %>%
+  janitor::clean_names() %>%
+  select(country,w, pld, d, rank, gf, ga)
 ```
 
 Column {.sidebar}
 -----------------------------------------------------------------------
+This flexdashboard with shiny shows our linear model prediction tool for number of wins
+in the Wold Cup. 
 
 ```{r}
-world_cup = read_csv("./data/12_4_dataset.csv") %>%
-  janitor::clean_names() %>%
-  select(w, pld, d, rank, gf, ga)
+country = world_cup %>% distinct(country) %>% pull()
+
+# selectInput widget
+selectInput(
+  "country_choice", 
+  label = h3("Select country"),
+  choices = country)
 ```
 
-# min 
 ```{r}
+renderPrint({ 
+  input[["country_choice"]]
+})
 
+```
+
+
+
+# min 
+
+```{r}
 ##   for latter what our predictors are -> w = map(train, ~lm(w ~ pld + d + rank + gf + ga, data = .x)))
 min_w = world_cup %>% distinct(w) %>% min()
 min_pld = world_cup %>% distinct(pld) %>% min()
@@ -48,21 +68,6 @@ max_d = world_cup %>% distinct(d) %>% max()
 max_rank = world_cup %>% distinct(rank) %>% max()
 max_gf = world_cup %>% distinct(gf) %>% max()
 max_ga = world_cup %>% distinct(ga) %>% max()
-```
-
-
-```{r}
-country = world_cup %>% distinct(country) %>% pull()
-
-# selectInput widget
-selectInput(
-  "country_choice", 
-  label = h3("Select country"),
-  choices = country)
-
-renderPrint({ 
-  input[["country_choice"]]
-})
 ```
 
 Column {data-width=650}
