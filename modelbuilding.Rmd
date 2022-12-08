@@ -34,25 +34,44 @@ library(modelr)
 
 # Potential predictors
 <br>
+
 #### VARIABLES AND DEFINITIONS
-country: Individual country (represents national soccer team)
-part: Number of times each country has participated in the World Cup (all time)
-pld: Number of games played in the World Cup (since 1990)
-w: Number of soccer games a country has won in the World Cup (since 1990)
-d: Number of soccer games a country has drawn in the World Cup (since 1990)
-l: Number of soccer games a country has lost in the World Cup (since 1990)
-gf: Number of goals a country has scored against opponents in the World Cup (since 1990)
-ga: Number of goals scored against a country in the World Cup (since 1990)
-gd: Goal difference of country (goals scored by country minus goals scored against country)
-pts: Number of points accumulated by country in the World Cup (since 1990)
-rank: Country Official FIFA ranking (2022 Rankings)
-player: Name of top record goal scorer
-goals: Number of goals scored by top record goal scorer
-land_area_km: Total area of the land-based  portions of a country’s geography (measured in square kilometers, km²)
-confederation: Country FIFA confederation 
+
+##### `country`: Individual country (represents national soccer team)
+
+##### `part`: Number of times each country has participated in the World Cup (all time)
+
+##### `pld`: Number of games played in the World Cup (since 1990)
+
+##### `w`: Number of soccer games a country has won in the World Cup (since 1990)
+
+##### `d`: Number of soccer games a country has drawn in the World Cup (since 1990)
+
+##### `l`: Number of soccer games a country has lost in the World Cup (since 1990)
+
+##### `gf`: Number of goals a country has scored against opponents in the World Cup (since 1990)
+
+##### `ga`: Number of goals scored against a country in the World Cup (since 1990)
+
+##### `gd`: Goal difference of country (goals scored by country minus goals scored against country)
+
+##### `pts`: Number of points accumulated by country in the World Cup (since 1990)
+
+##### `rank`: Country Official FIFA ranking (2022 Rankings)
+
+##### `player`: Name of top record goal scorer
+
+##### `goals`: Number of goals scored by top record goal scorer
+
+##### `land_area_km`: Total area of the land-based  portions of a country’s geography (measured in square kilometers, km²)
+
+##### `confederation`: Country FIFA confederation 
 
 <br>
-# To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors.
+
+# Correlation Plot
+
+### To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors. To only include the numeric variables, we use select function to exclude variables, player, country, and gd.
 
 ```{r}
 data <- read.csv("./data/12_4_dataset.csv") %>% 
@@ -112,8 +131,10 @@ cv_df %>%
 These three models are the results from forward selection, but gf and ga are two variables on the border line. Therefore, we use cross validation to check is these two variables need to be included in the model and which model is the best. From the violin plot, we can see that model 3 has the lowest rmse, which is the model chosen by forward selection. The first model has only three variables, pld, d, and rank. The second model has four variables, pld, d, rank, and gf. The third model has five variables, pld, d, rank, gf, and ga.
 
 <br>
-# Model
+
+# Models
 <br>
+
 Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.
 
 ```{r}
@@ -126,7 +147,18 @@ summary(model3)
 
 ```
 <br>
+
 By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins)
+
+<br>
+
+# Results/output from regression model
+
+
+Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.
+That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would increase the number of winning by 0.225378, while holding other variables constant    .
+
+With R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins).
 
 
 

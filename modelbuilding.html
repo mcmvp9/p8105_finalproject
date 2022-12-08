@@ -316,8 +316,61 @@ $(document).ready(function () {
 </div>
 <div id="potential-predictors" class="section level1">
 <h1>Potential predictors</h1>
-<p><br> #### VARIABLES AND DEFINITIONS country: Individual country (represents national soccer team) part: Number of times each country has participated in the World Cup (all time) pld: Number of games played in the World Cup (since 1990) w: Number of soccer games a country has won in the World Cup (since 1990) d: Number of soccer games a country has drawn in the World Cup (since 1990) l: Number of soccer games a country has lost in the World Cup (since 1990) gf: Number of goals a country has scored against opponents in the World Cup (since 1990) ga: Number of goals scored against a country in the World Cup (since 1990) gd: Goal difference of country (goals scored by country minus goals scored against country) pts: Number of points accumulated by country in the World Cup (since 1990) rank: Country Official FIFA ranking (2022 Rankings) player: Name of top record goal scorer goals: Number of goals scored by top record goal scorer land_area_km: Total area of the land-based portions of a country’s geography (measured in square kilometers, km²) confederation: Country FIFA confederation</p>
-<p><br> # To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors.</p>
+<p><br></p>
+<div id="variables-and-definitions" class="section level4">
+<h4>VARIABLES AND DEFINITIONS</h4>
+<div id="country-individual-country-represents-national-soccer-team" class="section level5">
+<h5><code>country</code>: Individual country (represents national soccer team)</h5>
+</div>
+<div id="part-number-of-times-each-country-has-participated-in-the-world-cup-all-time" class="section level5">
+<h5><code>part</code>: Number of times each country has participated in the World Cup (all time)</h5>
+</div>
+<div id="pld-number-of-games-played-in-the-world-cup-since-1990" class="section level5">
+<h5><code>pld</code>: Number of games played in the World Cup (since 1990)</h5>
+</div>
+<div id="w-number-of-soccer-games-a-country-has-won-in-the-world-cup-since-1990" class="section level5">
+<h5><code>w</code>: Number of soccer games a country has won in the World Cup (since 1990)</h5>
+</div>
+<div id="d-number-of-soccer-games-a-country-has-drawn-in-the-world-cup-since-1990" class="section level5">
+<h5><code>d</code>: Number of soccer games a country has drawn in the World Cup (since 1990)</h5>
+</div>
+<div id="l-number-of-soccer-games-a-country-has-lost-in-the-world-cup-since-1990" class="section level5">
+<h5><code>l</code>: Number of soccer games a country has lost in the World Cup (since 1990)</h5>
+</div>
+<div id="gf-number-of-goals-a-country-has-scored-against-opponents-in-the-world-cup-since-1990" class="section level5">
+<h5><code>gf</code>: Number of goals a country has scored against opponents in the World Cup (since 1990)</h5>
+</div>
+<div id="ga-number-of-goals-scored-against-a-country-in-the-world-cup-since-1990" class="section level5">
+<h5><code>ga</code>: Number of goals scored against a country in the World Cup (since 1990)</h5>
+</div>
+<div id="gd-goal-difference-of-country-goals-scored-by-country-minus-goals-scored-against-country" class="section level5">
+<h5><code>gd</code>: Goal difference of country (goals scored by country minus goals scored against country)</h5>
+</div>
+<div id="pts-number-of-points-accumulated-by-country-in-the-world-cup-since-1990" class="section level5">
+<h5><code>pts</code>: Number of points accumulated by country in the World Cup (since 1990)</h5>
+</div>
+<div id="rank-country-official-fifa-ranking-2022-rankings" class="section level5">
+<h5><code>rank</code>: Country Official FIFA ranking (2022 Rankings)</h5>
+</div>
+<div id="player-name-of-top-record-goal-scorer" class="section level5">
+<h5><code>player</code>: Name of top record goal scorer</h5>
+</div>
+<div id="goals-number-of-goals-scored-by-top-record-goal-scorer" class="section level5">
+<h5><code>goals</code>: Number of goals scored by top record goal scorer</h5>
+</div>
+<div id="land_area_km-total-area-of-the-land-based-portions-of-a-countrys-geography-measured-in-square-kilometers-km²" class="section level5">
+<h5><code>land_area_km</code>: Total area of the land-based portions of a country’s geography (measured in square kilometers, km²)</h5>
+</div>
+<div id="confederation-country-fifa-confederation" class="section level5">
+<h5><code>confederation</code>: Country FIFA confederation</h5>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="correlation-plot" class="section level1">
+<h1>Correlation Plot</h1>
+<div id="to-check-for-colinearity-we-use-correlation-plot-to-explore-the-relationship-between-each-pair-of-numereic-predictors.-to-only-include-the-numeric-variables-we-use-select-function-to-exclude-variables-player-country-and-gd." class="section level3">
+<h3>To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors. To only include the numeric variables, we use select function to exclude variables, player, country, and gd.</h3>
 <pre class="r"><code>data &lt;- read.csv(&quot;./data/12_4_dataset.csv&quot;) %&gt;% 
   na.omit() %&gt;% 
   select(-country)
@@ -326,6 +379,7 @@ num = data[2:14] %&gt;%
 corrplot(cor(num),  diag = FALSE)</code></pre>
 <p><img src="modelbuilding_files/figure-html/unnamed-chunk-1-1.png" width="1152" /></p>
 <p><br></p>
+</div>
 </div>
 <div id="cross-validation" class="section level1">
 <h1>Cross-validation</h1>
@@ -366,7 +420,7 @@ cv_df %&gt;%
   xlab(&quot;Models&quot;) +
   labs(title = &quot;Violin Plot of rmse Values for Three Models&quot;)</code></pre>
 <p><img src="modelbuilding_files/figure-html/unnamed-chunk-2-1.png" width="1152" /></p>
-<p>From the violin plot, we can see that model 3 has the lowest rmse.</p>
+<p>These three models are the results from forward selection, but gf and ga are two variables on the border line. Therefore, we use cross validation to check is these two variables need to be included in the model and which model is the best. From the violin plot, we can see that model 3 has the lowest rmse, which is the model chosen by forward selection. The first model has only three variables, pld, d, and rank. The second model has four variables, pld, d, rank, and gf. The third model has five variables, pld, d, rank, gf, and ga.</p>
 <p><br> # Model <br> Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.</p>
 <pre class="r"><code>model1=lm(w~pld + d + rank , data = num)
 model2=lm(w~pld + d + rank + gf, data = num)
