@@ -14,7 +14,7 @@
 
 <title>Dataset Creation</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -181,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -190,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -307,14 +300,10 @@ $(document).ready(function () {
 </div>
 
 
-<p>Let’s create the dataset we will utilize for the final project. Data
-was pulled from the web via scarping and downloaded from websites. The
-“data” folder contains the csv files of data downloaded and intended for
-use.</p>
+<p>Let’s create the dataset we will utilize for the final project. Data was pulled from the web via scarping and downloaded from websites. The “data” folder contains the csv files of data downloaded and intended for use.</p>
 <div id="world-cup-records-statistics" class="section level3">
 <h3>World Cup Records &amp; Statistics</h3>
-<p>This data was loaded data from Wikipedia and contains record and
-statistics of the overall team records of the FIFA World Cup.</p>
+<p>This data was loaded data from Wikipedia and contains record and statistics of the overall team records of the FIFA World Cup.</p>
 <pre class="r"><code>wiki_list =
 records_stats_html = read_html(&quot;https://en.wikipedia.org/wiki/FIFA_World_Cup_records_and_statistics&quot;) %&gt;% 
  html_table(header = TRUE)
@@ -344,9 +333,7 @@ wc_stats =
 wc_stats</code></pre>
 </div>
 <div id="fifa-rankings-2022-fifa-rankings" class="section level3">
-<h3>Fifa Rankings 2022 <a
-href="https://www.2026worldcupnorthamerica.com/fifa-ranking/">Fifa
-Rankings</a></h3>
+<h3>Fifa Rankings 2022 <a href="https://www.2026worldcupnorthamerica.com/fifa-ranking/">Fifa Rankings</a></h3>
 <p>This dataset was created via web scraping.</p>
 <pre class="r"><code>wc_rank_html =
    read_html(&quot;https://www.2026worldcupnorthamerica.com/fifa-ranking/&quot;) 
@@ -387,8 +374,7 @@ tibble(
 </div>
 <div id="confederations-dataset" class="section level3">
 <h3>Confederations Dataset</h3>
-<p>This dataset was downloaded as a csv file and limited to variables of
-interest.</p>
+<p>This dataset was downloaded as a csv file and limited to variables of interest.</p>
 <pre class="r"><code>confederations_data = 
   read_csv(file = &quot;data/fifa_countries_audience.csv&quot;, col_names = TRUE) %&gt;% 
   janitor::clean_names() %&gt;% 
@@ -439,15 +425,9 @@ goals_country_df</code></pre>
 read_csv(file = &quot;data/pop.csv&quot;, col_names = TRUE) %&gt;% 
   janitor::clean_names() %&gt;% 
   select(country,land_area_km)</code></pre>
-<p>Now let’s combine all of our datasets to create our final
-dataset.</p>
-<p>The datasets we have currently are: <br> - wc_stats (contains world
-cup statistics &amp; records) - fifa_rankings (official Fifa rankings
-2022) - goals_country_df (top goal scorers per country) - pop_df(land
-area of countries) - confederations_data(what confederations each
-country is in)</p>
-<p>We will combine these datasets by the <code>country</code> variable,
-perform some wrangling and output final dataset as .csv file.</p>
+<p>Now let’s combine all of our datasets to create our final dataset.</p>
+<p>The datasets we have currently are: <br> - wc_stats (contains world cup statistics &amp; records) - fifa_rankings (official Fifa rankings 2022) - goals_country_df (top goal scorers per country) - pop_df(land area of countries) - confederations_data(what confederations each country is in)</p>
+<p>We will combine these datasets by the <code>country</code> variable, perform some wrangling and output final dataset as .csv file.</p>
 <pre class="r"><code>### Put all dataframes into a list &amp; merge by country
 
 merged_df = 
@@ -503,8 +483,7 @@ final_merge =
      land_area_km = case_when(country %in% c(&#39;Wales&#39;) ~ 20780,
                              TRUE ~ as.numeric(land_area_km))
   )</code></pre>
-<p>Output final dataset as <code>.csv</code> file for final project
-use.</p>
+<p>Output final dataset as <code>.csv</code> file for final project use.</p>
 <pre class="r"><code>write.csv(final_merge, &quot;./data/12_4_dataset.csv&quot;)</code></pre>
 </div>
 

@@ -21,7 +21,7 @@
 window.FlexDashboardComponents = [];
 </script>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -1871,8 +1871,7 @@ window.FlexDashboardComponents.push({
 
 <div id="section-column" class="section level2 sidebar">
 <h2 class="sidebar">Column</h2>
-<p>This flexdashboard with shiny shows our linear model prediction tool
-for number of wins in the Wold Cup.</p>
+<p>This flexdashboard with shiny shows our linear model prediction tool for number of wins in the Wold Cup.</p>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
@@ -1881,116 +1880,54 @@ for number of wins in the Wold Cup.</p>
 <h3>Select country</h3>
 </label>
 <div>
-<select id="country_choice"><option value="Algeria" selected>Algeria</option>
-<option value="Angola">Angola</option>
-<option value="Argentina">Argentina</option>
-<option value="Australia">Australia</option>
-<option value="Austria">Austria</option>
-<option value="Belgium">Belgium</option>
-<option value="Bolivia">Bolivia</option>
-<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+<select id="country_choice"><option value="Argentina" selected>Argentina</option>
 <option value="Brazil">Brazil</option>
-<option value="Bulgaria">Bulgaria</option>
-<option value="Cameroon">Cameroon</option>
-<option value="Canada">Canada</option>
-<option value="Chile">Chile</option>
-<option value="China">China</option>
-<option value="Colombia">Colombia</option>
-<option value="Costa Rica">Costa Rica</option>
-<option value="Croatia">Croatia</option>
-<option value="Cuba">Cuba</option>
-<option value="Czech Republic">Czech Republic</option>
-<option value="Denmark">Denmark</option>
-<option value="DR Congo">DR Congo</option>
-<option value="Ecuador">Ecuador</option>
-<option value="Egypt">Egypt</option>
-<option value="El Salvador">El Salvador</option>
 <option value="England">England</option>
-<option value="France">France</option>
-<option value="Germany">Germany</option>
-<option value="Ghana">Ghana</option>
-<option value="Greece">Greece</option>
-<option value="Haiti">Haiti</option>
-<option value="Honduras">Honduras</option>
-<option value="Hungary">Hungary</option>
-<option value="Iceland">Iceland</option>
-<option value="Indonesia">Indonesia</option>
-<option value="Iran">Iran</option>
-<option value="Iraq">Iraq</option>
-<option value="Israel">Israel</option>
-<option value="Italy">Italy</option>
-<option value="Ivory Coast">Ivory Coast</option>
-<option value="Jamaica">Jamaica</option>
-<option value="Japan">Japan</option>
-<option value="Kuwait">Kuwait</option>
-<option value="Mexico">Mexico</option>
-<option value="Morocco">Morocco</option>
-<option value="Netherlands">Netherlands</option>
-<option value="New Zealand">New Zealand</option>
-<option value="Nigeria">Nigeria</option>
-<option value="North Korea">North Korea</option>
-<option value="Northern Ireland">Northern Ireland</option>
-<option value="Norway">Norway</option>
-<option value="Panama">Panama</option>
-<option value="Paraguay">Paraguay</option>
-<option value="Peru">Peru</option>
-<option value="Poland">Poland</option>
-<option value="Portugal">Portugal</option>
-<option value="Qatar">Qatar</option>
-<option value="Republic of Ireland">Republic of Ireland</option>
-<option value="Romania">Romania</option>
-<option value="Russia">Russia</option>
-<option value="Saudi Arabia">Saudi Arabia</option>
-<option value="Scotland">Scotland</option>
-<option value="Senegal">Senegal</option>
-<option value="Serbia">Serbia</option>
-<option value="Slovakia">Slovakia</option>
-<option value="Slovenia">Slovenia</option>
-<option value="South Africa">South Africa</option>
-<option value="South Korea">South Korea</option>
-<option value="Spain">Spain</option>
-<option value="Sweden">Sweden</option>
-<option value="Switzerland">Switzerland</option>
-<option value="Togo">Togo</option>
-<option value="Trinidad and Tobago">Trinidad and Tobago</option>
-<option value="Tunisia">Tunisia</option>
-<option value="Turkey">Turkey</option>
-<option value="Ukraine">Ukraine</option>
-<option value="United Arab Emirates">United Arab Emirates</option>
-<option value="United States">United States</option>
-<option value="Uruguay">Uruguay</option>
-<option value="Wales">Wales</option></select>
+<option value="France">France</option></select>
 <script type="application/json" data-for="country_choice" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
 </div>
 </div>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<pre class="shiny-text-output noplaceholder" id="out91afaac6df0d970e"></pre>
+<pre class="shiny-text-output noplaceholder" id="out9e9d05e94bc42d53"></pre>
 </div>
-<div id="section-min" class="section level1">
-<h1>min</h1>
-<div class="knitr-options" data-fig-width="576" data-fig-height="460">
-
-</div>
-</div>
-<div id="section-max" class="section level1">
-<h1>max</h1>
-<div class="knitr-options" data-fig-width="576" data-fig-height="460">
-
-</div>
-<div id="section-column-1" class="section level2" data-width="650">
-<h2>Column</h2>
+<div id="section-column-1" class="section level2 sidebar">
+<h2 class="sidebar">Column</h2>
 <div id="section-chart-a" class="section level3">
 <h3>Chart A</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
 <div class="form-group shiny-input-container">
-<label class="control-label" id="win_range-label" for="win_range">
-<h3>Choose win range</h3>
+<label class="control-label" id="number_games_range-label" for="number_games_range">
+<h3>Choose number games range</h3>
 </label>
-<input class="js-range-slider" id="win_range" data-skin="shiny" data-type="double" data-min="0" data-max="76" data-from="0" data-to="76" data-step="1" data-grid="true" data-grid-num="9.5" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-drag-interval="true" data-data-type="number"/>
+<input class="js-range-slider" id="number_games_range" data-skin="shiny" data-min="0" data-max="113" data-from="113" data-step="1" data-grid="true" data-grid-num="9.41666666666667" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+</div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="draw_games_range-label" for="draw_games_range">
+<h3>Choose draw games range</h3>
+</label>
+<input class="js-range-slider" id="draw_games_range" data-skin="shiny" data-min="13" data-max="22" data-from="22" data-step="1" data-grid="true" data-grid-num="9" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+</div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="rank_range-label" for="rank_range">
+<h3>Choose rank range</h3>
+</label>
+<input class="js-range-slider" id="rank_range" data-skin="shiny" data-min="1" data-max="5" data-from="167" data-step="1" data-grid="true" data-grid-num="4" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+</div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="goals_for_range-label" for="goals_for_range">
+<h3>Choose goals for range</h3>
+</label>
+<input class="js-range-slider" id="goals_for_range" data-skin="shiny" data-min="103" data-max="236" data-from="236" data-step="1" data-grid="true" data-grid-num="9.5" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+</div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="goals_against_range-label" for="goals_against_range">
+<h3>Choose goals against range</h3>
+</label>
+<input class="js-range-slider" id="goals_against_range" data-skin="shiny" data-min="66" data-max="107" data-from="130" data-step="1" data-grid="true" data-grid-num="8.2" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 </div>
 </div>
 </div>
@@ -2001,13 +1938,18 @@ for number of wins in the Wold Cup.</p>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-</div>
-<div id="section-chart-c" class="section level3">
-<h3>Chart C</h3>
+<pre><code># A tibble: 1 × 6
+  `(Intercept)`   pld     d  rank    gf    ga
+          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1         3317. -34.0  56.0 -407.    NA    NA</code></pre>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
+<p>In our dataset, made it to the world cup</p>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
 </div>
+<pre class="shiny-text-output noplaceholder" id="out600222f3ea649847"></pre>
 </div>
 </div>
 
