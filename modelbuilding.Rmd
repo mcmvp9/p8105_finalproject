@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 	fig.width = 12
 )
 
-# load packages
+## load packages
 library(tidyverse)
 library(corrplot)
 library(glmnet)
