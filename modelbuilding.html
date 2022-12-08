@@ -13,7 +13,7 @@
 
 <title>Model Building</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -181,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -190,9 +190,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -256,9 +263,14 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="exploratory_data_analysis.html">Geographic Analyses</a>
+      <a href="exploratory_data_analysis.html">Geographic Analyses by Confederation</a>
     </li>
-    <li class="dropdown-header">Bi-variable Analyses</li>
+    <li>
+      <a href="exploratory_data_analysis_2.html">Geographic Analses by Country</a>
+    </li>
+    <li>
+      <a href="exploratory_data_analysis_3.html">Predictors of World Cup Wins</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -306,11 +318,24 @@ $(document).ready(function () {
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<div id="we-summarize-the-statistics-of-world-cups-from-1990-to-2018-for-all-the-countries-that-made-to-the-world-cup." class="section level5">
-<h5>We summarize the statistics of world cups from 1990 to 2018 for all the countries that made to the World Cup.</h5>
+<div
+id="we-summarize-the-statistics-of-world-cups-from-1990-to-2018-for-all-the-countries-that-made-to-the-world-cup."
+class="section level5">
+<h5>We summarize the statistics of world cups from 1990 to 2018 for all
+the countries that made to the World Cup.</h5>
 </div>
-<div id="we-tried-different-ways-for-model-selection-inclusing-step-wise-selection-foward-and-backward-selection-and-lasso-with-different-selecting-criterias-such-as-aic-bic-and-p-values.-after-comparing-the-rmse-r-square-and-p-values-we-decide-to-use-the-model-from-foward-selection.-while-there-are-two-variables-that-are-on-the-obrderline-of-our-threshold-alpha-0.05-we-created-three-models-and-used-cross-validation-to-compare-them.-after-comparing-their-rmse-we-get-the-final-model---w--1.554369-0.661219pld---0.622216d-0.015920rank-0.153794gf--0.225378ga." class="section level5">
-<h5>We tried different ways for model selection, inclusing step-wise selection, foward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from foward selection. While there are two variables that are on the obrderline of our threshold, alpha = 0.05, we created three models and used cross validation to compare them. After comparing their rmse, we get the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</h5>
+<div
+id="we-tried-different-ways-for-model-selection-inclusing-step-wise-selection-foward-and-backward-selection-and-lasso-with-different-selecting-criterias-such-as-aic-bic-and-p-values.-after-comparing-the-rmse-r-square-and-p-values-we-decide-to-use-the-model-from-foward-selection.-while-there-are-two-variables-that-are-on-the-obrderline-of-our-threshold-alpha-0.05-we-created-three-models-and-used-cross-validation-to-compare-them.-after-comparing-their-rmse-we-get-the-final-model---w--1.554369-0.661219pld---0.622216d-0.015920rank-0.153794gf--0.225378ga."
+class="section level5">
+<h5>We tried different ways for model selection, inclusing step-wise
+selection, foward and backward selection, and LASSO, with different
+selecting criterias, such as AIC, BIC, and p-values. After comparing the
+rmse, R-square and p-values, we decide to use the model from foward
+selection. While there are two variables that are on the obrderline of
+our threshold, alpha = 0.05, we created three models and used cross
+validation to compare them. After comparing their rmse, we get the final
+model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank +
+0.153794gf -0.225378ga.</h5>
 <p><br></p>
 </div>
 </div>
@@ -319,49 +344,85 @@ $(document).ready(function () {
 <p><br></p>
 <div id="variables-and-definitions" class="section level4">
 <h4>VARIABLES AND DEFINITIONS</h4>
-<div id="country-individual-country-represents-national-soccer-team" class="section level5">
-<h5><code>country</code>: Individual country (represents national soccer team)</h5>
+<div id="country-individual-country-represents-national-soccer-team"
+class="section level5">
+<h5><code>country</code>: Individual country (represents national soccer
+team)</h5>
 </div>
-<div id="part-number-of-times-each-country-has-participated-in-the-world-cup-all-time" class="section level5">
-<h5><code>part</code>: Number of times each country has participated in the World Cup (all time)</h5>
+<div
+id="part-number-of-times-each-country-has-participated-in-the-world-cup-all-time"
+class="section level5">
+<h5><code>part</code>: Number of times each country has participated in
+the World Cup (all time)</h5>
 </div>
-<div id="pld-number-of-games-played-in-the-world-cup-since-1990" class="section level5">
-<h5><code>pld</code>: Number of games played in the World Cup (since 1990)</h5>
+<div id="pld-number-of-games-played-in-the-world-cup-since-1990"
+class="section level5">
+<h5><code>pld</code>: Number of games played in the World Cup (since
+1990)</h5>
 </div>
-<div id="w-number-of-soccer-games-a-country-has-won-in-the-world-cup-since-1990" class="section level5">
-<h5><code>w</code>: Number of soccer games a country has won in the World Cup (since 1990)</h5>
+<div
+id="w-number-of-soccer-games-a-country-has-won-in-the-world-cup-since-1990"
+class="section level5">
+<h5><code>w</code>: Number of soccer games a country has won in the
+World Cup (since 1990)</h5>
 </div>
-<div id="d-number-of-soccer-games-a-country-has-drawn-in-the-world-cup-since-1990" class="section level5">
-<h5><code>d</code>: Number of soccer games a country has drawn in the World Cup (since 1990)</h5>
+<div
+id="d-number-of-soccer-games-a-country-has-drawn-in-the-world-cup-since-1990"
+class="section level5">
+<h5><code>d</code>: Number of soccer games a country has drawn in the
+World Cup (since 1990)</h5>
 </div>
-<div id="l-number-of-soccer-games-a-country-has-lost-in-the-world-cup-since-1990" class="section level5">
-<h5><code>l</code>: Number of soccer games a country has lost in the World Cup (since 1990)</h5>
+<div
+id="l-number-of-soccer-games-a-country-has-lost-in-the-world-cup-since-1990"
+class="section level5">
+<h5><code>l</code>: Number of soccer games a country has lost in the
+World Cup (since 1990)</h5>
 </div>
-<div id="gf-number-of-goals-a-country-has-scored-against-opponents-in-the-world-cup-since-1990" class="section level5">
-<h5><code>gf</code>: Number of goals a country has scored against opponents in the World Cup (since 1990)</h5>
+<div
+id="gf-number-of-goals-a-country-has-scored-against-opponents-in-the-world-cup-since-1990"
+class="section level5">
+<h5><code>gf</code>: Number of goals a country has scored against
+opponents in the World Cup (since 1990)</h5>
 </div>
-<div id="ga-number-of-goals-scored-against-a-country-in-the-world-cup-since-1990" class="section level5">
-<h5><code>ga</code>: Number of goals scored against a country in the World Cup (since 1990)</h5>
+<div
+id="ga-number-of-goals-scored-against-a-country-in-the-world-cup-since-1990"
+class="section level5">
+<h5><code>ga</code>: Number of goals scored against a country in the
+World Cup (since 1990)</h5>
 </div>
-<div id="gd-goal-difference-of-country-goals-scored-by-country-minus-goals-scored-against-country" class="section level5">
-<h5><code>gd</code>: Goal difference of country (goals scored by country minus goals scored against country)</h5>
+<div
+id="gd-goal-difference-of-country-goals-scored-by-country-minus-goals-scored-against-country"
+class="section level5">
+<h5><code>gd</code>: Goal difference of country (goals scored by country
+minus goals scored against country)</h5>
 </div>
-<div id="pts-number-of-points-accumulated-by-country-in-the-world-cup-since-1990" class="section level5">
-<h5><code>pts</code>: Number of points accumulated by country in the World Cup (since 1990)</h5>
+<div
+id="pts-number-of-points-accumulated-by-country-in-the-world-cup-since-1990"
+class="section level5">
+<h5><code>pts</code>: Number of points accumulated by country in the
+World Cup (since 1990)</h5>
 </div>
-<div id="rank-country-official-fifa-ranking-2022-rankings" class="section level5">
-<h5><code>rank</code>: Country Official FIFA ranking (2022 Rankings)</h5>
+<div id="rank-country-official-fifa-ranking-2022-rankings"
+class="section level5">
+<h5><code>rank</code>: Country Official FIFA ranking (2022
+Rankings)</h5>
 </div>
 <div id="player-name-of-top-record-goal-scorer" class="section level5">
 <h5><code>player</code>: Name of top record goal scorer</h5>
 </div>
-<div id="goals-number-of-goals-scored-by-top-record-goal-scorer" class="section level5">
-<h5><code>goals</code>: Number of goals scored by top record goal scorer</h5>
+<div id="goals-number-of-goals-scored-by-top-record-goal-scorer"
+class="section level5">
+<h5><code>goals</code>: Number of goals scored by top record goal
+scorer</h5>
 </div>
-<div id="land_area_km-total-area-of-the-land-based-portions-of-a-countrys-geography-measured-in-square-kilometers-km²" class="section level5">
-<h5><code>land_area_km</code>: Total area of the land-based portions of a country’s geography (measured in square kilometers, km²)</h5>
+<div
+id="land_area_km-total-area-of-the-land-based-portions-of-a-countrys-geography-measured-in-square-kilometers-km²"
+class="section level5">
+<h5><code>land_area_km</code>: Total area of the land-based portions of
+a country’s geography (measured in square kilometers, km²)</h5>
 </div>
-<div id="confederation-country-fifa-confederation" class="section level5">
+<div id="confederation-country-fifa-confederation"
+class="section level5">
 <h5><code>confederation</code>: Country FIFA confederation</h5>
 <p><br></p>
 </div>
@@ -369,8 +430,13 @@ $(document).ready(function () {
 </div>
 <div id="correlation-plot" class="section level1">
 <h1>Correlation Plot</h1>
-<div id="to-check-for-colinearity-we-use-correlation-plot-to-explore-the-relationship-between-each-pair-of-numereic-predictors.-to-only-include-the-numeric-variables-we-use-select-function-to-exclude-variables-player-country-and-gd." class="section level4">
-<h4>To check for colinearity, we use correlation plot to explore the relationship between each pair of numereic predictors. To only include the numeric variables, we use select function to exclude variables, player, country, and gd.</h4>
+<div
+id="to-check-for-colinearity-we-use-correlation-plot-to-explore-the-relationship-between-each-pair-of-numereic-predictors.-to-only-include-the-numeric-variables-we-use-select-function-to-exclude-variables-player-country-and-gd."
+class="section level4">
+<h4>To check for colinearity, we use correlation plot to explore the
+relationship between each pair of numereic predictors. To only include
+the numeric variables, we use select function to exclude variables,
+player, country, and gd.</h4>
 <pre class="r"><code>data &lt;- read.csv(&quot;./data/12_4_dataset.csv&quot;) %&gt;% 
   na.omit() %&gt;% 
   select(-country)
@@ -383,7 +449,9 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 </div>
 <div id="cross-validation" class="section level1">
 <h1>Cross-validation</h1>
-<p>By using different selection method, we got three different models, and we want to use cross validation to check which model has the best performance.</p>
+<p>By using different selection method, we got three different models,
+and we want to use cross validation to check which model has the best
+performance.</p>
 <pre class="r"><code>cv_df =
   crossv_mc(data, 100) %&gt;% 
   mutate(
@@ -420,13 +488,24 @@ cv_df %&gt;%
   xlab(&quot;Models&quot;) +
   labs(title = &quot;Violin Plot of rmse Values for Three Models&quot;)</code></pre>
 <p><img src="modelbuilding_files/figure-html/unnamed-chunk-2-1.png" width="1152" /></p>
-<p>These three models are the results from forward selection, but gf and ga are two variables on the border line. Therefore, we use cross validation to check is these two variables need to be included in the model and which model is the best. From the violin plot, we can see that model 3 has the lowest rmse, which is the model chosen by forward selection. The first model has only three variables, pld, d, and rank. The second model has four variables, pld, d, rank, and gf. The third model has five variables, pld, d, rank, gf, and ga.</p>
+<p>These three models are the results from forward selection, but gf and
+ga are two variables on the border line. Therefore, we use cross
+validation to check is these two variables need to be included in the
+model and which model is the best. From the violin plot, we can see that
+model 3 has the lowest rmse, which is the model chosen by forward
+selection. The first model has only three variables, pld, d, and rank.
+The second model has four variables, pld, d, rank, and gf. The third
+model has five variables, pld, d, rank, gf, and ga.</p>
 <p><br></p>
 </div>
 <div id="models" class="section level1">
 <h1>Models</h1>
 <p><br></p>
-<p>Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.</p>
+<p>Our final model was chosen by forward selection, where we start with
+only the intercept and add one predictor as a time. The criteria we
+chose is p-value, which means we will select predictors to include based
+on p-values, until no more predictors having p-value less than 0.05 can
+be added to the model.</p>
 <pre class="r"><code>model1=lm(w~pld + d + rank , data = num)
 model2=lm(w~pld + d + rank + gf, data = num)
 model3=lm(w~pld + d + rank + gf + ga, data = num)
@@ -497,14 +576,22 @@ summary(model1)</code></pre>
 ## Multiple R-squared:  0.9939, Adjusted R-squared:  0.9934 
 ## F-statistic:  2363 on 5 and 73 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <p><br></p>
-<p>By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins)</p>
+<p>By looking at the summary, we can see that model 3 has the highest
+adj. R^2 of 99.3%, which means our model explain over 99% of the
+variance in the outcome (wins)</p>
 <p><br></p>
 </div>
 <div id="resultsoutput-from-regression-model" class="section level1">
 <h1>Results/output from regression model</h1>
-<p>Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</p>
-<p>The most significant variable in the model is ga with coefficient of -0.225378. That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would decrease the number of winning by 0.225378, while holding other variables constant.</p>
-<p>With R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins).</p>
+<p>Our final model is w = -1.554369 + 0.661219pld - 0.622216d +
+0.015920rank + 0.153794gf -0.225378ga.</p>
+<p>The most significant variable in the model is ga with coefficient of
+-0.225378. That means if the number of number of goals scored against a
+country in the World Cup (since 1990) increases by 1 goal, the would
+decrease the number of winning by 0.225378, while holding other
+variables constant.</p>
+<p>With R^2 of 99.3%, which means our model explain over 99% of the
+variance in the outcome (wins).</p>
 </div>
 
 

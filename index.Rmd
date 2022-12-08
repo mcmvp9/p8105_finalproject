@@ -1,5 +1,5 @@
 ---
-title: "Predicting Goals Scored in the 2018 World Cup"
+title: "Predicting Goals Scored in the World Cup Since 1990"
 output: html_document
 ---
 
