@@ -25,6 +25,6 @@ navbar:
 
 output:
   html_document:
-    theme: cosmo
+    theme: readable
     includes:
       after_body: footer.html
