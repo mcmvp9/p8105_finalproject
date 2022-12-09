@@ -79,7 +79,6 @@ sliderInput(
   min = min_d, max = max_d, value = c(22))
 
 
-
 # sliderInput widget for gf
 sliderInput(
   "goals_for_range", 
@@ -98,7 +97,7 @@ sliderInput(
 Column 
 -----------------------------------------------------------------------
 
-### Chart A
+### FIFA 2022 Games Won Predictor Tool
 
 ```{r}
 fit3  = 
@@ -111,10 +110,6 @@ fit3  =
     names_from = "term", 
     values_from = "estimate")
 
-world_cup = 
-  world_cup%>%
-  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) 
-
 ```
 
 
@@ -125,16 +120,15 @@ renderPrint({
     filter(
       country == input$country_choice) %>%
     
-    mutate( 
-      results= -1.56*input$number_games_range[1])
-    
-    
-   
+    mutate( pld = input$number_games_range[1],
+            d = input$draw_games_range[1],
+            rank = input$rank_range[1],
+            gf = input$goals_for_range[1],
+            ga = input$goals_against_range[1],
+            results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %>% 
+    select (results)
+  
 })
 ```
-```
-
-
-
 
 In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["c"]]})`
