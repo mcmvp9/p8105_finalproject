@@ -1,0 +1,27 @@
+<html>
+  
+&nbsp;
+<hr />
+
+<small>
+  
+<p style="text-align: center;">
+  Melvin Coleman, Hilina Giday, Sarah Forrest, Jiawen Zhao, Taylor Bays
+</p>
+
+<p style="text-align: center;">
+Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.2.2) and <a href="https://rstudio.com">RStudio</a> (v2022.07.2+576). <br>
+
+Additional interactivity added using <a href="https://plot.ly/">plotly</a> (v5.11.0) and <a href="https://shiny.rstudio.com/">Shiny</a> (v1.7.3). <br>
+
+
+
+<br>
+<br>
+
+2022
+</p>
+
+</small>
+
+</html>

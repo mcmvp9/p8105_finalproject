@@ -28,7 +28,132 @@ h1.title {
 
 </style>
 
-## Motivation
+## Project Motivation
+
+The Fédération Internationale de Football Association (FIFA) Men's World Cup is an international soccer competition that takes place every 4 years and is contested by 32 national soccer teams of member nations. 
+
+This year, the tournament takes place in Qatar between Nov. 20th and Dec. 18 and thousands will be watching their favorite teams/ nations play. The tournament boasts of some of the world's best soccer athletes and nations. 
+ 
+
+&nbsp;
+
+#### **Related Work**
+
+The following resources are a sample of what inspired this project.
+
+1. "An in-depth analysis for FIFA World Cups." *Vasileios Stavropoulos*, January 15, 2018. [Link.](https://statathlon.com/an-in-depth-analysis-for-world-cups/)
+2. "Map Of The World Cup." *Derek Shin*, April 15, 2018. [Link.](https://junsooshin.github.io/worldcupmap/)
+3. "FIFA World Cup 2022 - Statistics & Facts." *Statista*, 2022. [Link.](https://www.statista.com/topics/9211/2022-fifa-world-cup/#topicOverview)
 
 
+&nbsp;
 
+## Questions
+
+To better understand this year’s World Cup, we're interested in understanding the factors that predicted the number of games won by each nation that has participated in previous World Cup. We conduct exploratory analysis to examine the factors that influence winning games in the World Cup. Does the amount of times a country has participated in the World Cup influence the amount of games won? How does FIFA rankings for 2022 factor into the amount of games won overall in the World Cup? How does participation affect the amount of games won overall in the World Cup? Winning games is the key to success in soccer. In the World Cup, this ultimately leads to arguably, the biggest sports trophy in the world. 
+
+Our questions remained fairly stable throughout the development of our project. Since the beginning, we were interested in exploring predictors of success in the World Cup. However, the outcome of interest changed from the number of goals scored per game to the number of world cup wins, as we chose to use summary-level data available at the country level rather than the game level. Additionally, we were initially interested in using data from the 2018 World Cup, but decided to use data consolidated from many World Cup tournaments instead.
+
+
+&nbsp;
+
+## Data
+
+### Dataset Creation
+
+Data was pulled from several sources on the web via scraping and downloaded as .csv files to create the final dataset for the project. Data from multiple sources was merged together to create the  final dataset named XXXXXXX and stored in the data folder in our repository. The as.character() and as.numeric() functions were used to ensure that all data was stored as the correct type. Additionally, the str_replace() function was used to edit country’s names so that the names were consistent throughout all datasets before they were merged together using merge() to create the final dataset.
+
+### *Data Sources*
+
+* Overall Team Records in the World Cup:[Wikipedia.](https://en.wikipedia.org/wiki/FIFA_World_Cup_records_and_statistics)
+* Official FIFA Rankings 2022: [2026 World Cup North America.](https://www.2026worldcupnorthamerica.com/fifa-ranking/)
+* FIFA Confederations [Kaggle.](https://www.kaggle.com/datasets/fivethirtyeight/fivethirtyeight-fifa-dataset)
+* Country-Level Geographic Data: [World Population Review.](https://worldpopulationreview.com/countries)
+* Top Goal Scorers Per Country: [Wikipedia.](https://en.wikipedia.org/wiki/List_of_top_international_men%27s_football_goal_scorers_by_country)
+* Shapefile of World Countries (used to create geographic data visualizations) [ArcGIS.](https://hub.arcgis.com/datasets/esri::world-countries-generalized/explore?location=-0.799744%2C0.000000%2C2.64) 
+
+&nbsp;
+
+
+## *Variables of Interest*
+
+##### **Outcomes**
+
+  * `w`: Number of soccer games a country has won in the World Cup
+  * `prop_w`: Proportion of games a country has won in the World Cup. Calculated as the number of games a country has won in the World Cup divided by the number of games a country has played in the World Cup (`w` / `pld`) 
+
+##### **Candidate Predictors**
+
+  * `part`: Number of times a country has participated in the World Cup.
+  * `pld`: Number of games a country has played in the World Cup.
+  * `d`: Number of soccer games a country has drawn in the World Cup.
+  * `rank`: Country’s official 2022 FIFA ranking (top team ranked as 1).
+  * `gf`: Number of goals a country has scored against opponents in the World Cup.
+  * `ga`: Number of goals scored against a country  in the World Cup.
+  * `gf_per_game`: Average number of goals a country has scored against opponents per game. Calculated as the total number of goals a country has scored against opponents in the World Cup divided by the number of games a country has played in the World Cup (gf / pld).
+  * `ga_per_game`: Average number of goals scored against a country per game. Calculated as the total number of goals scored against a country in the World Cup divided by the number of games a country has played in the World Cup (ga / pld).
+  * `player`: Name of top record goal scorer (includes active and inactive players).
+  * `goals`: Number of goals scored by top record goal scorer (includes active and inactive players).
+  * `confederation`: Country’s FIFA Confederation.
+  * `land_area_km`: Total area of the land-based  portions of a country’s geography (measured in square kilometers, km²).
+  
+  
+## Exploratory Data Analysis
+
+### Exploring World Cup Statistics Geographically By Confederation
+
+To explore the geographic distribution of World Cup data at both the Country and Confederation level, we created interactive choropleth maps using the tmap package and plots using the plotly package. To create the maps, a shapefile containing the geographic boundaries of all countries that have participated in the World Cup was updated from ArcGIS and merged with the final dataset. This merged shapefile is available in the “geofiles” subfolder within the “data” folder.
+
+#### *National Teams That Have Participated in the World Cup by FIFA Confederation*
+
+The purpose of this section is to allow visitors of the website to visualize where all 79 countries that have participated in the World Cup are located geographically. It also allows visitors to visualize the 6 FIFA Confederation regions to understand which countries belong to each Confederation. Visitors can clearly see that most of the national teams that have participated in the World Cup have been from the Union of European Football Associations in Europe (UEFA) Confederation.
+
+#### *Number of Participations in the World Cup*
+
+This section shows an interactive choropleth world map of Confederation with the number of games won and the number of times a country has participated in the World Cup overlaid by country. This allows visitors to see that national teams that have participated in the most World Cup tournaments appear to be spatially clustered in the CONMEBOL (South America) and UEFA (Europe) Confederations.
+
+### Exploring World Cup Statistics Geographically By Country
+
+This section shows interactive choropleth world maps of various predictors including number of games won, FIFA ranking, goals scored by top player, and goal difference at the country level. Additionally, interactive plotly bar graphs were incorporated to allow the visitor to visualize how all 79 counties compare to one another. These visualizations allow the visitor to see that Brazil is the highest ranked national team, followed by Belgium, Argentina, France, and England. The highest ranked national teams appear to be spatially clustered in the CONMEBOL (South America) and UEFA (Europe) Confederations, while the lowest ranked teams are in the AFC (Asia and Australia) and CFC (Africa) Confederations. Interestingly, even though Brazil ranks the highest for most of the predictor variables in the dataset, Brazil does not hold one of the top 7 slots for the country with the most goals scored by their top record goal scorer.
+
+### Exploring Predictors of World Cup Wins
+
+To explore the factors that influence winning games in the World Cup, we created interactive scatter plots using the plotly package. The plots illustrate bivariable associations between the proportion of games won and various predictors for each country that has participated in the FIFA World Cup.
+
+Additionally, to ensure comparability between all countries that have participated in the FIFA World Cup, we created the following new variables by mutating  existing variables from the dataset: 
+
+ * `prop_w`. Proportion of games a country has won in the World Cup. Calculated as the number of games a country has won in the World Cup divided by the number of games a country has played in the World Cup (“w” / “pld”).
+  * `gf_per_game`. Average number of goals a country has scored against opponents (i.e. "goals for") per game. Calculated as the total number of goals a country has scored against opponents in the World Cup divided by the number of games a country has played in the World Cup (“gf” / “pld”).
+  * `ga_per_game`. Average number of goals scored against a country per game. Calculated as the total number of goals scored against a country in the World Cup divided by the number of games a country has played in the World Cup (“ga” / “pld”).
+  
+By mutating these variables as described, there is greater comparability between countries that have played in 100+ World Cup tournaments and those that have only participated in 1. Otherwise, a country may have a higher value for “goals for” than another simply because they played in more games, rather than because they actually  scored more goals per game (on average).
+
+The visualizations illustrate a positive association between percentage of games won and the following predictors:
+
+  * `part`: Number of times a country has participated in the World Cup.
+  * `pld`: Number of games a country has played in the World Cup.
+  * `gf_per_game`: Average number of goals a country has scored against opponents per game.
+  
+Therefore, as a team’s number of World Cup participations, games played, and average goals scored per game increase, their winning percentage also increases. Countries in the UEFA and CONCACAF Confederations have the highest percentage of games won and the highest values for the three predictor variables above. These include top teams such as Brazil, Germany, Italy, Argentina, France, and the Netherlands.
+
+The visualizations illustrate a negative association between proportion of games won and the following predictors:
+
+  * `Rank`: Country’s official 2022 FIFA ranking (top team ranked as 1).
+  * `ga_per_game`: Average number of goals scored against a country per game.
+  
+Therefore, as a team’s FIFA rank and average goals scored against per game increase, their winning percentage also decreases. This is expected due to the FIFA ranking scheme that assigns the #1 slot to the top performing team and the fact that teams that are doing well and winning a high proportion of the games are receiving less goals scored against them than teams that are not doing as well. Top teams  in the UEFA and CONCACAF Confederations have the highest percentage of games won and the lowest (best) FIFA ranking and average number of goals scored against them per game.
+
+## Statistical Analysis - Regression Modeling
+
+In the dataset, we had 14 variables and 79 observations. To check for collinearity, we use correlation plots to explore the relationship between each pair of numeric predictors. To only include the numeric variables, we use the `select` function to exclude the qualitative variables, such as player, country, and gd.
+
+We tried different ways for model selection, including stepwise selection, forward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from forward selection with p-value. 
+Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.
+
+While there are two variables that are on the borderline of our threshold, alpha = 0.05, we got three different models to include either or both of these two variables. Then, we used cross validation to check which model has the best performance.After comparing their rmse, we get the final model - `w` = -1.554369 + 0.661219`pld` - 0.622216d + 0.015920`rank` + 0.153794`gf` -0.225378`ga`.
+
+After comparing the summary of the three models, we found that the model with variables: `pld`, `d`, `rank`, `gf`, `ga`, has the lowest rmse and highest adj.R^2 (about 99%), which means our model explain over 99% of the variance in the outcome (wins). The most significant variable in the model is ga with coefficient of -0.225378. That means if the number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would decrease the number of winning by 0.225378, while holding other variables constant. 
+
+## Discussion of Results
+
+There are many factors that can be used to  predict the number of games won by a country participating in the World Cup. From our statistical model results, we found that an increase in the number of games played, FIFA rank, and goals for increases a country’s predicted number of games won in the World Cup, while  an increase in the number of games drawn and goals against decreases a country’s predicted number of games won. Additionally, our exploratory analyses revealed that success in the world cup appears to be geographically clustered in particular regions of the world. This information can be helpful for soccer fans  to predict the success of their favorite teams in future World Cup tournaments.
