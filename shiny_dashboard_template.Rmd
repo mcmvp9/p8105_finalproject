@@ -17,6 +17,7 @@ library(shiny)
 library(shinyWidgets)
 library(plotly)
 library(viridis)
+library(rsconnect)
 
 ```
 
@@ -49,7 +50,7 @@ in the Wold Cup.
 
 ###  Sliders for our linear model
 ```{r}
-country = world_cup %>% distinct(country) %>% pull()
+country = world_cup %>% distinct(country,rank) %>% mutate(country = str_c(country, ", FIFA Rank", rank)) %>% select(country)
 
 # selectInput widget
 selectInput(
@@ -68,7 +69,6 @@ sliderInput(
   "draw_games_range", 
   label = h3("Choose draw games range"), 
   min = min_d, max = max_d, value = c(22))
-
 
 # sliderInput widget for gf
 sliderInput(
@@ -102,24 +102,17 @@ fit3  =
 fit3
 ```
 
-
-
 ```{r}
- 
-h3("Here is that value:")
-renderTable({
+ renderTable({
   world_cup %>%
     filter(
-      country == input$country_choice) %>%
-    mutate( pld = input$number_games_range[1],
+    country == input$country_choice) %>%
+    mutate(pld = input$number_games_range[1],
             d = input$draw_games_range[1],
             gf = input$goals_for_range[1],
             ga = input$goals_against_range[1],
-            results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) 
-  
-})
+            results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) })
 ```
 
+h3("Here is that value:")
 
-
-In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["c"]]})`

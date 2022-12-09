@@ -1892,36 +1892,38 @@ for number of wins in the Wold Cup.</p>
 <h3>Select country</h3>
 </label>
 <div>
-<select id="country_choice"><option value="Argentina" selected>Argentina</option>
-<option value="Australia">Australia</option>
-<option value="Belgium">Belgium</option>
-<option value="Brazil">Brazil</option>
-<option value="Cameroon">Cameroon</option>
-<option value="Canada">Canada</option>
-<option value="Costa Rica">Costa Rica</option>
-<option value="Croatia">Croatia</option>
-<option value="Denmark">Denmark</option>
-<option value="Ecuador">Ecuador</option>
-<option value="England">England</option>
-<option value="France">France</option>
-<option value="Germany">Germany</option>
-<option value="Ghana">Ghana</option>
-<option value="Iran">Iran</option>
-<option value="Japan">Japan</option>
-<option value="Mexico">Mexico</option>
-<option value="Morocco">Morocco</option>
-<option value="Netherlands">Netherlands</option>
-<option value="Poland">Poland</option>
-<option value="Portugal">Portugal</option>
-<option value="Saudi Arabia">Saudi Arabia</option>
-<option value="Senegal">Senegal</option>
-<option value="Serbia">Serbia</option>
-<option value="Spain">Spain</option>
-<option value="Switzerland">Switzerland</option>
-<option value="Tunisia">Tunisia</option>
-<option value="United States">United States</option>
-<option value="Uruguay">Uruguay</option>
-<option value="Wales">Wales</option></select>
+<select id="country_choice"><optgroup label="country">
+<option value="Argentina, FIFA Rank3" selected>Argentina, FIFA Rank3</option>
+<option value="Australia, FIFA Rank38">Australia, FIFA Rank38</option>
+<option value="Belgium, FIFA Rank2">Belgium, FIFA Rank2</option>
+<option value="Brazil, FIFA Rank1">Brazil, FIFA Rank1</option>
+<option value="Cameroon, FIFA Rank43">Cameroon, FIFA Rank43</option>
+<option value="Canada, FIFA Rank41">Canada, FIFA Rank41</option>
+<option value="Costa Rica, FIFA Rank31">Costa Rica, FIFA Rank31</option>
+<option value="Croatia, FIFA Rank12">Croatia, FIFA Rank12</option>
+<option value="Denmark, FIFA Rank10">Denmark, FIFA Rank10</option>
+<option value="Ecuador, FIFA Rank44">Ecuador, FIFA Rank44</option>
+<option value="England, FIFA Rank5">England, FIFA Rank5</option>
+<option value="France, FIFA Rank4">France, FIFA Rank4</option>
+<option value="Germany, FIFA Rank11">Germany, FIFA Rank11</option>
+<option value="Ghana, FIFA Rank61">Ghana, FIFA Rank61</option>
+<option value="Iran, FIFA Rank20">Iran, FIFA Rank20</option>
+<option value="Japan, FIFA Rank24">Japan, FIFA Rank24</option>
+<option value="Mexico, FIFA Rank13">Mexico, FIFA Rank13</option>
+<option value="Morocco, FIFA Rank22">Morocco, FIFA Rank22</option>
+<option value="Netherlands, FIFA Rank8">Netherlands, FIFA Rank8</option>
+<option value="Poland, FIFA Rank26">Poland, FIFA Rank26</option>
+<option value="Portugal, FIFA Rank9">Portugal, FIFA Rank9</option>
+<option value="Saudi Arabia, FIFA Rank51">Saudi Arabia, FIFA Rank51</option>
+<option value="Senegal, FIFA Rank18">Senegal, FIFA Rank18</option>
+<option value="Serbia, FIFA Rank21">Serbia, FIFA Rank21</option>
+<option value="Spain, FIFA Rank7">Spain, FIFA Rank7</option>
+<option value="Switzerland, FIFA Rank15">Switzerland, FIFA Rank15</option>
+<option value="Tunisia, FIFA Rank30">Tunisia, FIFA Rank30</option>
+<option value="United States, FIFA Rank16">United States, FIFA Rank16</option>
+<option value="Uruguay, FIFA Rank14">Uruguay, FIFA Rank14</option>
+<option value="Wales, FIFA Rank19">Wales, FIFA Rank19</option>
+</optgroup></select>
 <script type="application/json" data-for="country_choice" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
 </div>
 </div>
@@ -1966,10 +1968,8 @@ class="section level3">
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<h3>Here is that value:</h3>
-<div id="out2bb0ac1744f22862" class="shiny-html-output"></div>
-<p>In our dataset, for those that made it into the world cup, the
-<pre class="shiny-text-output noplaceholder" id="out787c1bd40bb1e9bb"></pre></p>
+<div id="out901f983e5d635486" class="shiny-html-output"></div>
+<p>h3(“Here is that value:”)</p>
 </div>
 </div>
 
@@ -2009,6 +2009,7 @@ library(shiny)
 library(shinyWidgets)
 library(plotly)
 library(viridis)
+library(rsconnect)
 
 ```
 
@@ -2041,7 +2042,7 @@ in the Wold Cup.
 
 ###  Sliders for our linear model
 ```{r}
-country = world_cup %&gt;% distinct(country) %&gt;% pull()
+country = world_cup %&gt;% distinct(country,rank) %&gt;% mutate(country = str_c(country, ", FIFA Rank", rank)) %&gt;% select(country)
 
 # selectInput widget
 selectInput(
@@ -2060,7 +2061,6 @@ sliderInput(
   "draw_games_range", 
   label = h3("Choose draw games range"), 
   min = min_d, max = max_d, value = c(22))
-
 
 # sliderInput widget for gf
 sliderInput(
@@ -2094,27 +2094,20 @@ fit3  =
 fit3
 ```
 
-
-
 ```{r}
- 
-h3("Here is that value:")
-renderTable({
+ renderTable({
   world_cup %&gt;%
     filter(
-      country == input$country_choice) %&gt;%
-    mutate( pld = input$number_games_range[1],
+    country == input$country_choice) %&gt;%
+    mutate(pld = input$number_games_range[1],
             d = input$draw_games_range[1],
             gf = input$goals_for_range[1],
             ga = input$goals_against_range[1],
-            results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) 
-  
-})
+            results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) })
 ```
 
+h3("Here is that value:")
 
-
-In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["c"]]})`
 </code></pre>
 </div>
 <script type="text/javascript">
