@@ -2000,7 +2000,7 @@ for number of wins in the Wold Cup.</p>
 </div>
 </div>
 </div>
-<div id="section-column-1" class="section level2">
+<div id="section-column-1" class="section level2" data-width="650">
 <h2>Column</h2>
 <div id="section-fifa-2022-games-won-predictor-tool"
 class="section level3">
@@ -2011,10 +2011,17 @@ class="section level3">
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out613eb24a591711c5" class="shiny-html-output"></div>
+<div id="out05f96e49ddfd4bcb" class="shiny-html-output"></div>
 <p>input$country_choice</p>
 <p>h3(“Here is that value:”)</p>
 </div>
+</div>
+<div id="section-column-2" class="section level2" data-width="650">
+<h2>Column</h2>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<pre class="shiny-text-output noplaceholder" id="outd84341ad29508015"></pre>
 </div>
 
 </div>
@@ -2119,7 +2126,7 @@ sliderInput(
   min = min_ga, max = max_ga, value = c(130))
 ```
 
-Column 
+Column {data-width=650}
 -----------------------------------------------------------------------
 
 ### FIFA 2022 Games Won Predictor Tool
@@ -2151,6 +2158,16 @@ fit3  =
 input$country_choice
 
 h3("Here is that value:")
+
+Column {data-width=650}
+--------------------------------------------------------------------------
+
+```{r}
+renderPrint({ 
+  input[["country_choice"]]
+})
+```
+
 
 </code></pre>
 </div>
