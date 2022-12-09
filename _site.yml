@@ -14,7 +14,7 @@ navbar:
   - text: "Model Building"
     href: modelbuilding.html
   - text: "Prediction Tool"
-    href: shiny_sh.html
+    href: https://axdthb-jiawen-zhao.shinyapps.io/shiny-appp/
   right:
     - text: "Project Report"
       href: finalprojectreport.html
