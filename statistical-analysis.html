@@ -14,7 +14,7 @@
 
 <title>statistical test</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -181,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -190,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -322,27 +315,39 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 <p>Model selection: stepwise method</p>
 <p>Model selection that didn’t work.</p>
 <pre class="r"><code>model_step_wise = step(glm(w ~ ., data = data), direction = &quot;both&quot;)</code></pre>
-<pre><code>## Start:  AIC=-4704.92
+<pre><code>## Start:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals + land_area_km + confederation
 ## 
 ## 
-## Step:  AIC=-4704.92
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals + land_area_km
 ## 
 ## 
-## Step:  AIC=-4704.92
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals
 ## 
 ## 
-## Step:  AIC=-4704.92
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player
 ## 
 ## 
-## Step:  AIC=-4684.83
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + player</code></pre>
+## Step:  AIC=-4654.34
+## w ~ X + part + pld + d + l + gf + ga + gd + pts + player
+## 
+## 
+## Step:  AIC=-4654.34
+## w ~ X + part + pld + d + l + gf + ga + gd + player
+## 
+## 
+## Step:  AIC=-4663.26
+## w ~ X + part + pld + d + l + gf + ga + player
+## 
+## 
+## Step:  AIC=-4652.39
+## w ~ X + part + pld + d + l + gf + player</code></pre>
 <pre class="r"><code>model_forward = step(glm(w ~ 1, data = data), direction = &quot;forward&quot;, scope = formula(lm(gf ~ ., data = data)), test = &quot;F&quot;)</code></pre>
 <pre><code>## Start:  AIC=650.5
 ## w ~ 1</code></pre>
@@ -352,7 +357,7 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ## problem with term 4 in model.matrix: no columns are assigned</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>##                 Df Deviance     AIC    F value                Pr(&gt;F)    
-## + player        78      0.0 -4516.4     0.0000                   NaN    
+## + player        78      0.0 -4506.5     0.0000                   NaN    
 ## + pts            1     55.7   202.6 22819.5964 &lt; 0.00000000000000022 ***
 ## + pld            1   1239.9   447.7   951.8644 &lt; 0.00000000000000022 ***
 ## + gd            42   1119.1   521.6    11.8313     0.000000000007697 ***
@@ -369,288 +374,211 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Step:  AIC=-4516.41
+## Step:  AIC=-4506.5
 ## w ~ player</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts): the
 ## response appeared on the right-hand side and was dropped</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts):
 ## problem with term 5 in model.matrix: no columns are assigned</code></pre>
-<pre><code>##        Df                         Deviance     AIC F value Pr(&gt;F)
-## &lt;none&gt;    0.000000000000000000000000090583 -4516.4</code></pre>
+<pre><code>##        Df                       Deviance     AIC F value Pr(&gt;F)
+## &lt;none&gt;    0.0000000000000000000000001027 -4506.5</code></pre>
 <pre class="r"><code>model_backward = step(glm(w ~ ., data = data), direction = &quot;backward&quot;, test = &quot;F&quot;)</code></pre>
-<pre><code>## Start:  AIC=-4704.92
+<pre><code>## Start:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals + land_area_km + confederation</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4704.92
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals + land_area_km</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4704.92
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
 ##     goals</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4704.92
+## Step:  AIC=-4642.09
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
-## Step:  AIC=-4684.83
+## Step:  AIC=-4654.34
 ## w ~ X + part + pld + d + l + gf + ga + gd + pts + player</code></pre>
+<pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
+<pre><code>## 
+## Step:  AIC=-4654.34
+## w ~ X + part + pld + d + l + gf + ga + gd + player</code></pre>
+<pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
+<pre><code>## 
+## Step:  AIC=-4663.26
+## w ~ X + part + pld + d + l + gf + ga + player</code></pre>
+<pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
+<pre><code>## 
+## Step:  AIC=-4652.39
+## w ~ X + part + pld + d + l + gf + player</code></pre>
 <pre class="r"><code>model_step_wise</code></pre>
 <pre><code>## 
-## Call:  glm(formula = w ~ X + part + pld + d + l + gf + ga + gd + pts + 
-##     player, data = data)
+## Call:  glm(formula = w ~ X + part + pld + d + l + gf + player, data = data)
 ## 
 ## Coefficients:
 ##                                  (Intercept)  
-##                        0.0000000000000024134  
+##                      0.000000000000003317553  
 ##                                            X  
-##                        0.0000000000000004817  
+##                      0.000000000000000005827  
 ##                                         part  
-##                        0.0000000000000083960  
+##                      0.000000000000003558492  
 ##                                          pld  
-##                        0.9999999999999913403  
+##                      1.000000000000000666134  
 ##                                            d  
-##                       -0.9999999999999983347  
+##                     -1.000000000000001554312  
 ##                                            l  
-##                       -1.0000000000000031086  
+##                     -1.000000000000002220446  
 ##                                           gf  
-##                        0.0000000000000362729  
-##                                           ga  
-##                       -0.0000000000000307581  
-##                                         gd−1  
-##                        0.0000000000000177528  
-##                                        gd−10  
-##                        0.0000000000003069281  
-##                                        gd−11  
-##                        0.0000000000003785680  
-##                                        gd−12  
-##                        0.0000000000003667302  
-##                                        gd−13  
-##                        0.0000000000003487008  
-##                                        gd−14  
-##                        0.0000000000004558264  
-##                                        gd−15  
-##                        0.0000000000005008951  
-##                                        gd−16  
-##                        0.0000000000004779476  
-##                                        gd−17  
-##                        0.0000000000005499038  
-##                                        gd−18  
-##                        0.0000000000005984908  
-##                                        gd−19  
-##                        0.0000000000006229132  
-##                                         gd−2  
-##                        0.0000000000000354397  
-##                                        gd−20  
-##                        0.0000000000006497331  
-##                                        gd−21  
-##                        0.0000000000006871761  
-##                                        gd−25  
-##                        0.0000000000008286075  
-##                                        gd−26  
-##                        0.0000000000008034887  
-##                                         gd−3  
-##                        0.0000000000000928784  
-##                                        gd−30  
-##                        0.0000000000009636107  
-##                                        gd−31  
-##                        0.0000000000010274547  
-##                                        gd−39  
-##                        0.0000000000012549277  
-##                                         gd−4  
-##                        0.0000000000001115257  
-##                                         gd−5  
-##                        0.0000000000001426738  
-##                                         gd−6  
-##                        0.0000000000001793904  
-##                                         gd−7  
-##                        0.0000000000002275724  
-##                                         gd−8  
-##                        0.0000000000002329129  
-##                                         gd−9  
-##                        0.0000000000002707476  
-##                                       gd+102  
-##                       -0.0000000000036121206  
-##                                        gd+12  
-##                       -0.0000000000003983960  
-##                                       gd+129  
-##                       -0.0000000000044634136  
-##                                        gd+13  
-##                       -0.0000000000005108038  
-##                                        gd+16  
-##                       -0.0000000000005829673  
-##                                         gd+2  
-##                       -0.0000000000000762114  
-##                                        gd+23  
-##                       -0.0000000000008362256  
-##                                         gd+3  
-##                       -0.0000000000001591636  
-##                                        gd+30  
-##                       -0.0000000000011808189  
-##                                        gd+33  
-##                       -0.0000000000011897718  
-##                                        gd+37  
-##                       -0.0000000000012117531  
-##                                        gd+44  
-##                       -0.0000000000015134993  
-##                                        gd+48  
-##                       -0.0000000000017058081  
-##                                        gd+51  
-##                       -0.0000000000017294916  
-##                                         gd+7  
-##                       -0.0000000000003246887  
-##                                          gd0  
-##                                           NA  
-##                                          pts  
-##                                           NA  
+##                     -0.000000000000000469822  
 ##            playerAdrian Mutu &amp; Gheorghe Hagi  
-##                       -0.0000000000000298358  
+##                     -0.000000000000009176844  
 ##                            playerAhmed Faras  
-##                        0.0000000000000226185  
+##                     -0.000000000000004204329  
 ##                                   playerAkwá  
-##                        0.0000000000000416509  
+##                      0.000000000000015453996  
 ##                    playerAleksandar Mitrović  
-##                       -0.0000000000000649159  
+##                     -0.000000000000009624876  
 ##                         playerAlexander Frei  
-##                                           NA  
+##                     -0.000000000000015308220  
 ##     playerAlexander Kerzhakov &amp; Artem Dzyuba  
-##                                           NA  
+##                      0.000000000000001429757  
 ##                         playerAlexis Sánchez  
-##                        0.0000000000000237378  
+##                      0.000000000000000146968  
 ##                               playerAli Daei  
-##                                           NA  
+##                     -0.000000000000006326644  
 ##                           playerAli Mabkhout  
-##                       -0.0000000000000149395  
+##                      0.000000000000002576100  
 ##                      playerAndriy Shevchenko  
-##                        0.0000000000000035207  
+##                      0.000000000000002230515  
 ##                           playerAsamoah Gyan  
-##                        0.0000000000000154620  
+##                      0.000000000000002861470  
 ##                        playerBashar Abdullah  
-##                        0.0000000000000084313  
+##                      0.000000000000004944712  
 ##                         playerBenni McCarthy  
-##                       -0.0000000000000246940  
+##                     -0.000000000000000793568  
 ##                           playerCarlos Pavón  
-##                                           NA  
+##                      0.000000000000005134091  
 ##                            playerCha Bum-kun  
-##                       -0.0000000000000276173  
+##                     -0.000000000000004703298  
 ##                             playerChris Wood  
-##                        0.0000000000000004658  
+##                      0.000000000000003829468  
 ##         playerClint Dempsey &amp; Landon Donovan  
-##                                           NA  
+##                     -0.000000000000011564751  
 ##                      playerCristiano Ronaldo  
-##                                           NA  
+##                     -0.000000000000001155825  
 ##                             playerCyle Larin  
-##                        0.0000000000000428103  
+##                      0.000000000000005125209  
 ##                            playerDavid Healy  
-##                                           NA  
+##                      0.000000000000006288681  
 ##                            playerDavid Villa  
-##                                           NA  
+##                     -0.000000000000003830009  
 ##                            playerDavor Šuker  
-##                                           NA  
+##                      0.000000000000005585810  
 ##             playerDenis Law &amp; Kenny Dalglish  
-##                                           NA  
+##                     -0.000000000000008783445  
 ##                          playerDidier Drogba  
-##                       -0.0000000000000063227  
+##                      0.000000000000002885946  
 ##                      playerDieumerci Mbokani  
-##                                           NA  
+##                      0.000000000000006741831  
 ##        playerDimitar Berbatov &amp; Hristo Bonev  
-##                                           NA  
+##                      0.000000000000005925500  
 ##                             playerEdin Džeko  
-##                        0.0000000000000080834  
+##                      0.000000000000007859558  
 ##                      playerEmmanuel Adebayor  
-##                        0.0000000000000019908  
+##                      0.000000000000002636528  
 ##                         playerEmmanuel Sanon  
-##                        0.0000000000000081302  
+##                      0.000000000000006789805  
 ##                         playerEnner Valencia  
-##                        0.0000000000000105829  
+##                      0.000000000000000682606  
 ##                            playerEran Zahavi  
-##                        0.0000000000000285122  
+##                      0.000000000000005994224  
 ##                          playerFerenc Puskás  
-##                                           NA  
+##                      0.000000000000011453668  
 ##                            playerGareth Bale  
-##                        0.0000000000000007082  
+##                      0.000000000000001478233  
 ##                              playerGigi Riva  
-##                                           NA  
+##                     -0.000000000000012804155  
 ##                            playerHakan Şükür  
-##                                           NA  
+##                      0.000000000000005920016  
 ##                            playerHao Haidong  
-##                        0.0000000000000336063  
+##                      0.000000000000007292873  
 ##                          playerHossam Hassan  
-##                        0.0000000000000009971  
+##                      0.000000000000002250850  
 ##                          playerHussein Saeed  
-##                        0.0000000000000102416  
+##                      0.000000000000004621002  
 ##                          playerIslam Slimani  
-##                        0.0000000000000464244  
+##                     -0.000000000000009279842  
 ##                            playerIssam Jemâa  
-##                        0.0000000000000152079  
+##                     -0.000000000000007984199  
 ##                             playerJan Koller  
-##                        0.0000000000000074672  
+##                      0.000000000000000649933  
 ##                       playerJavier Hernández  
-##                                           NA  
+##                     -0.000000000000016079576  
 ##                           playerJong Il-gwan  
-##                       -0.0000000000000345507  
+##                      0.000000000000003966012  
 ##                            playerJørgen Juve  
-##                        0.0000000000000026634  
+##                     -0.000000000000001012471  
 ## playerKolbeinn Sigþórsson &amp; Eiður Guðjohnsen  
-##                                           NA  
+##                      0.000000000000004294121  
 ##                     playerKunishige Kamamoto  
-##                        0.0000000000000380785  
+##                     -0.000000000000003769754  
 ##                            playerLester Moré  
-##                       -0.0000000000000217666  
+##                      0.000000000000003490341  
 ##                           playerLionel Messi  
-##                                           NA  
+##                     -0.000000000000059059206  
 ##                            playerLuis Suárez  
-##                                           NA  
+##                     -0.000000000000004455562  
 ##                            playerLuis Tejada  
-##                                           NA  
+##                      0.000000000000004595503  
 ##                          playerLuton Shelton  
-##                                           NA  
+##                      0.000000000000002354095  
 ##                         playerMajed Abdullah  
-##                                           NA  
+##                     -0.000000000000007689238  
 ##                         playerMansour Muftah  
-##                                           NA  
+##                      0.000000000000001501668  
 ##                         playerMarcelo Moreno  
-##                                           NA  
+##                     -0.000000000000000829578  
 ##                           playerMarek Hamšík  
-##                                           NA  
+##                      0.000000000000003037628  
 ##                         playerMiroslav Klose  
-##                                           NA  
+##                      0.000000000000020305305  
 ##                     playerNikos Anastopoulos  
-##                                           NA  
+##                      0.000000000000002032608  
 ##                         playerOlivier Giroud  
-##                                           NA  
+##                     -0.000000000000002720165  
 ##                         playerPaolo Guerrero  
-##                                           NA  
+##                     -0.000000000000000202683  
 ##                                   playerPelé  
-##                                           NA  
+##                      0.000000000000000689892  
 ##       playerPoul Nielsen &amp; Jon Dahl Tomasson  
-##                                           NA  
+##                      0.000000000000001849150  
 ##                         playerRadamel Falcao  
-##                                           NA  
+##                      0.000000000000002346630  
 ##                         playerRashidi Yekini  
-##                                           NA  
+##                     -0.000000000000002001767  
 ##                         playerRaúl Díaz Arce  
-##                                           NA  
+##                      0.000000000000004853985  
 ##                           playerRobbie Keane  
-##                                           NA  
+##                      0.000000000000004627833  
 ##                     playerRobert Lewandowski  
-##                                           NA  
+##                     -0.000000000000004583794  
 ##                       playerRobin van Persie  
-##                                           NA  
+##                     -0.000000000000002946748  
 ##                        playerRolando Fonseca  
-##                                           NA  
+##                      0.000000000000001222628  
 ##                          playerRomelu Lukaku  
-##                                           NA  
+##                     -0.000000000000003879220  
 ##                       playerRoque Santa Cruz  
-##                                           NA  
+##                     -0.000000000000006243413  
 ##                             playerSadio Mané  
-##                                           NA  
+##                      0.000000000000001468102  
 ##                           playerSamuel Eto&#39;o  
-##                                           NA  
+##                     -0.000000000000003223951  
 ##                             playerStern John  
 ##                                           NA  
 ##                             playerTim Cahill  
@@ -666,426 +594,337 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ## 
 ## Degrees of Freedom: 78 Total (i.e. Null);  0 Residual
 ## Null Deviance:       16570 
-## Residual Deviance: 0.00000000000000000000000001075   AIC: -4685</code></pre>
+## Residual Deviance: 0.0000000000000000000000000162    AIC: -4652</code></pre>
 <pre class="r"><code>model_forward</code></pre>
 <pre><code>## 
 ## Call:  glm(formula = w ~ player, data = data)
 ## 
 ## Coefficients:
 ##                                  (Intercept)  
-##                       0.00000000000000344751  
+##                         0.000000000000006016  
 ##            playerAdrian Mutu &amp; Gheorghe Hagi  
-##                       7.99999999999998934186  
+##                         7.999999999999987566  
 ##                            playerAhmed Faras  
-##                       3.99999999999993605115  
+##                         3.999999999999939604  
 ##                                   playerAkwá  
-##                       0.00000000000002693183  
+##                         0.000000000000021529  
 ##                    playerAleksandar Mitrović  
-##                      18.00000000000000355271  
+##                        18.000000000000000000  
 ##                         playerAlexander Frei  
-##                      14.00000000000000355271  
+##                        14.000000000000012434  
 ##     playerAlexander Kerzhakov &amp; Artem Dzyuba  
-##                      19.00000000000000355271  
+##                        19.000000000000003553  
 ##                         playerAlexis Sánchez  
-##                      11.00000000000006572520  
+##                        11.000000000000065725  
 ##                               playerAli Daei  
-##                       2.99999999999991429078  
+##                         2.999999999999909850  
 ##                           playerAli Mabkhout  
-##                      -0.00000000000001553844  
+##                        -0.000000000000018290  
 ##                      playerAndriy Shevchenko  
-##                       2.00000000000000577316  
+##                         2.000000000000020428  
 ##                           playerAsamoah Gyan  
-##                       5.00000000000001421085  
+##                         5.000000000000013323  
 ##                        playerBashar Abdullah  
-##                      -0.00000000000000347427  
+##                        -0.000000000000004410  
 ##                         playerBenni McCarthy  
-##                       1.99999999999999555911  
+##                         1.999999999999994671  
 ##                           playerCarlos Pavón  
-##                       0.00000000000002873739  
+##                         0.000000000000026614  
 ##                            playerCha Bum-kun  
-##                       7.00000000000000444089  
+##                         7.000000000000002665  
 ##                             playerChris Wood  
-##                       0.00000000000001675702  
+##                         0.000000000000012074  
 ##         playerClint Dempsey &amp; Landon Donovan  
-##                       8.99999999999999822364  
+##                         8.999999999999996447  
 ##                      playerCristiano Ronaldo  
-##                      16.00000000000001065814  
+##                        16.000000000000007105  
 ##                             playerCyle Larin  
-##                      -0.00000000000001726031  
+##                        -0.000000000000019516  
 ##                            playerDavid Healy  
-##                       2.99999999999999733546  
+##                         2.999999999999996447  
 ##                            playerDavid Villa  
-##                      31.00000000000000355271  
+##                        31.000000000000007105  
 ##                            playerDavor Šuker  
-##                      12.00000000000001421085  
+##                        12.000000000000014211  
 ##             playerDenis Law &amp; Kenny Dalglish  
-##                       4.00000000000000177636  
+##                         4.000000000000003553  
 ##                          playerDidier Drogba  
-##                       2.99999999999991873167  
+##                         2.999999999999924061  
 ##                      playerDieumerci Mbokani  
-##                       0.00000000000011476268  
+##                         0.000000000000116023  
 ##        playerDimitar Berbatov &amp; Hristo Bonev  
-##                       3.00000000000007771561  
+##                         3.000000000000068834  
 ##                             playerEdin Džeko  
-##                       0.99999999999993227640  
+##                         0.999999999999935496  
 ##                      playerEmmanuel Adebayor  
-##                       0.00000000000000321772  
+##                        -0.000000000000001435  
 ##                         playerEmmanuel Sanon  
-##                      -0.00000000000002528465  
+##                        -0.000000000000026382  
 ##                         playerEnner Valencia  
-##                       4.99999999999999822364  
+##                         4.999999999999999112  
 ##                            playerEran Zahavi  
-##                      -0.00000000000001559202  
+##                        -0.000000000000018547  
 ##                          playerFerenc Puskás  
-##                      15.00000000000000532907  
+##                        15.000000000000003553  
 ##                            playerGareth Bale  
-##                       0.99999999999999733546  
+##                         0.999999999999992339  
 ##                              playerGigi Riva  
-##                      44.99999999999996447286  
+##                        44.999999999999957367  
 ##                            playerHakan Şükür  
-##                       4.99999999999999911182  
+##                         4.999999999999999112  
 ##                            playerHao Haidong  
-##                      -0.00000000000000001508  
+##                        -0.000000000000001819  
 ##                          playerHossam Hassan  
-##                       0.00000000000005256390  
+##                         0.000000000000048957  
 ##                          playerHussein Saeed  
-##                      -0.00000000000001337180  
+##                        -0.000000000000015372  
 ##                          playerIslam Slimani  
-##                       2.99999999999999777955  
+##                         3.000000000000038192  
 ##                            playerIssam Jemâa  
-##                       3.00000000000000088818  
+##                         2.999999999999996891  
 ##                             playerJan Koller  
-##                      11.99999999999998756550  
+##                        11.999999999999991118  
 ##                       playerJavier Hernández  
-##                      17.00000000000003552714  
+##                        17.000000000000028422  
 ##                           playerJong Il-gwan  
-##                       0.99999999999999222844  
+##                         0.999999999999992784  
 ##                            playerJørgen Juve  
-##                       1.99999999999998867573  
+##                         1.999999999999994227  
 ## playerKolbeinn Sigþórsson &amp; Eiður Guðjohnsen  
-##                      -0.00000000000002773838  
+##                        -0.000000000000016027  
 ##                     playerKunishige Kamamoto  
-##                       7.00000000000001421085  
+##                         7.000000000000010658  
 ##                            playerLester Moré  
-##                       0.99999999999997324363  
+##                         0.999999999999976574  
 ##                           playerLionel Messi  
-##                      46.00000000000002842171  
+##                        46.000000000000056843  
 ##                            playerLuis Suárez  
-##                      25.00000000000003907985  
+##                        25.000000000000028422  
 ##                            playerLuis Tejada  
-##                      -0.00000000000001185663  
+##                        -0.000000000000009927  
 ##                          playerLuton Shelton  
-##                       0.99999999999999433786  
+##                         0.999999999999966915  
 ##                         playerMajed Abdullah  
-##                       3.99999999999999511502  
+##                         3.999999999999994671  
 ##                         playerMansour Muftah  
-##                      -0.00000000000000724354  
+##                        -0.000000000000018550  
 ##                         playerMarcelo Moreno  
-##                      -0.00000000000001110273  
+##                        -0.000000000000019104  
 ##                           playerMarek Hamšík  
-##                       0.99999999999999711342  
+##                         0.999999999999988898  
 ##                         playerMiroslav Klose  
-##                      67.99999999999992894573  
+##                        67.999999999999943157  
 ##                     playerNikos Anastopoulos  
-##                       2.00000000000000222045  
+##                         2.000000000000000444  
 ##                         playerOlivier Giroud  
-##                      36.99999999999993605115  
+##                        36.999999999999907629  
 ##                         playerPaolo Guerrero  
-##                       4.99999999999999200639  
+##                         4.999999999999988454  
 ##                                   playerPelé  
-##                      76.00000000000007105427  
+##                        76.000000000000071054  
 ##       playerPoul Nielsen &amp; Jon Dahl Tomasson  
-##                       9.00000000000000000000  
+##                         8.999999999999996447  
 ##                         playerRadamel Falcao  
-##                       8.99999999999995559108  
+##                         8.999999999999950262  
 ##                         playerRashidi Yekini  
-##                       5.99999999999999023004  
+##                         5.999999999999997335  
 ##                         playerRaúl Díaz Arce  
-##                      -0.00000000000000280925  
+##                        -0.000000000000012336  
 ##                           playerRobbie Keane  
-##                       2.00000000000000976996  
+##                         2.000000000000008882  
 ##                     playerRobert Lewandowski  
-##                      17.00000000000001776357  
+##                        17.000000000000021316  
 ##                       playerRobin van Persie  
-##                      29.99999999999997513100  
+##                        29.999999999999971578  
 ##                        playerRolando Fonseca  
-##                       5.99999999999998312461  
+##                         5.999999999999988454  
 ##                          playerRomelu Lukaku  
-##                      20.99999999999999644729  
+##                        20.999999999999971578  
 ##                       playerRoque Santa Cruz  
-##                       7.00000000000000888178  
+##                         7.000000000000000888  
 ##                             playerSadio Mané  
-##                       5.00000000000001421085  
+##                         5.000000000000003553  
 ##                           playerSamuel Eto&#39;o  
-##                       4.99999999999999911182  
+##                         4.999999999999982236  
 ##                             playerStern John  
-##                      -0.00000000000000779466  
+##                        -0.000000000000025973  
 ##                             playerTim Cahill  
-##                       3.99999999999996447286  
+##                         3.999999999999969358  
 ##                           playerToni Polster  
-##                      11.99999999999999467093  
+##                        12.000000000000007105  
 ##                           playerWayne Rooney  
-##                      32.00000000000009947598  
+##                        32.000000000000120792  
 ##                     playerZlatan Ibrahimović  
-##                      19.00000000000002486900  
+##                        19.000000000000021316  
 ##                         playerZlatko Zahovič  
-##                       0.99999999999999611422  
+##                         0.999999999999990230  
 ## 
 ## Degrees of Freedom: 78 Total (i.e. Null);  0 Residual
 ## Null Deviance:       16570 
-## Residual Deviance: 0.00000000000000000000000009058   AIC: -4516</code></pre>
+## Residual Deviance: 0.0000000000000000000000001027    AIC: -4506</code></pre>
 <pre class="r"><code>model_backward</code></pre>
 <pre><code>## 
-## Call:  glm(formula = w ~ X + part + pld + d + l + gf + ga + gd + pts + 
-##     player, data = data)
+## Call:  glm(formula = w ~ X + part + pld + d + l + gf + player, data = data)
 ## 
 ## Coefficients:
 ##                                  (Intercept)  
-##                        0.0000000000000024134  
+##                      0.000000000000003317553  
 ##                                            X  
-##                        0.0000000000000004817  
+##                      0.000000000000000005827  
 ##                                         part  
-##                        0.0000000000000083960  
+##                      0.000000000000003558492  
 ##                                          pld  
-##                        0.9999999999999913403  
+##                      1.000000000000000666134  
 ##                                            d  
-##                       -0.9999999999999983347  
+##                     -1.000000000000001554312  
 ##                                            l  
-##                       -1.0000000000000031086  
+##                     -1.000000000000002220446  
 ##                                           gf  
-##                        0.0000000000000362729  
-##                                           ga  
-##                       -0.0000000000000307581  
-##                                         gd−1  
-##                        0.0000000000000177528  
-##                                        gd−10  
-##                        0.0000000000003069281  
-##                                        gd−11  
-##                        0.0000000000003785680  
-##                                        gd−12  
-##                        0.0000000000003667302  
-##                                        gd−13  
-##                        0.0000000000003487008  
-##                                        gd−14  
-##                        0.0000000000004558264  
-##                                        gd−15  
-##                        0.0000000000005008951  
-##                                        gd−16  
-##                        0.0000000000004779476  
-##                                        gd−17  
-##                        0.0000000000005499038  
-##                                        gd−18  
-##                        0.0000000000005984908  
-##                                        gd−19  
-##                        0.0000000000006229132  
-##                                         gd−2  
-##                        0.0000000000000354397  
-##                                        gd−20  
-##                        0.0000000000006497331  
-##                                        gd−21  
-##                        0.0000000000006871761  
-##                                        gd−25  
-##                        0.0000000000008286075  
-##                                        gd−26  
-##                        0.0000000000008034887  
-##                                         gd−3  
-##                        0.0000000000000928784  
-##                                        gd−30  
-##                        0.0000000000009636107  
-##                                        gd−31  
-##                        0.0000000000010274547  
-##                                        gd−39  
-##                        0.0000000000012549277  
-##                                         gd−4  
-##                        0.0000000000001115257  
-##                                         gd−5  
-##                        0.0000000000001426738  
-##                                         gd−6  
-##                        0.0000000000001793904  
-##                                         gd−7  
-##                        0.0000000000002275724  
-##                                         gd−8  
-##                        0.0000000000002329129  
-##                                         gd−9  
-##                        0.0000000000002707476  
-##                                       gd+102  
-##                       -0.0000000000036121206  
-##                                        gd+12  
-##                       -0.0000000000003983960  
-##                                       gd+129  
-##                       -0.0000000000044634136  
-##                                        gd+13  
-##                       -0.0000000000005108038  
-##                                        gd+16  
-##                       -0.0000000000005829673  
-##                                         gd+2  
-##                       -0.0000000000000762114  
-##                                        gd+23  
-##                       -0.0000000000008362256  
-##                                         gd+3  
-##                       -0.0000000000001591636  
-##                                        gd+30  
-##                       -0.0000000000011808189  
-##                                        gd+33  
-##                       -0.0000000000011897718  
-##                                        gd+37  
-##                       -0.0000000000012117531  
-##                                        gd+44  
-##                       -0.0000000000015134993  
-##                                        gd+48  
-##                       -0.0000000000017058081  
-##                                        gd+51  
-##                       -0.0000000000017294916  
-##                                         gd+7  
-##                       -0.0000000000003246887  
-##                                          gd0  
-##                                           NA  
-##                                          pts  
-##                                           NA  
+##                     -0.000000000000000469822  
 ##            playerAdrian Mutu &amp; Gheorghe Hagi  
-##                       -0.0000000000000298358  
+##                     -0.000000000000009176844  
 ##                            playerAhmed Faras  
-##                        0.0000000000000226185  
+##                     -0.000000000000004204329  
 ##                                   playerAkwá  
-##                        0.0000000000000416509  
+##                      0.000000000000015453996  
 ##                    playerAleksandar Mitrović  
-##                       -0.0000000000000649159  
+##                     -0.000000000000009624876  
 ##                         playerAlexander Frei  
-##                                           NA  
+##                     -0.000000000000015308220  
 ##     playerAlexander Kerzhakov &amp; Artem Dzyuba  
-##                                           NA  
+##                      0.000000000000001429757  
 ##                         playerAlexis Sánchez  
-##                        0.0000000000000237378  
+##                      0.000000000000000146968  
 ##                               playerAli Daei  
-##                                           NA  
+##                     -0.000000000000006326644  
 ##                           playerAli Mabkhout  
-##                       -0.0000000000000149395  
+##                      0.000000000000002576100  
 ##                      playerAndriy Shevchenko  
-##                        0.0000000000000035207  
+##                      0.000000000000002230515  
 ##                           playerAsamoah Gyan  
-##                        0.0000000000000154620  
+##                      0.000000000000002861470  
 ##                        playerBashar Abdullah  
-##                        0.0000000000000084313  
+##                      0.000000000000004944712  
 ##                         playerBenni McCarthy  
-##                       -0.0000000000000246940  
+##                     -0.000000000000000793568  
 ##                           playerCarlos Pavón  
-##                                           NA  
+##                      0.000000000000005134091  
 ##                            playerCha Bum-kun  
-##                       -0.0000000000000276173  
+##                     -0.000000000000004703298  
 ##                             playerChris Wood  
-##                        0.0000000000000004658  
+##                      0.000000000000003829468  
 ##         playerClint Dempsey &amp; Landon Donovan  
-##                                           NA  
+##                     -0.000000000000011564751  
 ##                      playerCristiano Ronaldo  
-##                                           NA  
+##                     -0.000000000000001155825  
 ##                             playerCyle Larin  
-##                        0.0000000000000428103  
+##                      0.000000000000005125209  
 ##                            playerDavid Healy  
-##                                           NA  
+##                      0.000000000000006288681  
 ##                            playerDavid Villa  
-##                                           NA  
+##                     -0.000000000000003830009  
 ##                            playerDavor Šuker  
-##                                           NA  
+##                      0.000000000000005585810  
 ##             playerDenis Law &amp; Kenny Dalglish  
-##                                           NA  
+##                     -0.000000000000008783445  
 ##                          playerDidier Drogba  
-##                       -0.0000000000000063227  
+##                      0.000000000000002885946  
 ##                      playerDieumerci Mbokani  
-##                                           NA  
+##                      0.000000000000006741831  
 ##        playerDimitar Berbatov &amp; Hristo Bonev  
-##                                           NA  
+##                      0.000000000000005925500  
 ##                             playerEdin Džeko  
-##                        0.0000000000000080834  
+##                      0.000000000000007859558  
 ##                      playerEmmanuel Adebayor  
-##                        0.0000000000000019908  
+##                      0.000000000000002636528  
 ##                         playerEmmanuel Sanon  
-##                        0.0000000000000081302  
+##                      0.000000000000006789805  
 ##                         playerEnner Valencia  
-##                        0.0000000000000105829  
+##                      0.000000000000000682606  
 ##                            playerEran Zahavi  
-##                        0.0000000000000285122  
+##                      0.000000000000005994224  
 ##                          playerFerenc Puskás  
-##                                           NA  
+##                      0.000000000000011453668  
 ##                            playerGareth Bale  
-##                        0.0000000000000007082  
+##                      0.000000000000001478233  
 ##                              playerGigi Riva  
-##                                           NA  
+##                     -0.000000000000012804155  
 ##                            playerHakan Şükür  
-##                                           NA  
+##                      0.000000000000005920016  
 ##                            playerHao Haidong  
-##                        0.0000000000000336063  
+##                      0.000000000000007292873  
 ##                          playerHossam Hassan  
-##                        0.0000000000000009971  
+##                      0.000000000000002250850  
 ##                          playerHussein Saeed  
-##                        0.0000000000000102416  
+##                      0.000000000000004621002  
 ##                          playerIslam Slimani  
-##                        0.0000000000000464244  
+##                     -0.000000000000009279842  
 ##                            playerIssam Jemâa  
-##                        0.0000000000000152079  
+##                     -0.000000000000007984199  
 ##                             playerJan Koller  
-##                        0.0000000000000074672  
+##                      0.000000000000000649933  
 ##                       playerJavier Hernández  
-##                                           NA  
+##                     -0.000000000000016079576  
 ##                           playerJong Il-gwan  
-##                       -0.0000000000000345507  
+##                      0.000000000000003966012  
 ##                            playerJørgen Juve  
-##                        0.0000000000000026634  
+##                     -0.000000000000001012471  
 ## playerKolbeinn Sigþórsson &amp; Eiður Guðjohnsen  
-##                                           NA  
+##                      0.000000000000004294121  
 ##                     playerKunishige Kamamoto  
-##                        0.0000000000000380785  
+##                     -0.000000000000003769754  
 ##                            playerLester Moré  
-##                       -0.0000000000000217666  
+##                      0.000000000000003490341  
 ##                           playerLionel Messi  
-##                                           NA  
+##                     -0.000000000000059059206  
 ##                            playerLuis Suárez  
-##                                           NA  
+##                     -0.000000000000004455562  
 ##                            playerLuis Tejada  
-##                                           NA  
+##                      0.000000000000004595503  
 ##                          playerLuton Shelton  
-##                                           NA  
+##                      0.000000000000002354095  
 ##                         playerMajed Abdullah  
-##                                           NA  
+##                     -0.000000000000007689238  
 ##                         playerMansour Muftah  
-##                                           NA  
+##                      0.000000000000001501668  
 ##                         playerMarcelo Moreno  
-##                                           NA  
+##                     -0.000000000000000829578  
 ##                           playerMarek Hamšík  
-##                                           NA  
+##                      0.000000000000003037628  
 ##                         playerMiroslav Klose  
-##                                           NA  
+##                      0.000000000000020305305  
 ##                     playerNikos Anastopoulos  
-##                                           NA  
+##                      0.000000000000002032608  
 ##                         playerOlivier Giroud  
-##                                           NA  
+##                     -0.000000000000002720165  
 ##                         playerPaolo Guerrero  
-##                                           NA  
+##                     -0.000000000000000202683  
 ##                                   playerPelé  
-##                                           NA  
+##                      0.000000000000000689892  
 ##       playerPoul Nielsen &amp; Jon Dahl Tomasson  
-##                                           NA  
+##                      0.000000000000001849150  
 ##                         playerRadamel Falcao  
-##                                           NA  
+##                      0.000000000000002346630  
 ##                         playerRashidi Yekini  
-##                                           NA  
+##                     -0.000000000000002001767  
 ##                         playerRaúl Díaz Arce  
-##                                           NA  
+##                      0.000000000000004853985  
 ##                           playerRobbie Keane  
-##                                           NA  
+##                      0.000000000000004627833  
 ##                     playerRobert Lewandowski  
-##                                           NA  
+##                     -0.000000000000004583794  
 ##                       playerRobin van Persie  
-##                                           NA  
+##                     -0.000000000000002946748  
 ##                        playerRolando Fonseca  
-##                                           NA  
+##                      0.000000000000001222628  
 ##                          playerRomelu Lukaku  
-##                                           NA  
+##                     -0.000000000000003879220  
 ##                       playerRoque Santa Cruz  
-##                                           NA  
+##                     -0.000000000000006243413  
 ##                             playerSadio Mané  
-##                                           NA  
+##                      0.000000000000001468102  
 ##                           playerSamuel Eto&#39;o  
-##                                           NA  
+##                     -0.000000000000003223951  
 ##                             playerStern John  
 ##                                           NA  
 ##                             playerTim Cahill  
@@ -1101,7 +940,7 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ## 
 ## Degrees of Freedom: 78 Total (i.e. Null);  0 Residual
 ## Null Deviance:       16570 
-## Residual Deviance: 0.00000000000000000000000001075   AIC: -4685</code></pre>
+## Residual Deviance: 0.0000000000000000000000000162    AIC: -4652</code></pre>
 <pre class="r"><code>predictor_state = num%&gt;%
   select(-w)
 
@@ -1249,10 +1088,7 @@ cv_df %&gt;%
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <p>Results/output from regression model</p>
-<p>This model will be w = -1.554369 + 0.661219pld - 0.622216d +
-0.015920rank + 0.153794gf -0.225378ga. That means if the number of
-number of goals scored against a country in the World Cup (since 1990)
-increases by 1 goal, the would increase by 2.7789.</p>
+<p>This model will be w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga. That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would increase by 2.7789.</p>
 <pre class="r"><code>filter_data = data %&gt;% 
   select( -player) %&gt;%  
   na.omit()
@@ -1295,7 +1131,7 @@ summary(m)</code></pre>
 
 <title>footer.knit</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -1462,8 +1298,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -1471,16 +1307,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -1595,12 +1424,8 @@ $(document).ready(function () {
 Melvin Coleman, Hilina Giday, Sarah Forrest, Jiawen Zhao, Taylor Bays
 </p>
 <p style="text-align: center;">
-<p>Visualizations and analyses performed using
-<a href="https://www.r-project.org/about.html">R</a> (v4.2.2) and
-<a href="https://rstudio.com">RStudio</a> (v2022.07.2+576). <br></p>
-<p>Additional interactivity added using
-<a href="https://plot.ly/">plotly</a> (v5.11.0) and
-<a href="https://shiny.rstudio.com/">Shiny</a> (v1.7.3). <br></p>
+<p>Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.2.2) and <a href="https://rstudio.com">RStudio</a> (v2022.07.2+576). <br></p>
+<p>Additional interactivity added using <a href="https://plot.ly/">plotly</a> (v5.11.0) and <a href="https://shiny.rstudio.com/">Shiny</a> (v1.7.3). <br></p>
 <p><br> <br></p>
 2022
 </p>
@@ -2261,6 +2086,380 @@ Melvin Coleman, Hilina Giday, Sarah Forrest, Jiawen Zhao, Taylor Bays
 <p></small></p>
 </html>
 
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>footer.knit</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Exploratory Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="exploratory_data_analysis.html">Geographic Analyses by Confederation</a>
+    </li>
+    <li>
+      <a href="exploratory_data_analysis_2.html">Geographic Analyses by Country</a>
+    </li>
+    <li>
+      <a href="exploratory_data_analysis_3.html">Predictors of World Cup Wins</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="modelbuilding.html">Model Building</a>
+</li>
+<li>
+  <a href="shiny_dashboard_template.html">Prediction Tool</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="finalprojectreport.html">Project Report</a>
+</li>
+<li>
+  <a>
+    <span class="fa fa-youtube fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/mcmvp9/p8105_finalproject">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<html>
+ 
+<hr />
+<p><small></p>
+<p style="text-align: center;">
+Melvin Coleman, Hilina Giday, Sarah Forrest, Jiawen Zhao, Taylor Bays
+</p>
+<p style="text-align: center;">
+<p>Visualizations and analyses performed using
+<a href="https://www.r-project.org/about.html">R</a> (v4.2.2) and
+<a href="https://rstudio.com">RStudio</a> (v2022.07.2+576). <br></p>
+<p>Additional interactivity added using
+<a href="https://plot.ly/">plotly</a> (v5.11.0) and
+<a href="https://shiny.rstudio.com/">Shiny</a> (v1.7.3). <br></p>
+<p><br> <br></p>
+2022
+</p>
+<p></small></p>
+</html>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
 
 
 

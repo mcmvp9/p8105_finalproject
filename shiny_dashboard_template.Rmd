@@ -14,9 +14,9 @@ library(tidyverse)
 library(dplyr)
 library(readr)
 library(shiny)
+library(shinyWidgets)
 library(plotly)
 library(viridis)
-library(modelr)
 
 ```
 
@@ -49,6 +49,7 @@ Column {.sidebar}
 This flexdashboard with shiny shows our linear model prediction tool for number of wins
 in the Wold Cup. 
 
+###  Sliders for our linear model
 ```{r}
 country = world_cup %>% distinct(country) %>% pull()
 
@@ -58,21 +59,12 @@ selectInput(
   label = h3("Select country"),
   choices = country)
 
-```
-
-```{r}
-renderPrint({ 
-  input[["country_choice"]]
-})
-
-```
-
-Column {.sidebar}
------------------------------------------------------------------------
-
-### Chart A
-
-```{r}
+rank = world_cup %>% group_by(country)%>% pull(rank)
+# sliderInput widget for rank
+sliderInput(
+  "rank_range", 
+  label = h3("Official 2022 FIFA Rank"), 
+  min=0, max=61, value = c(3))
 
 # sliderInput widget for pld
 sliderInput(
@@ -86,11 +78,7 @@ sliderInput(
   label = h3("Choose draw games range"), 
   min = min_d, max = max_d, value = c(22))
 
-# sliderInput widget for rank
-sliderInput(
-  "rank_range", 
-  label = h3("Choose rank range"), 
-  min = min_rank, max = max_rank, value = c(167))
+
 
 # sliderInput widget for gf
 sliderInput(
@@ -104,12 +92,13 @@ sliderInput(
   label = h3("Choose goals against range"), 
   min = min_ga, max = max_ga, value = c(130))
 
+
 ```
 
-Column {data-width=350}
+Column 
 -----------------------------------------------------------------------
 
-### Chart B
+### Chart A
 
 ```{r}
 fit3  = 
@@ -124,39 +113,28 @@ fit3  =
 
 world_cup = 
   world_cup%>%
-  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %>%
-  select(results)
+  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) 
 
 ```
+
 
 ```{r}
  
-renderText({
+renderPrint({
   world_cup %>%
     filter(
       country == input$country_choice) %>%
-    mutate(pld = input$number_games_range[1],
-           d = input$draw_games_range[1], 
-           rank = input$rank_range[1], 
-           gf = input$goals_for_range[1], 
-           ga = input$goals_against_range[1]) 
-}) 
-
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart C
-
-```{r}
-
-renderPrint({ 
-  input[["country_choice"]]
+    
+    mutate( 
+      results= -1.56*input$number_games_range[1])
+    
+    
+   
 })
-
-
+```
 ```
 
 
-In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["country_choice"]]})`
+
+
+In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["c"]]})`

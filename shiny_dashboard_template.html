@@ -24,7 +24,7 @@ window.FlexDashboardComponents = [];
 <script id="flexdashboard-navbar" type="application/json">
 [{"title":"Source Code","icon":"fa-code","href":"source_embed","align":"right"}]
 </script>
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -1880,8 +1880,9 @@ window.FlexDashboardComponents.push({
 
 <div id="section-column" class="section level2 sidebar">
 <h2 class="sidebar">Column</h2>
-<p>This flexdashboard with shiny shows our linear model prediction tool
-for number of wins in the Wold Cup.</p>
+<p>This flexdashboard with shiny shows our linear model prediction tool for number of wins in the Wold Cup.</p>
+<div id="section-sliders-for-our-linear-model" class="section level3">
+<h3>Sliders for our linear model</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
@@ -1923,17 +1924,11 @@ for number of wins in the Wold Cup.</p>
 <script type="application/json" data-for="country_choice" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
 </div>
 </div>
-<div class="knitr-options" data-fig-width="576" data-fig-height="460">
-
-</div>
-<pre class="shiny-text-output noplaceholder" id="outaf94c86483c6cb5f"></pre>
-</div>
-<div id="section-column-1" class="section level2 sidebar">
-<h2 class="sidebar">Column</h2>
-<div id="section-chart-a" class="section level3">
-<h3>Chart A</h3>
-<div class="knitr-options" data-fig-width="576" data-fig-height="460">
-
+<div class="form-group shiny-input-container">
+<label class="control-label" id="rank_range-label" for="rank_range">
+<h3>Official 2022 FIFA Rank</h3>
+</label>
+<input class="js-range-slider" id="rank_range" data-skin="shiny" data-min="0" data-max="61" data-from="3" data-step="1" data-grid="true" data-grid-num="8.71428571428571" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 </div>
 <div class="form-group shiny-input-container">
 <label class="control-label" id="number_games_range-label" for="number_games_range">
@@ -1946,12 +1941,6 @@ for number of wins in the Wold Cup.</p>
 <h3>Choose draw games range</h3>
 </label>
 <input class="js-range-slider" id="draw_games_range" data-skin="shiny" data-min="0" data-max="22" data-from="22" data-step="1" data-grid="true" data-grid-num="7.33333333333333" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
-</div>
-<div class="form-group shiny-input-container">
-<label class="control-label" id="rank_range-label" for="rank_range">
-<h3>Choose rank range</h3>
-</label>
-<input class="js-range-slider" id="rank_range" data-skin="shiny" data-min="1" data-max="61" data-from="167" data-step="1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
 </div>
 <div class="form-group shiny-input-container">
 <label class="control-label" id="goals_for_range-label" for="goals_for_range">
@@ -1967,29 +1956,19 @@ for number of wins in the Wold Cup.</p>
 </div>
 </div>
 </div>
-<div id="section-column-2" class="section level2" data-width="350">
+<div id="section-column-1" class="section level2">
 <h2>Column</h2>
-<div id="section-chart-b" class="section level3">
-<h3>Chart B</h3>
+<div id="section-chart-a" class="section level3">
+<h3>Chart A</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out56b30ef60da6b4fd" class="shiny-text-output"></div>
-</div>
-</div>
-<div id="section-column-3" class="section level2" data-width="350">
-<h2>Column</h2>
-<div id="section-chart-c" class="section level3">
-<h3>Chart C</h3>
-<div class="knitr-options" data-fig-width="576" data-fig-height="460">
-
-</div>
-<pre class="shiny-text-output noplaceholder" id="out4a549ab78bd2e4c8"></pre>
-<p>In our dataset, for those that made it into the world cup, the
-<pre class="shiny-text-output noplaceholder" id="out09dbf8a91ba3dada"></pre></p>
+<pre class="shiny-text-output noplaceholder" id="out158a73c25318eaad"></pre>
+<p>```</p>
+<p>In our dataset, for those that made it into the world cup, the <pre class="shiny-text-output noplaceholder" id="out720db44f951c1f50"></pre></p>
 </div>
 </div>
 
@@ -2026,9 +2005,9 @@ library(tidyverse)
 library(dplyr)
 library(readr)
 library(shiny)
+library(shinyWidgets)
 library(plotly)
 library(viridis)
-library(modelr)
 
 ```
 
@@ -2061,6 +2040,7 @@ Column {.sidebar}
 This flexdashboard with shiny shows our linear model prediction tool for number of wins
 in the Wold Cup. 
 
+###  Sliders for our linear model
 ```{r}
 country = world_cup %&gt;% distinct(country) %&gt;% pull()
 
@@ -2070,21 +2050,12 @@ selectInput(
   label = h3("Select country"),
   choices = country)
 
-```
-
-```{r}
-renderPrint({ 
-  input[["country_choice"]]
-})
-
-```
-
-Column {.sidebar}
------------------------------------------------------------------------
-
-### Chart A
-
-```{r}
+rank = world_cup %&gt;% group_by(country)%&gt;% pull(rank)
+# sliderInput widget for rank
+sliderInput(
+  "rank_range", 
+  label = h3("Official 2022 FIFA Rank"), 
+  min=0, max=61, value = c(3))
 
 # sliderInput widget for pld
 sliderInput(
@@ -2098,11 +2069,6 @@ sliderInput(
   label = h3("Choose draw games range"), 
   min = min_d, max = max_d, value = c(22))
 
-# sliderInput widget for rank
-sliderInput(
-  "rank_range", 
-  label = h3("Choose rank range"), 
-  min = min_rank, max = max_rank, value = c(167))
 
 # sliderInput widget for gf
 sliderInput(
@@ -2116,12 +2082,13 @@ sliderInput(
   label = h3("Choose goals against range"), 
   min = min_ga, max = max_ga, value = c(130))
 
+
 ```
 
-Column {data-width=350}
+Column 
 -----------------------------------------------------------------------
 
-### Chart B
+### Chart A
 
 ```{r}
 fit3  = 
@@ -2134,44 +2101,32 @@ fit3  =
     names_from = "term", 
     values_from = "estimate")
 
-world_cup = 
-  world_cup%&gt;%
-  mutate(results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %&gt;%
-  select(results)
-
 ```
+
 
 ```{r}
  
-renderText({
+renderPrint({
   world_cup %&gt;%
     filter(
       country == input$country_choice) %&gt;%
-    mutate(pld = input$number_games_range[1],
-           d = input$draw_games_range[1], 
-           rank = input$rank_range[1], 
-           gf = input$goals_for_range[1], 
-           ga = input$goals_against_range[1]) 
-}) 
-
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart C
-
-```{r}
-
-renderPrint({ 
-  input[["country_choice"]]
+    
+    mutate( pld = input$number_games_range[1],
+            d = input$draw_games_range[1],
+            rank = input$rank_range[1],
+            gf = input$goals_for_range[1],
+            ga = input$goals_against_range[1],
+            results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %&gt;% 
+    select (results)
+  
 })
-
-
+```
 ```
 
 
-In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["country_choice"]]})`
+
+
+In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["c"]]})`
 </code></pre>
 </div>
 <script type="text/javascript">

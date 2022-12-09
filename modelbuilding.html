@@ -13,7 +13,7 @@
 
 <title>Model Building</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -181,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -190,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -321,20 +314,9 @@ $(document).ready(function () {
 <p><br></p>
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>We summarize the statistics of world cups from 1990 to 2018 for all
-the countries that made to the World Cup to help us make preditions of
-wining in the 2022 World Cup.</p>
-<p>We tried different ways for model selection, including stepwise
-selection, forward and backward selection, and LASSO, with different
-selecting criterias, such as AIC, BIC, and p-values. After comparing the
-rmse, R-square and p-values, we decide to use the model from forward
-selection with p-value.</p>
-<p>While there are two variables that are on the borderline of our
-threshold, alpha = 0.05, we got three different models to include either
-or both of these two variables. Then, we used cross validation to check
-which model has the best performance.After comparing their rmse, we get
-the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank
-+ 0.153794gf -0.225378ga.</p>
+<p>We summarize the statistics of world cups from 1990 to 2018 for all the countries that made to the World Cup to help us make preditions of wining in the 2022 World Cup.</p>
+<p>We tried different ways for model selection, including stepwise selection, forward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from forward selection with p-value.</p>
+<p>While there are two variables that are on the borderline of our threshold, alpha = 0.05, we got three different models to include either or both of these two variables. Then, we used cross validation to check which model has the best performance.After comparing their rmse, we get the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</p>
 <p><br></p>
 </div>
 <div id="potential-predictors" class="section level1">
@@ -342,85 +324,49 @@ the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank
 <p><br></p>
 <div id="variables-and-definitions" class="section level4">
 <h4>VARIABLES AND DEFINITIONS</h4>
-<div id="country-individual-country-represents-national-soccer-team"
-class="section level5">
-<h5><code>country</code>: Individual country (represents national soccer
-team)</h5>
+<div id="country-individual-country-represents-national-soccer-team" class="section level5">
+<h5><code>country</code>: Individual country (represents national soccer team)</h5>
 </div>
-<div
-id="part-number-of-times-each-country-has-participated-in-the-world-cup-all-time"
-class="section level5">
-<h5><code>part</code>: Number of times each country has participated in
-the World Cup (all time)</h5>
+<div id="part-number-of-times-each-country-has-participated-in-the-world-cup-all-time" class="section level5">
+<h5><code>part</code>: Number of times each country has participated in the World Cup (all time)</h5>
 </div>
-<div id="pld-number-of-games-played-in-the-world-cup-since-1990"
-class="section level5">
-<h5><code>pld</code>: Number of games played in the World Cup (since
-1990)</h5>
+<div id="pld-number-of-games-played-in-the-world-cup-since-1990" class="section level5">
+<h5><code>pld</code>: Number of games played in the World Cup (since 1990)</h5>
 </div>
-<div
-id="w-number-of-soccer-games-a-country-has-won-in-the-world-cup-since-1990"
-class="section level5">
-<h5><code>w</code>: Number of soccer games a country has won in the
-World Cup (since 1990)</h5>
+<div id="w-number-of-soccer-games-a-country-has-won-in-the-world-cup-since-1990" class="section level5">
+<h5><code>w</code>: Number of soccer games a country has won in the World Cup (since 1990)</h5>
 </div>
-<div
-id="d-number-of-soccer-games-a-country-has-drawn-in-the-world-cup-since-1990"
-class="section level5">
-<h5><code>d</code>: Number of soccer games a country has drawn in the
-World Cup (since 1990)</h5>
+<div id="d-number-of-soccer-games-a-country-has-drawn-in-the-world-cup-since-1990" class="section level5">
+<h5><code>d</code>: Number of soccer games a country has drawn in the World Cup (since 1990)</h5>
 </div>
-<div
-id="l-number-of-soccer-games-a-country-has-lost-in-the-world-cup-since-1990"
-class="section level5">
-<h5><code>l</code>: Number of soccer games a country has lost in the
-World Cup (since 1990)</h5>
+<div id="l-number-of-soccer-games-a-country-has-lost-in-the-world-cup-since-1990" class="section level5">
+<h5><code>l</code>: Number of soccer games a country has lost in the World Cup (since 1990)</h5>
 </div>
-<div
-id="gf-number-of-goals-a-country-has-scored-against-opponents-in-the-world-cup-since-1990"
-class="section level5">
-<h5><code>gf</code>: Number of goals a country has scored against
-opponents in the World Cup (since 1990)</h5>
+<div id="gf-number-of-goals-a-country-has-scored-against-opponents-in-the-world-cup-since-1990" class="section level5">
+<h5><code>gf</code>: Number of goals a country has scored against opponents in the World Cup (since 1990)</h5>
 </div>
-<div
-id="ga-number-of-goals-scored-against-a-country-in-the-world-cup-since-1990"
-class="section level5">
-<h5><code>ga</code>: Number of goals scored against a country in the
-World Cup (since 1990)</h5>
+<div id="ga-number-of-goals-scored-against-a-country-in-the-world-cup-since-1990" class="section level5">
+<h5><code>ga</code>: Number of goals scored against a country in the World Cup (since 1990)</h5>
 </div>
-<div
-id="gd-goal-difference-of-country-goals-scored-by-country-minus-goals-scored-against-country"
-class="section level5">
-<h5><code>gd</code>: Goal difference of country (goals scored by country
-minus goals scored against country)</h5>
+<div id="gd-goal-difference-of-country-goals-scored-by-country-minus-goals-scored-against-country" class="section level5">
+<h5><code>gd</code>: Goal difference of country (goals scored by country minus goals scored against country)</h5>
 </div>
-<div
-id="pts-number-of-points-accumulated-by-country-in-the-world-cup-since-1990"
-class="section level5">
-<h5><code>pts</code>: Number of points accumulated by country in the
-World Cup (since 1990)</h5>
+<div id="pts-number-of-points-accumulated-by-country-in-the-world-cup-since-1990" class="section level5">
+<h5><code>pts</code>: Number of points accumulated by country in the World Cup (since 1990)</h5>
 </div>
-<div id="rank-country-official-fifa-ranking-2022-rankings"
-class="section level5">
-<h5><code>rank</code>: Country Official FIFA ranking (2022
-Rankings)</h5>
+<div id="rank-country-official-fifa-ranking-2022-rankings" class="section level5">
+<h5><code>rank</code>: Country Official FIFA ranking (2022 Rankings)</h5>
 </div>
 <div id="player-name-of-top-record-goal-scorer" class="section level5">
 <h5><code>player</code>: Name of top record goal scorer</h5>
 </div>
-<div id="goals-number-of-goals-scored-by-top-record-goal-scorer"
-class="section level5">
-<h5><code>goals</code>: Number of goals scored by top record goal
-scorer</h5>
+<div id="goals-number-of-goals-scored-by-top-record-goal-scorer" class="section level5">
+<h5><code>goals</code>: Number of goals scored by top record goal scorer</h5>
 </div>
-<div
-id="land_area_km-total-area-of-the-land-based-portions-of-a-countrys-geography-measured-in-square-kilometers-km²"
-class="section level5">
-<h5><code>land_area_km</code>: Total area of the land-based portions of
-a country’s geography (measured in square kilometers, km²)</h5>
+<div id="land_area_km-total-area-of-the-land-based-portions-of-a-countrys-geography-measured-in-square-kilometers-km²" class="section level5">
+<h5><code>land_area_km</code>: Total area of the land-based portions of a country’s geography (measured in square kilometers, km²)</h5>
 </div>
-<div id="confederation-country-fifa-confederation"
-class="section level5">
+<div id="confederation-country-fifa-confederation" class="section level5">
 <h5><code>confederation</code>: Country FIFA confederation</h5>
 <p><br></p>
 </div>
@@ -428,15 +374,8 @@ class="section level5">
 </div>
 <div id="correlation-plot" class="section level1">
 <h1>Correlation Plot</h1>
-<div
-id="in-the-dataset-we-had-14-variables-and-79-observations.-to-check-for-collinearity-we-use-correlation-plots-to-explore-the-relationship-between-each-pair-of-numeric-predictors.-to-only-include-the-numeric-variables-we-use-the-select-function-to-exclude-the-qualitative-variables-such-as-player-country-and-gd.-the-deeper-color-in-the-plot-means-stronger-correlation-between-the-two-variables."
-class="section level4">
-<h4>In the dataset, we had 14 variables and 79 observations. To check
-for collinearity, we use correlation plots to explore the relationship
-between each pair of numeric predictors. To only include the numeric
-variables, we use the <code>select</code> function to exclude the
-qualitative variables, such as player, country, and gd. The deeper color
-in the plot means stronger correlation between the two variables.</h4>
+<div id="in-the-dataset-we-had-14-variables-and-79-observations.-to-check-for-collinearity-we-use-correlation-plots-to-explore-the-relationship-between-each-pair-of-numeric-predictors.-to-only-include-the-numeric-variables-we-use-the-select-function-to-exclude-the-qualitative-variables-such-as-player-country-and-gd.-the-deeper-color-in-the-plot-means-stronger-correlation-between-the-two-variables." class="section level4">
+<h4>In the dataset, we had 14 variables and 79 observations. To check for collinearity, we use correlation plots to explore the relationship between each pair of numeric predictors. To only include the numeric variables, we use the <code>select</code> function to exclude the qualitative variables, such as player, country, and gd. The deeper color in the plot means stronger correlation between the two variables.</h4>
 <pre class="r"><code>data &lt;- read.csv(&quot;./data/12_4_dataset.csv&quot;) %&gt;% 
   na.omit() %&gt;% 
   select(-country)
@@ -449,15 +388,7 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 </div>
 <div id="cross-validation" class="section level1">
 <h1>Cross-validation</h1>
-<p>We decided to use forward selection for our final model, where we
-start with only the intercept and add one predictor as a time. The
-criteria we chose is p-value, which means we will select predictors to
-include based on p-values, until no more predictors having p-value less
-than 0.05 can be added to the model. While there are two variables that
-are on the borderline of our threshold, alpha = 0.05, we created three
-different models to include either or both of these two variables. Then,
-we used cross validation to check which model has the best
-performance.</p>
+<p>We decided to use forward selection for our final model, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model. While there are two variables that are on the borderline of our threshold, alpha = 0.05, we created three different models to include either or both of these two variables. Then, we used cross validation to check which model has the best performance.</p>
 <pre class="r"><code>cv_df =
   crossv_mc(data, 100) %&gt;% 
   mutate(
@@ -488,20 +419,13 @@ cv_df %&gt;%
   xlab(&quot;Models&quot;) +
   labs(title = &quot;Violin Plot of rmse Values for Three Models&quot;)</code></pre>
 <p><img src="modelbuilding_files/figure-html/unnamed-chunk-2-1.png" width="1152" /></p>
-<p>From the violin plot, we can see that model 3 has the lowest rmse,
-which is the model chosen by forward selection. The first model has only
-three variables, pld, d, and rank. The second model has four variables,
-pld, d, rank, and gf. The third model has five variables, pld, d, rank,
-gf, and ga. After comparing their rmse, we get the final model - w =
--1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf
--0.225378ga.</p>
+<p>From the violin plot, we can see that model 3 has the lowest rmse, which is the model chosen by forward selection. The first model has only three variables, pld, d, and rank. The second model has four variables, pld, d, rank, and gf. The third model has five variables, pld, d, rank, gf, and ga. After comparing their rmse, we get the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</p>
 <p><br></p>
 </div>
 <div id="compare-the-summary-of-the-models" class="section level1">
 <h1>Compare the summary of the Models</h1>
 <p><br></p>
-<p>We use the <code>summary</code> function to compare the R^2 and
-p-values of the predictors.</p>
+<p>We use the <code>summary</code> function to compare the R^2 and p-values of the predictors.</p>
 <pre class="r"><code>model1=lm(w~pld + d + rank , data = num)
 model2=lm(w~pld + d + rank + gf, data = num)
 model3=lm(w~pld + d + rank + gf + ga, data = num)
@@ -572,25 +496,13 @@ summary(model1)</code></pre>
 ## Multiple R-squared:  0.9939, Adjusted R-squared:  0.9934 
 ## F-statistic:  2363 on 5 and 73 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <p><br></p>
-<p>By looking at the summary, we can see that model 3 has the highest
-adj. R^2 of 99.3%, which means our model explain over 99% of the
-variance in the outcome (wins). This result consists with the result we
-got from the cross-validation. Therefore, we decide our final model to
-include 5 variables, pld, d, rank, gf, and ga.</p>
+<p>By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins). This result consists with the result we got from the cross-validation. Therefore, we decide our final model to include 5 variables, pld, d, rank, gf, and ga.</p>
 <p><br></p>
 </div>
 <div id="resultsoutput-from-regression-model" class="section level1">
 <h1>Results/output from regression model</h1>
-<p>Our final model is w = -1.554369 + 0.661219pld - 0.622216d +
-0.015920rank + 0.153794gf -0.225378ga.</p>
-<p>After comparing the summary of the three models, we found that the
-model with variables: pld, d, rank, gf, ga, has the lowest rmse and
-highest adj.R^2 (about 99%), which means our model explain over 99% of
-the variance in the outcome (wins). The most significant variable in the
-model is ga with coefficient of -0.225378. That means if the number of
-goals scored against a country in the World Cup (since 1990) increases
-by 1 goal, the would decrease the number of winning by 0.225378, while
-holding other variables constant.</p>
+<p>Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</p>
+<p>After comparing the summary of the three models, we found that the model with variables: pld, d, rank, gf, ga, has the lowest rmse and highest adj.R^2 (about 99%), which means our model explain over 99% of the variance in the outcome (wins). The most significant variable in the model is ga with coefficient of -0.225378. That means if the number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would decrease the number of winning by 0.225378, while holding other variables constant.</p>
 </div>
 
 <!DOCTYPE html>
@@ -608,7 +520,7 @@ holding other variables constant.</p>
 
 <title>footer.knit</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -775,8 +687,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -784,16 +696,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -908,12 +813,8 @@ $(document).ready(function () {
 Melvin Coleman, Hilina Giday, Sarah Forrest, Jiawen Zhao, Taylor Bays
 </p>
 <p style="text-align: center;">
-<p>Visualizations and analyses performed using
-<a href="https://www.r-project.org/about.html">R</a> (v4.2.2) and
-<a href="https://rstudio.com">RStudio</a> (v2022.07.2+576). <br></p>
-<p>Additional interactivity added using
-<a href="https://plot.ly/">plotly</a> (v5.11.0) and
-<a href="https://shiny.rstudio.com/">Shiny</a> (v1.7.3). <br></p>
+<p>Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.2.2) and <a href="https://rstudio.com">RStudio</a> (v2022.07.2+576). <br></p>
+<p>Additional interactivity added using <a href="https://plot.ly/">plotly</a> (v5.11.0) and <a href="https://shiny.rstudio.com/">Shiny</a> (v1.7.3). <br></p>
 <p><br> <br></p>
 2022
 </p>
@@ -1574,6 +1475,380 @@ Melvin Coleman, Hilina Giday, Sarah Forrest, Jiawen Zhao, Taylor Bays
 <p></small></p>
 </html>
 
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>footer.knit</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Exploratory Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="exploratory_data_analysis.html">Geographic Analyses by Confederation</a>
+    </li>
+    <li>
+      <a href="exploratory_data_analysis_2.html">Geographic Analyses by Country</a>
+    </li>
+    <li>
+      <a href="exploratory_data_analysis_3.html">Predictors of World Cup Wins</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="modelbuilding.html">Model Building</a>
+</li>
+<li>
+  <a href="shiny_dashboard_template.html">Prediction Tool</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="finalprojectreport.html">Project Report</a>
+</li>
+<li>
+  <a>
+    <span class="fa fa-youtube fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/mcmvp9/p8105_finalproject">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<html>
+ 
+<hr />
+<p><small></p>
+<p style="text-align: center;">
+Melvin Coleman, Hilina Giday, Sarah Forrest, Jiawen Zhao, Taylor Bays
+</p>
+<p style="text-align: center;">
+<p>Visualizations and analyses performed using
+<a href="https://www.r-project.org/about.html">R</a> (v4.2.2) and
+<a href="https://rstudio.com">RStudio</a> (v2022.07.2+576). <br></p>
+<p>Additional interactivity added using
+<a href="https://plot.ly/">plotly</a> (v5.11.0) and
+<a href="https://shiny.rstudio.com/">Shiny</a> (v1.7.3). <br></p>
+<p><br> <br></p>
+2022
+</p>
+<p></small></p>
+</html>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
 
 
 
