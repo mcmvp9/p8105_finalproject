@@ -157,3 +157,6 @@ After comparing the summary of the three models, we found that the model with va
 ## Discussion of Results
 
 There are many factors that can be used to  predict the number of games won by a country participating in the World Cup. From our statistical model results, we found that an increase in the number of games played, FIFA rank, and goals for increases a country’s predicted number of games won in the World Cup, while  an increase in the number of games drawn and goals against decreases a country’s predicted number of games won. Additionally, our exploratory analyses revealed that success in the world cup appears to be geographically clustered in particular regions of the world. This information can be helpful for soccer fans  to predict the success of their favorite teams in future World Cup tournaments.
+
+&nbsp;
+&nbsp;
