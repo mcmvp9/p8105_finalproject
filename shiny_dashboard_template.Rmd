@@ -32,14 +32,12 @@ world_cup = read_csv("./data/12_4_dataset.csv") %>%
 min_w = world_cup %>% distinct(w) %>% min()
 min_pld = world_cup %>% distinct(pld) %>% min()
 min_d = world_cup %>% distinct(d) %>% min()
-min_rank = world_cup %>% distinct(rank) %>% min()
 min_gf = world_cup %>% distinct(gf) %>% min()
 min_ga = world_cup %>% distinct(ga) %>% min()
 
 max_w = world_cup %>% distinct(w) %>% max()
 max_pld = world_cup %>% distinct(pld) %>% max()
 max_d = world_cup %>% distinct(d) %>% max()
-max_rank = world_cup %>% distinct(rank) %>% max()
 max_gf = world_cup %>% distinct(gf) %>% max()
 max_ga = world_cup %>% distinct(ga) %>% max()
 ```
@@ -58,13 +56,6 @@ selectInput(
   "country_choice", 
   label = h3("Select country"),
   choices = country)
-
-rank = world_cup %>% group_by(country)%>% pull(rank)
-# sliderInput widget for rank
-sliderInput(
-  "rank_range", 
-  label = h3("Official 2022 FIFA Rank"), 
-  min=0, max=61, value = c(3))
 
 # sliderInput widget for pld
 sliderInput(
@@ -90,8 +81,6 @@ sliderInput(
   "goals_against_range", 
   label = h3("Choose goals against range"), 
   min = min_ga, max = max_ga, value = c(130))
-
-
 ```
 
 Column 
@@ -110,25 +99,27 @@ fit3  =
     names_from = "term", 
     values_from = "estimate")
 
+fit3
 ```
+
 
 
 ```{r}
  
-renderPrint({
+h3("Here is that value:")
+renderTable({
   world_cup %>%
     filter(
       country == input$country_choice) %>%
-    
     mutate( pld = input$number_games_range[1],
             d = input$draw_games_range[1],
-            rank = input$rank_range[1],
             gf = input$goals_for_range[1],
             ga = input$goals_against_range[1],
-            results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) %>% 
-    select (results)
+            results = -1.56 + 0.660*pld - 0.628*d + 0.0159*rank + 0.154*gf - 0.224*ga) 
   
 })
 ```
+
+
 
 In our dataset, for those that made it into the world cup, the  `r renderPrint({input[["c"]]})`
