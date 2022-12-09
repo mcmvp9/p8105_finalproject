@@ -14,7 +14,7 @@ navbar:
   - text: "Model Building"
     href: modelbuilding.html
   - text: "Prediction Tool"
-    href: shiny_dashboard_template.html
+    href: shiny_sh.html
   right:
     - text: "Project Report"
       href: finalprojectreport.html
