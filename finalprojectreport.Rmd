@@ -148,7 +148,7 @@ Therefore, as a team’s FIFA rank and average goals scored against per game inc
 In the dataset, we had 14 variables and 79 observations. To check for collinearity, we use correlation plots to explore the relationship between each pair of numeric predictors. To only include the numeric variables, we use the `select` function to exclude the qualitative variables, such as player, country, and gd.
 
 We tried different ways for model selection, including stepwise selection, forward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from forward selection with p-value. 
-Our final model was chosen by forward selection, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.
+Our final model was chosen by forward selection, where we start with only the intercept and added one predictor at a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.
 
 While there are two variables that are on the borderline of our threshold, alpha = 0.05, we got three different models to include either or both of these two variables. Then, we used cross validation to check which model has the best performance.After comparing their rmse, we get the final model - `w` = -1.554369 + 0.661219`pld` - 0.622216d + 0.015920`rank` + 0.153794`gf` -0.225378`ga`.
 

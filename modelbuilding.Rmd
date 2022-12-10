@@ -94,7 +94,7 @@ corrplot(cor(num),  diag = FALSE)
 
 # Cross-validation
 
-We decided to use forward selection for our final model, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.
+We decided to use forward selection for our final model, where we start with only the intercept and add one predictor at a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model.
 While there are two variables that are on the borderline of our threshold, alpha = 0.05, we created three different models to include either or both of these two variables. Then, we used cross validation to check which model has the best performance.
 
 ```{r}
