@@ -21,7 +21,8 @@ library(tidyverse)
 library(corrplot)
 library(glmnet)
 library(modelr)
-
+data <- read.csv("./data/12_4_dataset.csv")
+write.csv(data, "./data/worldcup_final.csv")
 ```
 
 <br>

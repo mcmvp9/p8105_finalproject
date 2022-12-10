@@ -237,6 +237,6 @@ final_merge =
 Output final dataset as `.csv` file for final project use. 
 
 ```{r, eval=FALSE}
-write.csv(final_merge, "./data/12_4_dataset.csv")
+write.csv(final_merge, "./data/worldcup_final_2.csv")
 ```
 
