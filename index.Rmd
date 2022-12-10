@@ -59,14 +59,17 @@ You can find the link to our [Project Report](finalprojectreport.html) right her
 
 <p style="text-align: center;">
 Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.2.2) and <a href="https://rstudio.com">RStudio</a> (v2022.07.2+576). <br>
+</p>
 
+<p style="text-align: center;">
 Additional interactivity added using <a href="https://plot.ly/">plotly</a> (v5.11.0) and <a href="https://shiny.rstudio.com/">Shiny</a> (v1.7.3). <br>
-
+</p>
 
 
 <br>
 <br>
 
+<p style="text-align: center;">
 2022
 </p>
 
