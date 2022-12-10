@@ -19,7 +19,7 @@ navbar:
     - text: "Project Report"
       href: finalprojectreport.html
     - icon: fa-youtube fa-lg
-      href: 
+      href: https://youtu.be/28KKsYA7vMM
     - icon: fa-github fa-lg
       href: https://github.com/mcmvp9/p8105_finalproject
 
