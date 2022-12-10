@@ -148,7 +148,7 @@ server <- function(input, output) {
   })
   output$home_img <- renderImage({
     
-    list(src = "/Users/jiawenzhao/Desktop/P8105/p8105_finalproject_2/images/worldcup_2022_maroon.jpg",
+    list(src = "worldcup_2022_maroon.jpg",
          width = 600,
          height = 330,
          style="display: block; margin-left: auto; margin-right: auto;")
