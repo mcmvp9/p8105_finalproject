@@ -35,7 +35,6 @@ ui <- fluidPage(
   fluidRow(
     column(3,
            wellPanel(
-             h4("Filter"),
              selectInput(
                "country_choice", 
                label = h3("Select Country"),
@@ -71,11 +70,18 @@ ui <- fluidPage(
       img(src='qatar.png', align = "right"),
       
             tableOutput("table"), 
-            plotOutput("plot")
+            plotOutput("plot"),
+            span(textOutput("result"), style="font-size:26px", align="center"
+            ),
+            #textOutput("result"),
+            imageOutput("home_img")
+      
       
           )
-    
-  )
+
+  # ),
+  # span(textOutput("result"), style="font-size:26px", align="center"
+       )
 )
 #   fluidPage(
 #   
@@ -137,6 +143,17 @@ server <- function(input, output) {
     hist(world_cup$w, breaks = 12)
     abline(v=-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1], col="blue")
   })
+  output$result <- renderText({
+    paste0("The predicted game wining for ", input$country_choice  , "is : ", as.character(round(-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1],2)))
+  })
+  output$home_img <- renderImage({
+    
+    list(src = "/Users/jiawenzhao/Desktop/P8105/p8105_finalproject_2/images/worldcup_2022_maroon.jpg",
+         width = 600,
+         height = 330,
+         style="display: block; margin-left: auto; margin-right: auto;")
+    
+  }, deleteFile = F)
 }
 
 # Run the application 
