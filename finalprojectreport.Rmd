@@ -61,7 +61,7 @@ Our questions remained fairly stable throughout the development of our project. 
 
 ### Dataset Creation
 
-Data was pulled from several sources on the web via scraping and downloaded as .csv files to create the final dataset for the project. Data from multiple sources was merged together to create the  final dataset named XXXXXXX and stored in the data folder in our repository. The as.character() and as.numeric() functions were used to ensure that all data was stored as the correct type. Additionally, the str_replace() function was used to edit country’s names so that the names were consistent throughout all datasets before they were merged together using merge() to create the final dataset.
+Data was pulled from several sources on the web via scraping and downloaded as .csv files to create the final dataset for the project. Data from multiple sources was merged together to create the final dataset which is called **worldcup_final** and was stored in the data folder in our repository. The as.character() and as.numeric() functions were used to ensure that all data was stored as the correct type. Additionally, the str_replace() function was used to edit country’s names so that the names were consistent throughout all datasets before they were merged together using merge() to create the final dataset.
 
 ### *Data Sources*
 

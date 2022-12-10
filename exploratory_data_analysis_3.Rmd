@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 
 ```{r import df, include=FALSE, warning=FALSE, message=FALSE}
 # Read in csv datafile
-wc_df <- read_csv("data/12_4_dataset.csv") %>%
+wc_df <- read_csv("./data/worldcup_final.csv") %>%
   janitor::clean_names() %>%
   mutate(
     gd = gsub("\\+","",gd),

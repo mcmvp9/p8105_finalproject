@@ -19,7 +19,7 @@ library(modelr)
 Correlation matrix between predictor variables
 
 ```{r}
-data <- read.csv("./data/12_4_dataset.csv") %>% 
+data <- read.csv("./data/worldcup_final.csv") %>% 
   na.omit() %>% 
   select(-country)
 #hist.data.frame(data, nclass = 8)

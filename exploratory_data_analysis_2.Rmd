@@ -43,9 +43,14 @@ scale_fill_discrete = scale_fill_viridis_d
 tmap_mode("view")
 ```
 
+
 ```{r import df, include=FALSE, warning=FALSE, message=FALSE}
+# rename 
+data <- read.csv("./data/12_4_dataset.csv")
+write.csv(data, "./data/worldcup_final.csv")
+
 # Read in csv datafile
-wc_df <- read_csv("data/12_4_dataset.csv") %>%
+wc_df <- read_csv("./data/worldcup_final.csv") %>%
   janitor::clean_names() %>%
   mutate(
     gd = gsub("\\+","",gd),

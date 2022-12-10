@@ -22,7 +22,7 @@ library(rsconnect)
 ```
 
 ```{r import_data, include=FALSE}
-world_cup = read_csv("./data/12_4_dataset.csv") %>%
+world_cup = read_csv("./data/worldcup_final.csv") %>%
   janitor::clean_names() %>%
   select(country,w, pld, d, rank, gf, ga) 
   ##filter(country %in% c("Ecuador", "Argentina", "Brazil", "England", "France", "Spain", "Belgium", "Portugal", "Germany", "Netherlands", "Uruguay",  "Croatia", "Denmark", "Mexico", "United States", "Senegal", "Wales", "Poland", "Australia", "Japan", "Morocco", "Switzerland", "Ghana", "South   Korea","Cameroon", "Serbia", "Canada", "Costa Rica", "Tunisia", "Saudi Arabia", "Iran", "Ecuador")) 

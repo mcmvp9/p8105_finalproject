@@ -14,7 +14,7 @@
 
 <title>statistical test</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,9 +193,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -379,7 +386,7 @@ div.tocify {
 
 
 <p>Correlation matrix between predictor variables</p>
-<pre class="r"><code>data &lt;- read.csv(&quot;./data/12_4_dataset.csv&quot;) %&gt;% 
+<pre class="r"><code>data &lt;- read.csv(&quot;./data/worldcup_final.csv&quot;) %&gt;% 
   na.omit() %&gt;% 
   select(-country)
 #hist.data.frame(data, nclass = 8)
@@ -392,33 +399,34 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 <p>Model selection that didn’t work.</p>
 <pre class="r"><code>model_step_wise = step(glm(w ~ ., data = data), direction = &quot;both&quot;)</code></pre>
 <pre><code>## Start:  AIC=-4704.92
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
-##     goals + land_area_km + confederation
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + rank + 
+##     player + goals + land_area_km + confederation
 ## 
 ## 
 ## Step:  AIC=-4704.92
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
-##     goals + land_area_km
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + rank + 
+##     player + goals + land_area_km
 ## 
 ## 
 ## Step:  AIC=-4704.92
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
-##     goals
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + rank + 
+##     player + goals
 ## 
 ## 
 ## Step:  AIC=-4704.92
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + rank + 
+##     player
 ## 
 ## 
 ## Step:  AIC=-4684.83
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + player</code></pre>
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + player</code></pre>
 <pre class="r"><code>model_forward = step(glm(w ~ 1, data = data), direction = &quot;forward&quot;, scope = formula(lm(gf ~ ., data = data)), test = &quot;F&quot;)</code></pre>
 <pre><code>## Start:  AIC=650.5
 ## w ~ 1</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts): the
 ## response appeared on the right-hand side and was dropped</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts):
-## problem with term 4 in model.matrix: no columns are assigned</code></pre>
+## problem with term 5 in model.matrix: no columns are assigned</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>##                 Df Deviance     AIC    F value                Pr(&gt;F)    
 ## + player        78      0.0 -4516.4     0.0000                   NaN    
@@ -434,6 +442,7 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ## + goals          1  14688.0   643.0     9.8496              0.002408 ** 
 ## + land_area_km   1  16106.7   650.3     2.1997              0.142115    
 ## &lt;none&gt;              16566.8   650.5                                     
+## + X.1            1  16279.9   651.1     1.3569              0.247668    
 ## + X              1  16279.9   651.1     1.3569              0.247668    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -443,41 +452,44 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts): the
 ## response appeared on the right-hand side and was dropped</code></pre>
 <pre><code>## Warning in model.matrix.default(Terms, m, contrasts.arg = object$contrasts):
-## problem with term 5 in model.matrix: no columns are assigned</code></pre>
+## problem with term 6 in model.matrix: no columns are assigned</code></pre>
 <pre><code>##        Df                         Deviance     AIC F value Pr(&gt;F)
 ## &lt;none&gt;    0.000000000000000000000000090583 -4516.4</code></pre>
 <pre class="r"><code>model_backward = step(glm(w ~ ., data = data), direction = &quot;backward&quot;, test = &quot;F&quot;)</code></pre>
 <pre><code>## Start:  AIC=-4704.92
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
-##     goals + land_area_km + confederation</code></pre>
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + rank + 
+##     player + goals + land_area_km + confederation</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
 ## Step:  AIC=-4704.92
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
-##     goals + land_area_km</code></pre>
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + rank + 
+##     player + goals + land_area_km</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
 ## Step:  AIC=-4704.92
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player + 
-##     goals</code></pre>
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + rank + 
+##     player + goals</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
 ## Step:  AIC=-4704.92
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + rank + player</code></pre>
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + rank + 
+##     player</code></pre>
 <pre><code>## Warning in pf(q = q, df1 = df1, ...): NaNs produced</code></pre>
 <pre><code>## 
 ## Step:  AIC=-4684.83
-## w ~ X + part + pld + d + l + gf + ga + gd + pts + player</code></pre>
+## w ~ X.1 + X + part + pld + d + l + gf + ga + gd + pts + player</code></pre>
 <pre class="r"><code>model_step_wise</code></pre>
 <pre><code>## 
-## Call:  glm(formula = w ~ X + part + pld + d + l + gf + ga + gd + pts + 
-##     player, data = data)
+## Call:  glm(formula = w ~ X.1 + X + part + pld + d + l + gf + ga + gd + 
+##     pts + player, data = data)
 ## 
 ## Coefficients:
 ##                                  (Intercept)  
 ##                        0.0000000000000024134  
-##                                            X  
+##                                          X.1  
 ##                        0.0000000000000004817  
+##                                            X  
+##                                           NA  
 ##                                         part  
 ##                        0.0000000000000083960  
 ##                                          pld  
@@ -490,36 +502,6 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ##                        0.0000000000000362729  
 ##                                           ga  
 ##                       -0.0000000000000307581  
-##                                       gd+102  
-##                       -0.0000000000036121206  
-##                                        gd+12  
-##                       -0.0000000000003983960  
-##                                       gd+129  
-##                       -0.0000000000044634136  
-##                                        gd+13  
-##                       -0.0000000000005108038  
-##                                        gd+16  
-##                       -0.0000000000005829673  
-##                                         gd+2  
-##                       -0.0000000000000762114  
-##                                        gd+23  
-##                       -0.0000000000008362256  
-##                                         gd+3  
-##                       -0.0000000000001591636  
-##                                        gd+30  
-##                       -0.0000000000011808189  
-##                                        gd+33  
-##                       -0.0000000000011897718  
-##                                        gd+37  
-##                       -0.0000000000012117531  
-##                                        gd+44  
-##                       -0.0000000000015134993  
-##                                        gd+48  
-##                       -0.0000000000017058081  
-##                                        gd+51  
-##                       -0.0000000000017294916  
-##                                         gd+7  
-##                       -0.0000000000003246887  
 ##                                         gd−1  
 ##                        0.0000000000000177528  
 ##                                        gd−10  
@@ -572,6 +554,36 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ##                        0.0000000000002329129  
 ##                                         gd−9  
 ##                        0.0000000000002707476  
+##                                       gd+102  
+##                       -0.0000000000036121206  
+##                                        gd+12  
+##                       -0.0000000000003983960  
+##                                       gd+129  
+##                       -0.0000000000044634136  
+##                                        gd+13  
+##                       -0.0000000000005108038  
+##                                        gd+16  
+##                       -0.0000000000005829673  
+##                                         gd+2  
+##                       -0.0000000000000762114  
+##                                        gd+23  
+##                       -0.0000000000008362256  
+##                                         gd+3  
+##                       -0.0000000000001591636  
+##                                        gd+30  
+##                       -0.0000000000011808189  
+##                                        gd+33  
+##                       -0.0000000000011897718  
+##                                        gd+37  
+##                       -0.0000000000012117531  
+##                                        gd+44  
+##                       -0.0000000000015134993  
+##                                        gd+48  
+##                       -0.0000000000017058081  
+##                                        gd+51  
+##                       -0.0000000000017294916  
+##                                         gd+7  
+##                       -0.0000000000003246887  
 ##                                          gd0  
 ##                                           NA  
 ##                                          pts  
@@ -905,14 +917,16 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ## Residual Deviance: 0.00000000000000000000000009058   AIC: -4516</code></pre>
 <pre class="r"><code>model_backward</code></pre>
 <pre><code>## 
-## Call:  glm(formula = w ~ X + part + pld + d + l + gf + ga + gd + pts + 
-##     player, data = data)
+## Call:  glm(formula = w ~ X.1 + X + part + pld + d + l + gf + ga + gd + 
+##     pts + player, data = data)
 ## 
 ## Coefficients:
 ##                                  (Intercept)  
 ##                        0.0000000000000024134  
-##                                            X  
+##                                          X.1  
 ##                        0.0000000000000004817  
+##                                            X  
+##                                           NA  
 ##                                         part  
 ##                        0.0000000000000083960  
 ##                                          pld  
@@ -925,36 +939,6 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ##                        0.0000000000000362729  
 ##                                           ga  
 ##                       -0.0000000000000307581  
-##                                       gd+102  
-##                       -0.0000000000036121206  
-##                                        gd+12  
-##                       -0.0000000000003983960  
-##                                       gd+129  
-##                       -0.0000000000044634136  
-##                                        gd+13  
-##                       -0.0000000000005108038  
-##                                        gd+16  
-##                       -0.0000000000005829673  
-##                                         gd+2  
-##                       -0.0000000000000762114  
-##                                        gd+23  
-##                       -0.0000000000008362256  
-##                                         gd+3  
-##                       -0.0000000000001591636  
-##                                        gd+30  
-##                       -0.0000000000011808189  
-##                                        gd+33  
-##                       -0.0000000000011897718  
-##                                        gd+37  
-##                       -0.0000000000012117531  
-##                                        gd+44  
-##                       -0.0000000000015134993  
-##                                        gd+48  
-##                       -0.0000000000017058081  
-##                                        gd+51  
-##                       -0.0000000000017294916  
-##                                         gd+7  
-##                       -0.0000000000003246887  
 ##                                         gd−1  
 ##                        0.0000000000000177528  
 ##                                        gd−10  
@@ -1007,6 +991,36 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 ##                        0.0000000000002329129  
 ##                                         gd−9  
 ##                        0.0000000000002707476  
+##                                       gd+102  
+##                       -0.0000000000036121206  
+##                                        gd+12  
+##                       -0.0000000000003983960  
+##                                       gd+129  
+##                       -0.0000000000044634136  
+##                                        gd+13  
+##                       -0.0000000000005108038  
+##                                        gd+16  
+##                       -0.0000000000005829673  
+##                                         gd+2  
+##                       -0.0000000000000762114  
+##                                        gd+23  
+##                       -0.0000000000008362256  
+##                                         gd+3  
+##                       -0.0000000000001591636  
+##                                        gd+30  
+##                       -0.0000000000011808189  
+##                                        gd+33  
+##                       -0.0000000000011897718  
+##                                        gd+37  
+##                       -0.0000000000012117531  
+##                                        gd+44  
+##                       -0.0000000000015134993  
+##                                        gd+48  
+##                       -0.0000000000017058081  
+##                                        gd+51  
+##                       -0.0000000000017294916  
+##                                         gd+7  
+##                       -0.0000000000003246887  
 ##                                          gd0  
 ##                                           NA  
 ##                                          pts  
@@ -1186,8 +1200,8 @@ cv_object</code></pre>
 ## Measure: Mean-Squared Error 
 ## 
 ##       Lambda Index  Measure       SE Nonzero
-## min 0.001000    31 0.003785 0.001744       7
-## 1se 0.003981    25 0.005220 0.002135       4</code></pre>
+## min 0.001000    31 0.003869 0.002105       7
+## 1se 0.005012    24 0.005789 0.002509       5</code></pre>
 <pre class="r"><code>tibble(lambda = cv_object$lambda,
 mean_cv_error = cv_object$cvm) %&gt;%
 ggplot(aes(x = lambda, y = mean_cv_error)) +
@@ -1198,18 +1212,18 @@ geom_point()</code></pre>
 fit_bestcv &lt;- glmnet(as.matrix(predictor_state), num$gf, lambda = cv_object$lambda.min)
 coef(fit_bestcv)</code></pre>
 <pre><code>## 11 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
-##                              s0
-## (Intercept)  -0.103961364074486
-## part          0.181695686433521
-## pld           1.518691000579977
-## d            -1.059610254393348
-## l            -1.569098199859771
-## gf            0.991949782106579
-## ga           -0.004199759772878
-## pts          -0.504228220559337
-## rank          0.000915062015064
-## goals         0.000235553056384
-## land_area_km -0.000000001156746</code></pre>
+##                        s0
+## (Intercept) -0.1394956462
+## X            0.0005949288
+## part         0.1852699860
+## pld          1.5176164361
+## d           -1.0647476718
+## l           -1.5666964574
+## gf           0.9887495642
+## ga          -0.0042151430
+## pts         -0.5006184913
+## rank         0.0010358029
+## goals        0.0002656838</code></pre>
 <pre class="r"><code>lambda</code></pre>
 <pre><code>## [1] 0.001</code></pre>
 <p>Cross-validation of models</p>
@@ -1318,7 +1332,10 @@ cv_df %&gt;%
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <p>Results/output from regression model</p>
-<p>This model will be w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga. That means if the number of number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would increase by 2.7789.</p>
+<p>This model will be w = -1.554369 + 0.661219pld - 0.622216d +
+0.015920rank + 0.153794gf -0.225378ga. That means if the number of
+number of goals scored against a country in the World Cup (since 1990)
+increases by 1 goal, the would increase by 2.7789.</p>
 <pre class="r"><code>filter_data = data %&gt;% 
   select( -player) %&gt;%  
   na.omit()

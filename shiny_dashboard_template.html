@@ -24,7 +24,7 @@ window.FlexDashboardComponents = [];
 <script id="flexdashboard-navbar" type="application/json">
 [{"title":"Source Code","icon":"fa-code","href":"source_embed","align":"right"}]
 </script>
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -1880,7 +1880,8 @@ window.FlexDashboardComponents.push({
 
 <div id="section-column" class="section level2 sidebar">
 <h2 class="sidebar">Column</h2>
-<p>This flexdashboard with shiny shows our linear model prediction tool for number of wins in the Wold Cup.</p>
+<p>This flexdashboard with shiny shows our linear model prediction tool
+for number of wins in the Wold Cup.</p>
 <div id="section-sliders-for-our-linear-model" class="section level3">
 <h3>Sliders for our linear model</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
@@ -2001,7 +2002,8 @@ window.FlexDashboardComponents.push({
 </div>
 <div id="section-column-1" class="section level2" data-width="650">
 <h2>Column</h2>
-<div id="section-fifa-2022-games-won-predictor-tool" class="section level3">
+<div id="section-fifa-2022-games-won-predictor-tool"
+class="section level3">
 <h3>FIFA 2022 Games Won Predictor Tool</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
@@ -2009,7 +2011,7 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out61fc65efb12a9993" class="shiny-html-output"></div>
+<div id="outbf4c1cc9847db8dc" class="shiny-html-output"></div>
 <p>input$country_choice</p>
 <p>h3(“Here is that value:”)</p>
 </div>
@@ -2019,7 +2021,7 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<pre class="shiny-text-output noplaceholder" id="oute6be3320029614db"></pre>
+<pre class="shiny-text-output noplaceholder" id="out483f4dbd0b0009b1"></pre>
 </div>
 
 </div>
@@ -2063,7 +2065,7 @@ library(rsconnect)
 ```
 
 ```{r import_data, include=FALSE}
-world_cup = read_csv("./data/12_4_dataset.csv") %&gt;%
+world_cup = read_csv("./data/worldcup_final.csv") %&gt;%
   janitor::clean_names() %&gt;%
   select(country,w, pld, d, rank, gf, ga) 
   ##filter(country %in% c("Ecuador", "Argentina", "Brazil", "England", "France", "Spain", "Belgium", "Portugal", "Germany", "Netherlands", "Uruguay",  "Croatia", "Denmark", "Mexico", "United States", "Senegal", "Wales", "Poland", "Australia", "Japan", "Morocco", "Switzerland", "Ghana", "South   Korea","Cameroon", "Serbia", "Canada", "Costa Rica", "Tunisia", "Saudi Arabia", "Iran", "Ecuador")) 
