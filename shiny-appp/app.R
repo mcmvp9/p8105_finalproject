@@ -142,11 +142,11 @@ server <- function(input, output) {
     abline(v=-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1], col="blue")
   })
   output$result <- renderText({
-    paste0("The predicted game winning for ", input$country_choice  , "is : ", as.character(round(-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1],2)))
+    paste0("The predicted matches won by ", input$country_choice  , "is : ", as.character(round(-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1],2)))
   })
   output$home_img <- renderImage({
     
-    list(src = "worldcup_2022_maroon.jpg",
+    list(src = "qatar.png",
          width = 600,
          height = 330,
          style="display: block; margin-left: auto; margin-right: auto;")
