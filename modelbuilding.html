@@ -13,7 +13,7 @@
 
 <title>Model Building</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -184,8 +184,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -193,9 +193,16 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "&#xe258;";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -390,9 +397,20 @@ div.tocify {
 <p><br></p>
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>We summarize the statistics of world cups from 1990 to 2018 for all the countries that made to the World Cup to help us make preditions of wining in the 2022 World Cup.</p>
-<p>We tried different ways for model selection, including stepwise selection, forward and backward selection, and LASSO, with different selecting criterias, such as AIC, BIC, and p-values. After comparing the rmse, R-square and p-values, we decide to use the model from forward selection with p-value.</p>
-<p>While there are two variables that are on the borderline of our threshold, alpha = 0.05, we got three different models to include either or both of these two variables. Then, we used cross validation to check which model has the best performance.After comparing their rmse, we get the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</p>
+<p>We summarize the statistics of world cups from 1990 to 2018 for all
+the countries that made to the World Cup to help us make preditions of
+wining in the 2022 World Cup.</p>
+<p>We tried different ways for model selection, including stepwise
+selection, forward and backward selection, and LASSO, with different
+selecting criterias, such as AIC, BIC, and p-values. After comparing the
+rmse, R-square and p-values, we decide to use the model from forward
+selection with p-value.</p>
+<p>While there are two variables that are on the borderline of our
+threshold, alpha = 0.05, we got three different models to include either
+or both of these two variables. Then, we used cross validation to check
+which model has the best performance.After comparing their rmse, we get
+the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank
++ 0.153794gf -0.225378ga.</p>
 <p><br></p>
 </div>
 <div id="potential-predictors" class="section level1">
@@ -400,27 +418,44 @@ div.tocify {
 <p><br></p>
 <div id="variables-and-definitions" class="section level4">
 <h4>VARIABLES AND DEFINITIONS</h4>
-<p><code>country</code>: Individual country (represents national soccer team)</p>
-<p><code>part</code>: Number of times each country has participated in the World Cup (all time)</p>
-<p><code>pld</code>: Number of games played in the World Cup (since 1990)</p>
-<p><code>w</code>: Number of soccer games a country has won in the World Cup (since 1990)</p>
-<p><code>d</code>: Number of soccer games a country has drawn in the World Cup (since 1990)</p>
-<p><code>l</code>: Number of soccer games a country has lost in the World Cup (since 1990)</p>
-<p><code>gf</code>: Number of goals a country has scored against opponents in the World Cup (since 1990)</p>
-<p><code>ga</code>: Number of goals scored against a country in the World Cup (since 1990)</p>
-<p><code>gd</code>: Goal difference of country (goals scored by country minus goals scored against country)</p>
-<p><code>pts</code>: Number of points accumulated by country in the World Cup (since 1990)</p>
+<p><code>country</code>: Individual country (represents national soccer
+team)</p>
+<p><code>part</code>: Number of times each country has participated in
+the World Cup (all time)</p>
+<p><code>pld</code>: Number of games played in the World Cup (since
+1990)</p>
+<p><code>w</code>: Number of soccer games a country has won in the World
+Cup (since 1990)</p>
+<p><code>d</code>: Number of soccer games a country has drawn in the
+World Cup (since 1990)</p>
+<p><code>l</code>: Number of soccer games a country has lost in the
+World Cup (since 1990)</p>
+<p><code>gf</code>: Number of goals a country has scored against
+opponents in the World Cup (since 1990)</p>
+<p><code>ga</code>: Number of goals scored against a country in the
+World Cup (since 1990)</p>
+<p><code>gd</code>: Goal difference of country (goals scored by country
+minus goals scored against country)</p>
+<p><code>pts</code>: Number of points accumulated by country in the
+World Cup (since 1990)</p>
 <p><code>rank</code>: Country Official FIFA ranking (2022 Rankings)</p>
 <p><code>player</code>: Name of top record goal scorer</p>
-<p><code>goals</code>: Number of goals scored by top record goal scorer</p>
-<p><code>land_area_km</code>: Total area of the land-based portions of a country’s geography (measured in square kilometers, km²)</p>
+<p><code>goals</code>: Number of goals scored by top record goal
+scorer</p>
+<p><code>land_area_km</code>: Total area of the land-based portions of a
+country’s geography (measured in square kilometers, km²)</p>
 <p><code>confederation</code>: Country FIFA confederation</p>
 <p><br></p>
 </div>
 </div>
 <div id="correlation-plot" class="section level1">
 <h1>Correlation Plot</h1>
-<p>In the dataset, we had 14 variables and 79 observations. To check for collinearity, we use correlation plots to explore the relationship between each pair of numeric predictors. To only include the numeric variables, we use the <code>select</code> function to exclude the qualitative variables, such as player, country, and gd. The deeper color in the plot means stronger correlation between the two variables.</p>
+<p>In the dataset, we had 14 variables and 79 observations. To check for
+collinearity, we use correlation plots to explore the relationship
+between each pair of numeric predictors. To only include the numeric
+variables, we use the <code>select</code> function to exclude the
+qualitative variables, such as player, country, and gd. The deeper color
+in the plot means stronger correlation between the two variables.</p>
 <pre class="r"><code>data &lt;- read.csv(&quot;./data/worldcup_final.csv&quot;) %&gt;% 
   na.omit() %&gt;% 
   select(-country)
@@ -432,7 +467,15 @@ corrplot(cor(num),  diag = FALSE)</code></pre>
 </div>
 <div id="cross-validation" class="section level1">
 <h1>Cross-validation</h1>
-<p>We decided to use forward selection for our final model, where we start with only the intercept and add one predictor as a time. The criteria we chose is p-value, which means we will select predictors to include based on p-values, until no more predictors having p-value less than 0.05 can be added to the model. While there are two variables that are on the borderline of our threshold, alpha = 0.05, we created three different models to include either or both of these two variables. Then, we used cross validation to check which model has the best performance.</p>
+<p>We decided to use forward selection for our final model, where we
+start with only the intercept and add one predictor at a time. The
+criteria we chose is p-value, which means we will select predictors to
+include based on p-values, until no more predictors having p-value less
+than 0.05 can be added to the model. While there are two variables that
+are on the borderline of our threshold, alpha = 0.05, we created three
+different models to include either or both of these two variables. Then,
+we used cross validation to check which model has the best
+performance.</p>
 <pre class="r"><code>cv_df =
   crossv_mc(data, 100) %&gt;% 
   mutate(
@@ -463,13 +506,20 @@ cv_df %&gt;%
   xlab(&quot;Models&quot;) +
   labs(title = &quot;Violin Plot of rmse Values for Three Models&quot;)</code></pre>
 <p><img src="modelbuilding_files/figure-html/unnamed-chunk-2-1.png" width="1152" /></p>
-<p>From the violin plot, we can see that model 3 has the lowest rmse, which is the model chosen by forward selection. The first model has only three variables, pld, d, and rank. The second model has four variables, pld, d, rank, and gf. The third model has five variables, pld, d, rank, gf, and ga. After comparing their rmse, we get the final model - w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</p>
+<p>From the violin plot, we can see that model 3 has the lowest rmse,
+which is the model chosen by forward selection. The first model has only
+three variables, pld, d, and rank. The second model has four variables,
+pld, d, rank, and gf. The third model has five variables, pld, d, rank,
+gf, and ga. After comparing their rmse, we get the final model - w =
+-1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf
+-0.225378ga.</p>
 <p><br></p>
 </div>
 <div id="compare-the-summary-of-the-models" class="section level1">
 <h1>Compare the summary of the Models</h1>
 <p><br></p>
-<p>We use the <code>summary</code> function to compare the R^2 and p-values of the predictors.</p>
+<p>We use the <code>summary</code> function to compare the R^2 and
+p-values of the predictors.</p>
 <pre class="r"><code>model1=lm(w~pld + d + rank , data = num)
 model2=lm(w~pld + d + rank + gf, data = num)
 model3=lm(w~pld + d + rank + gf + ga, data = num)
@@ -540,13 +590,25 @@ summary(model1)</code></pre>
 ## Multiple R-squared:  0.9939, Adjusted R-squared:  0.9934 
 ## F-statistic:  2363 on 5 and 73 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 <p><br></p>
-<p>By looking at the summary, we can see that model 3 has the highest adj. R^2 of 99.3%, which means our model explain over 99% of the variance in the outcome (wins). This result consists with the result we got from the cross-validation. Therefore, we decide our final model to include 5 variables, pld, d, rank, gf, and ga.</p>
+<p>By looking at the summary, we can see that model 3 has the highest
+adj. R^2 of 99.3%, which means our model explain over 99% of the
+variance in the outcome (wins). This result consists with the result we
+got from the cross-validation. Therefore, we decide our final model to
+include 5 variables, pld, d, rank, gf, and ga.</p>
 <p><br></p>
 </div>
 <div id="resultsoutput-from-regression-model" class="section level1">
 <h1>Results/output from regression model</h1>
-<p>Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.</p>
-<p>After comparing the summary of the three models, we found that the model with variables: pld, d, rank, gf, ga, has the lowest rmse and highest adj.R^2 (about 99%), which means our model explain over 99% of the variance in the outcome (wins). The most significant variable in the model is ga with coefficient of -0.225378. That means if the number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, that would decrease the number of winning by 0.225378, while holding other variables constant.</p>
+<p>Our final model is w = -1.554369 + 0.661219pld - 0.622216d +
+0.015920rank + 0.153794gf -0.225378ga.</p>
+<p>After comparing the summary of the three models, we found that the
+model with variables: pld, d, rank, gf, ga, has the lowest rmse and
+highest adj.R^2 (about 99%), which means our model explain over 99% of
+the variance in the outcome (wins). The most significant variable in the
+model is ga with coefficient of -0.225378. That means if the number of
+goals scored against a country in the World Cup (since 1990) increases
+by 1 goal, that would decrease the number of winning by 0.225378, while
+holding other variables constant.</p>
 </div>
 
 
