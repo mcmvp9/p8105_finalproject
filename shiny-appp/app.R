@@ -140,7 +140,7 @@ server <- function(input, output) {
   })
   
   output$plot <- renderPlot({
-    hist(world_cup$w, breaks = 12)
+    hist(world_cup$w, breaks = 12, xlab = "Number of Wining Games", main = "Histogram of number of Wining Games for all countries")
     abline(v=-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1], col="blue")
   })
   output$result <- renderText({
