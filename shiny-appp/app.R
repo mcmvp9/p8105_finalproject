@@ -67,8 +67,6 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      img(src='qatar.png', align = "right"),
-      
             tableOutput("table"), 
             plotOutput("plot"),
             span(textOutput("result"), style="font-size:26px", align="center"
