@@ -140,11 +140,11 @@ server <- function(input, output) {
   })
   
   output$plot <- renderPlot({
-    hist(world_cup$w, breaks = 12, xlab = "Number of Wining Games", main = "Histogram of number of Wining Games for all countries")
+    hist(world_cup$w, breaks = 12, xlab = "Number of Winning Games", main = "Histogram of number of Winning Games for all countries")
     abline(v=-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1], col="blue")
   })
   output$result <- renderText({
-    paste0("The predicted game wining for ", input$country_choice  , "is : ", as.character(round(-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1],2)))
+    paste0("The predicted game winning for ", input$country_choice  , "is : ", as.character(round(-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1],2)))
   })
   output$home_img <- renderImage({
     

@@ -5,9 +5,9 @@ account: axdthb-jiawen-zhao
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7860324
-bundleId: 6618465
+bundleId: 6618484
 url: https://axdthb-jiawen-zhao.shinyapps.io/shiny-appp/
-when: 1670638597.02281
-lastSyncTime: 1670638597.03341
+when: 1670639077.05722
+lastSyncTime: 1670639077.05724
 asMultiple: FALSE
 asStatic: FALSE
