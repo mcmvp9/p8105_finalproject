@@ -241,6 +241,12 @@ write.csv(final_merge, "./data/12_4_dataset.csv")
 ```
 
 ```{r, eval=FALSE}
-write.csv(final_merge, "./data/world_cup_final.csv")
+write_csv(final_merge, "./data/world_cup_final.csv")
+```
+
+```{r, eval=FALSE}
+write.csv(final_merge, "world_cup_final.csv")
+write.csv(data, file = 'data/world_cup_final.csv')
+
 ```
 
