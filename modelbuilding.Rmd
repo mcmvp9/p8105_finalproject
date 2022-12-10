@@ -69,9 +69,9 @@ While there are two variables that are on the borderline of our threshold, alpha
 
 `goals`: Number of goals scored by top record goal scorer
 
-##### `land_area_km`: Total area of the land-based  portions of a country’s geography (measured in square kilometers, km²)
+`land_area_km`: Total area of the land-based  portions of a country’s geography (measured in square kilometers, km²)
 
-##### `confederation`: Country FIFA confederation 
+`confederation`: Country FIFA confederation 
 
 <br>
 
