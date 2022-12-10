@@ -67,14 +67,12 @@ ui <- fluidPage(
            )
     ),
     
-      </center>
-      <img 
-      src="images/resume_pic.png"style="width:25%">
-      
     mainPanel(
       img(src='qatar.png', align = "right"),
       
-            tableOutput("table")
+            tableOutput("table"), 
+            plotOutput("plot")
+      
           )
     
   )
@@ -105,7 +103,9 @@ ui <- fluidPage(
 # )
 
 # Define server logic required to draw a histogram
+
 server <- function(input, output) {
+  
   
   output$table <- renderTable({
     # generate bins based on input$bins from ui.R
@@ -130,6 +130,12 @@ server <- function(input, output) {
                 "Goals Against" = ga,
                "Predicted Games Won" = prediction
                )
+    
+  })
+  
+  output$plot <- renderPlot({
+    hist(world_cup$w, breaks = 12)
+    abline(v=-1.56 + 0.660*input$number_games_range[1] - 0.628*input$draw_games_range[1] + 0.0159*world_cup$rank[country==input$country_choice] + 0.154*input$goals_for_range[1] - 0.224*input$goals_against_range[1], col="blue")
   })
 }
 
