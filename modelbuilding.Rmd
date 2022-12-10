@@ -161,7 +161,7 @@ By looking at the summary, we can see that model 3 has the highest adj. R^2 of 9
 
 Our final model is w = -1.554369 + 0.661219pld - 0.622216d + 0.015920rank + 0.153794gf -0.225378ga.
 
-After comparing the summary of the three models, we found that the model with variables: pld, d, rank, gf, ga, has the lowest rmse and highest adj.R^2 (about 99%), which means our model explain over 99% of the variance in the outcome (wins). The most significant variable in the model is ga with coefficient of -0.225378. That means if the number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, the would decrease the number of winning by 0.225378, while holding other variables constant.
+After comparing the summary of the three models, we found that the model with variables: pld, d, rank, gf, ga, has the lowest rmse and highest adj.R^2 (about 99%), which means our model explain over 99% of the variance in the outcome (wins). The most significant variable in the model is ga with coefficient of -0.225378. That means if the number of goals scored against a country in the World Cup (since 1990) increases by 1 goal, that would decrease the number of winning by 0.225378, while holding other variables constant.
 
 
 
